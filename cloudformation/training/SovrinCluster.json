@@ -2918,7 +2918,7 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client-dev\n",
+                "pip3 install -U sovrin-client\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
@@ -3276,7 +3276,7 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client-dev\n",
+                "pip3 install -U sovrin-client\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
@@ -3634,7 +3634,7 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client-dev\n",
+                "pip3 install -U sovrin-client\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
@@ -3992,7 +3992,7 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client-dev\n",
+                "pip3 install -U sovrin-client\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
