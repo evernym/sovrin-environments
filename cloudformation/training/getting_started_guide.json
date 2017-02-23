@@ -1,0 +1,239 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "1a82cea4-17b7-4f3f-9e26-8187f69a496f": {
+        "source": {
+          "id": "410870f6-7ac3-4c0d-9bd3-953b47a26fe5"
+        },
+        "target": {
+          "id": "4cacb20c-0516-49f6-b88f-fac1cecdd7cd"
+        },
+        "z": 1
+      },
+      "9e521d13-9bb3-49ed-8ed1-a3682f7d5bec": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 150,
+          "y": 90
+        },
+        "z": 1,
+        "embeds": []
+      },
+      "523ce317-a5a7-462f-99d1-347d385e5d69": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 30,
+          "y": 90
+        },
+        "z": 1,
+        "embeds": [],
+        "ismemberof": [
+          "9e521d13-9bb3-49ed-8ed1-a3682f7d5bec"
+        ],
+        "dependson": [
+          "9e521d13-9bb3-49ed-8ed1-a3682f7d5bec"
+        ]
+      },
+      "b5323a73-be47-4108-a400-21daaf9c49e5": {
+        "source": {
+          "id": "523ce317-a5a7-462f-99d1-347d385e5d69"
+        },
+        "target": {
+          "id": "9e521d13-9bb3-49ed-8ed1-a3682f7d5bec"
+        },
+        "z": 1
+      }
+    }
+  },
+  "Resources": {
+    "SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security Group for Getting Started Guide Training",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "9e521d13-9bb3-49ed-8ed1-a3682f7d5bec"
+        }
+      }
+    },
+    "AgentCLI": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": false,
+        "ImageId": {
+          "Fn::FindInMap": [
+            "RegionAMIMap",
+            {
+              "Ref": "AWS::Region"
+            },
+            {
+              "Ref": "OperatingSystem"
+            }
+          ]
+        },
+        "InstanceInitiatedShutdownBehavior": "terminate",
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "KeyName": {
+          "Ref": "KeyPair"
+        },
+        "Monitoring": false,
+        "SecurityGroups": [
+          {
+            "Ref": "SecurityGroup"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          {
+            "Key": "Event",
+            "Value": {
+              "Ref": "Event"
+            }
+          },
+          {
+            "Key": "UserPassword",
+            "Value": {
+              "Ref": "UserPassword"
+            }
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash -xe\n",
+                "\n",
+                "# Create Users\n",
+                "adduser --disabled-password --gecos \"\" alice\n",
+                "adduser --disabled-password --gecos \"\" bob\n",
+                "echo -e \"",
+                {
+                  "Ref": "UserPassword"
+                },
+                "\\n",
+                {
+                  "Ref": "UserPassword"
+                },
+                "\" | passwd alice\n",
+                "echo -e \"",
+                {
+                  "Ref": "UserPassword"
+                },
+                "\\n",
+                {
+                  "Ref": "UserPassword"
+                },
+                "\" | passwd bob\n",
+                "usermod -a -G sudo alice\n",
+                "usermod -a -G sudo bob\n",
+                "\n",
+                "# Enable Password-based SSH\n",
+                "perl -p -i -e 's/(PasswordAuthentication\\s+)no/$1yes/' /etc/ssh/sshd_config\n",
+                "service sshd restart\n",
+                "\n",
+                "# Install Packages\n",
+                "add-apt-repository -y ppa:fkrull/deadsnakes\n",
+                "apt-get update\n",
+                "apt-get install -y python-pip python3-pip python3.5-dev libsodium18 unzip make screen tmux vim wget\n",
+                "\n",
+                "# Setup Charm\n",
+                "wget https://raw.githubusercontent.com/evernym/anoncreds/master/setup-charm.sh\n",
+                "chmod +x setup-charm.sh\n",
+                "./setup-charm.sh\n",
+                "ldconfig\n",
+                "\n",
+                "# Clean Up\n",
+                "apt-get update\n",
+                "apt-get upgrade -y\n",
+                "pip install virtualenvwrapper\n",
+                "echo '' >> /home/alice/.bashrc\n",
+                "echo '' >> /home/bob/.bashrc\n",
+                "echo '# Python virtual environment wrapper' >> /home/alice/.bashrc\n",
+                "echo '# Python virtual environment wrapper' >> /home/bob/.bashrc\n",
+                "echo 'export WORKON_HOME=$HOME/.virtualenvs' >> /home/alice/.bashrc\n",
+                "echo 'export WORKON_HOME=$HOME/.virtualenvs' >> /home/bob/.bashrc\n",
+                "echo 'source /usr/local/bin/virtualenvwrapper.sh' >> /home/alice/.bashrc\n",
+                "echo 'source /usr/local/bin/virtualenvwrapper.sh' >> /home/bob/.bashrc\n",
+                "updatedb\n",
+                "shutdown -r +1\n"
+              ]
+            ]
+          }
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "523ce317-a5a7-462f-99d1-347d385e5d69"
+        }
+      },
+      "DependsOn": [
+        "SecurityGroup"
+      ]
+    }
+  },
+  "Parameters": {
+    "Event": {
+      "Type": "String",
+      "Default": "General Training",
+      "Description": "Name or ID of the event associated to this instance"
+    },
+    "InstanceType": {
+      "Type": "String",
+      "Default": "t2.micro",
+      "AllowedValues": [
+        "t2.micro"
+      ],
+      "Description": "The type of EC2 instance to create"
+    },
+    "KeyPair": {
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "Description": "Key pair to use for administrative access to the instance"
+    },
+    "OperatingSystem": {
+      "Type": "String",
+      "Default": "Ubuntu1604",
+      "AllowedValues": [
+        "Ubuntu1604"
+      ],
+      "Description": "Base operating system for the environment"
+    },
+    "UserPassword": {
+      "Type": "String",
+      "NoEcho": "True",
+      "AllowedPattern": "[a-zA-Z0-9]{8,}",
+      "ConstraintDescription": "Password must have at least 8 alphanumerics characters from the set [a-zA-Z0-9]; no special characters or whitespace are allowed.",
+      "Description": "Password for all user accounts (minimum 8 alphanumerics)"
+    }
+  },
+  "Mappings": {
+    "RegionAMIMap": {
+      "us-east-2": {
+        "Ubuntu1604": "ami-8ccd97e9"
+      }
+    }
+  }
+}
