@@ -604,7 +604,7 @@
               "Fn::Join": [
                 "",
                 [
-                  "Evernym Validator Pool (",
+                  "Evernym QA Pool (",
                   {
                     "Fn::FindInMap": [
                       "validator",
