@@ -907,14 +907,14 @@
     "DomainName": {
       "Description": "Domain name to append to all hostnames (no leading '.')",
       "Type": "String",
-      "Default": "sandbox.evernym.com",
+      "Default": "qatest.evernym.com",
       "AllowedPattern": "[a-zA-Z0-9][a-zA-Z0-9.]*",
       "ConstraintDescription": "Must be formatted as a valid domain name without the leading '.'"
     },
     "InstanceType": {
       "Description": "Instance type for the validator",
       "Type": "String",
-      "Default": "t2.medium",
+      "Default": "t2.small",
       "AllowedValues": [
         "t2.small",
         "t2.medium"
@@ -926,60 +926,65 @@
     "validator": {
       "ap-northeast-1": {
         "ami": "ami-1c13787b",
-        "hostname": "asobi"
+        "hostname": "tokyo"
       },
       "ap-northeast-2": {
-        "ami": "ami-14a0767a"
+        "ami": "ami-14a0767a",
+        "hostname": "seoul"
       },
       "ap-southeast-1": {
         "ami": "ami-75ac0216",
-        "hostname": "masakmasak"
+        "hostname": "singapore"
       },
       "ap-southeast-2": {
         "ami": "ami-bdc7fcde",
-        "hostname": "majiyan"
+        "hostname": "sydney"
       },
       "ca-central-1": {
         "ami": "ami-e72a9883",
-        "hostname": "jouer"
+        "hostname": "canada"
       },
       "eu-central-1": {
         "ami": "ami-232aea4c",
-        "hostname": "spielen"
+        "hostname": "frankfurt"
       },
       "eu-west-1": {
         "ami": "ami-cac6e6b9",
-        "hostname": "imirt"
+        "hostname": "ireland"
       },
       "eu-west-2": {
-        "ami": "ami-e8e3e98c"
+        "ami": "ami-e8e3e98c",
+        "hostname": "london"
       },
       "sa-east-1": {
-        "ami": "ami-687de504"
+        "ami": "ami-687de504",
+        "hostname": "saopaulo"
       },
       "us-east-1": {
-        "ami": "ami-2c57433b"
+        "ami": "ami-2c57433b",
+        "hostname": "virgina"
       },
       "us-east-2": {
         "ami": "ami-8ccd97e9",
-		"hostname": "test"
+        "hostname": "ohio"
       },
       "us-west-1": {
         "ami": "ami-fe26779e",
-        "hostname": "play"
+        "hostname": "california"
       },
       "us-west-2": {
-        "ami": "ami-2709bd47"
+        "ami": "ami-2709bd47",
+        "hostname": "oregon"
       }
     },
     "repository": {
       "evernym": {
         "key": "D82D8E35",
-        "repo": "deb https://repo.evernym.com/deb xenial stable"
+        "repo": "deb https://repo.evernym.com/deb xenial master"
       },
       "sovrin": {
         "key": "EAA542E8",
-        "repo": "deb https://repo.sovrin.org/deb xenial stable"
+        "repo": "deb https://repo.sovrin.org/deb xenial master"
       }
     }
   }
