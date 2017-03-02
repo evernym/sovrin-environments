@@ -241,7 +241,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -263,7 +264,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -285,7 +287,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -307,7 +310,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -315,19 +319,6 @@
         "isrelatedto": [
           "cbe68e38-fa90-4c72-83f4-b34103430146"
         ]
-      },
-      "adb107a8-2301-4607-afe3-0deb3aafdf9b": {
-        "size": {
-          "width": 60,
-          "height": 60
-        },
-        "position": {
-          "x": 300,
-          "y": 240
-        },
-        "z": 1,
-        "parent": "2d179af4-c61b-44c0-adaa-c31df48da299",
-        "embeds": []
       },
       "4aabb978-1d4a-4b8f-a711-552b3664632f": {
         "size": {
@@ -342,7 +333,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -357,12 +349,15 @@
           "height": 60
         },
         "position": {
-          "x": 300,
+          "x": -270,
           "y": 140
         },
         "z": 1,
         "parent": "2d179af4-c61b-44c0-adaa-c31df48da299",
-        "embeds": []
+        "embeds": [],
+        "isrelatedto": [
+          "cbe68e38-fa90-4c72-83f4-b34103430146"
+        ]
       },
       "38e3c677-590a-4aae-bc65-69b8498d1702": {
         "size": {
@@ -377,7 +372,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -399,7 +395,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -421,7 +418,8 @@
         "parent": "3118bc0d-5f32-4dd0-95a3-01104149d043",
         "embeds": [],
         "ismemberof": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ],
         "dependson": [
           "f6af709a-d125-4e24-ab7c-1ba926452562"
@@ -648,12 +646,12 @@
       },
       "3118bc0d-5f32-4dd0-95a3-01104149d043": {
         "size": {
-          "width": 430,
-          "height": 230
+          "width": 400,
+          "height": 240
         },
         "position": {
           "x": -173,
-          "y": 106
+          "y": 96
         },
         "z": 1,
         "parent": "2d179af4-c61b-44c0-adaa-c31df48da299",
@@ -670,17 +668,17 @@
       },
       "2d179af4-c61b-44c0-adaa-c31df48da299": {
         "size": {
-          "width": 570,
-          "height": 450
+          "width": 720,
+          "height": 280
         },
         "position": {
-          "x": -190,
-          "y": 70
+          "x": -290,
+          "y": 80
         },
         "z": 0,
         "embeds": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b",
           "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58",
           "5cb5bf3f-d7b3-4708-8860-7c9b3e375443",
           "3118bc0d-5f32-4dd0-95a3-01104149d043"
         ]
@@ -691,8 +689,8 @@
           "height": 60
         },
         "position": {
-          "x": 410,
-          "y": 410
+          "x": 510,
+          "y": 280
         },
         "z": 0,
         "embeds": []
@@ -784,8 +782,8 @@
           "height": 140
         },
         "position": {
-          "x": 210,
-          "y": 370
+          "x": 270,
+          "y": 140
         },
         "z": 1,
         "parent": "2d179af4-c61b-44c0-adaa-c31df48da299",
@@ -799,8 +797,8 @@
           "height": 60
         },
         "position": {
-          "x": 250,
-          "y": 410
+          "x": 310,
+          "y": 190
         },
         "z": 2,
         "parent": "5cb5bf3f-d7b3-4708-8860-7c9b3e375443",
@@ -910,6 +908,162 @@
           "id": "3118bc0d-5f32-4dd0-95a3-01104149d043"
         },
         "z": 1
+      },
+      "f6721a7c-ed27-43dd-9f56-3d9f5b1e483f": {
+        "source": {
+          "id": "8b507c85-9e50-41a3-b012-d59557e02177"
+        },
+        "target": {
+          "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
+        },
+        "z": 3
+      },
+      "9c7d1281-f285-44b1-8f30-ac56baaf3e86": {
+        "source": {
+          "id": "0e77f545-9754-4d16-89d1-56e85c9d6c21"
+        },
+        "target": {
+          "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
+        },
+        "z": 4
+      },
+      "7dcae582-98a3-4fd4-9e7f-79c3a5bf4aac": {
+        "source": {
+          "id": "38e3c677-590a-4aae-bc65-69b8498d1702"
+        },
+        "target": {
+          "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
+        },
+        "z": 5
+      },
+      "8427e861-4e07-4ba8-a0a4-57e5e3cef713": {
+        "source": {
+          "id": "4aabb978-1d4a-4b8f-a711-552b3664632f"
+        },
+        "target": {
+          "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
+        },
+        "z": 6
+      },
+      "160f5471-ad78-4919-aa98-f3648c24b844": {
+        "source": {
+          "id": "8fc9ea52-83c8-44ad-a17d-cea3121c1360",
+          "selector": "g:nth-child(1) g:nth-child(4) g:nth-child(3) circle:nth-child(1)     ",
+          "port": "AWS::MembershipLInk-AWS::EC2::SecurityGroup-SecurityGroupIds"
+        },
+        "target": {
+          "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
+        },
+        "z": 8
+      },
+      "2584f912-0400-47bb-9429-bedf64d51c58": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": -270,
+          "y": 240
+        },
+        "z": 1,
+        "parent": "2d179af4-c61b-44c0-adaa-c31df48da299",
+        "embeds": [],
+        "dependson": [
+          "cbe68e38-fa90-4c72-83f4-b34103430146"
+        ],
+        "isrelatedto": [
+          "cbe68e38-fa90-4c72-83f4-b34103430146"
+        ]
+      },
+      "8fdad668-2513-4793-bd1e-8ee837c73245": {
+        "source": {
+          "id": "8fc9ea52-83c8-44ad-a17d-cea3121c1360"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 3
+      },
+      "41103594-f01e-4014-bf49-99a400c0ba6b": {
+        "source": {
+          "id": "d1d82c42-82be-4ccf-984b-c5ed98f4b838"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 4
+      },
+      "6872d006-7482-4fc3-96cc-c2e06add9b9c": {
+        "source": {
+          "id": "dd58a2bf-9a16-45ba-b6ec-64cd16b01b24"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 5
+      },
+      "34558225-b63e-4f9d-921e-0da4fe6dd3a4": {
+        "source": {
+          "id": "6a50d886-ed7e-4a74-804e-a35c11dd1546"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 6
+      },
+      "76d101f0-1918-4288-9e65-060b4f9c2371": {
+        "source": {
+          "id": "4aabb978-1d4a-4b8f-a711-552b3664632f"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 7
+      },
+      "51d73da4-df66-4d3d-9679-c1bc50bb69ee": {
+        "source": {
+          "id": "38e3c677-590a-4aae-bc65-69b8498d1702"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 8
+      },
+      "9d7309f5-5c8e-4dfe-a89d-52d42e4ab232": {
+        "source": {
+          "id": "0e77f545-9754-4d16-89d1-56e85c9d6c21"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 9
+      },
+      "88447695-b69d-4bac-a5a3-923f3664f507": {
+        "source": {
+          "id": "8b507c85-9e50-41a3-b012-d59557e02177"
+        },
+        "target": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "z": 10
+      },
+      "31c46600-4730-4507-b301-f9aa1f8e3a61": {
+        "source": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "target": {
+          "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
+        },
+        "z": 3
+      },
+      "3149e239-c7ac-42db-9ad2-09bf060b4664": {
+        "source": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        },
+        "target": {
+          "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
+        },
+        "z": 3
       }
     }
   },
@@ -947,7 +1101,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "ValidatorSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -1374,7 +1531,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "ValidatorSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -1801,7 +1961,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "ValidatorSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -2228,7 +2391,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "ValidatorSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -2655,7 +2821,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "AgentSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -2959,9 +3128,9 @@
                 "\\\"\"\n",
                 "\n",
                 "# Clean Up\n",
-				"rm /etc/update-motd.d/10-help-text\n",
-				"rm /etc/update-motd.d/51-cloudguest\n",
-				"rm /etc/update-motd.d/97-overlayroot\n",
+                "rm /etc/update-motd.d/10-help-text\n",
+                "rm /etc/update-motd.d/51-cloudguest\n",
+                "rm /etc/update-motd.d/97-overlayroot\n",
                 "apt-get update\n",
                 "DEBIAN_FRONTEND=noninteractive apt-get upgrade -y\n",
                 "updatedb\n",
@@ -3013,7 +3182,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "AgentSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -3317,9 +3489,9 @@
                 "\\\"\"\n",
                 "\n",
                 "# Clean Up\n",
-				"rm /etc/update-motd.d/10-help-text\n",
-				"rm /etc/update-motd.d/51-cloudguest\n",
-				"rm /etc/update-motd.d/97-overlayroot\n",
+                "rm /etc/update-motd.d/10-help-text\n",
+                "rm /etc/update-motd.d/51-cloudguest\n",
+                "rm /etc/update-motd.d/97-overlayroot\n",
                 "apt-get update\n",
                 "DEBIAN_FRONTEND=noninteractive apt-get upgrade -y\n",
                 "updatedb\n",
@@ -3371,7 +3543,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "AgentSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -3675,9 +3850,9 @@
                 "\\\"\"\n",
                 "\n",
                 "# Clean Up\n",
-				"rm /etc/update-motd.d/10-help-text\n",
-				"rm /etc/update-motd.d/51-cloudguest\n",
-				"rm /etc/update-motd.d/97-overlayroot\n",
+                "rm /etc/update-motd.d/10-help-text\n",
+                "rm /etc/update-motd.d/51-cloudguest\n",
+                "rm /etc/update-motd.d/97-overlayroot\n",
                 "apt-get update\n",
                 "DEBIAN_FRONTEND=noninteractive apt-get upgrade -y\n",
                 "updatedb\n",
@@ -3729,7 +3904,10 @@
             },
             "GroupSet": [
               {
-                "Ref": "AgentSecurityGroup"
+                "Ref": "SGExternal"
+              },
+              {
+                "Ref": "SGInternal"
               }
             ]
           }
@@ -4033,9 +4211,9 @@
                 "\\\"\"\n",
                 "\n",
                 "# Clean Up\n",
-				"rm /etc/update-motd.d/10-help-text\n",
-				"rm /etc/update-motd.d/51-cloudguest\n",
-				"rm /etc/update-motd.d/97-overlayroot\n",
+                "rm /etc/update-motd.d/10-help-text\n",
+                "rm /etc/update-motd.d/51-cloudguest\n",
+                "rm /etc/update-motd.d/97-overlayroot\n",
                 "apt-get update\n",
                 "DEBIAN_FRONTEND=noninteractive apt-get upgrade -y\n",
                 "updatedb\n",
@@ -4153,10 +4331,47 @@
         }
       }
     },
-    "ValidatorSecurityGroup": {
+    "SGInternal": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "Security Group of the Validators",
+        "GroupDescription": "Security Group for Internal Access",
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "-1",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "SGExternal"
+            }
+          }
+        ],
+        "SecurityGroupEgress": [
+          {
+            "IpProtocol": "-1",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "SGExternal"
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "2584f912-0400-47bb-9429-bedf64d51c58"
+        }
+      },
+      "DependsOn": [
+        "SGExternal"
+      ]
+    },
+    "SGExternal": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security Group for External Access",
         "VpcId": {
           "Ref": "VPC"
         },
@@ -4184,22 +4399,6 @@
             "FromPort": "9700",
             "ToPort": "9799",
             "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "-1",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "SourceSecurityGroupId": {
-              "Ref": "AgentSecurityGroup"
-            }
-          },
-          {
-            "IpProtocol": "-1",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "SourceSecurityGroupId": {
-              "Ref": "ValidatorSecurityGroup"
-            }
           }
         ],
         "SecurityGroupEgress": [
@@ -4220,76 +4419,6 @@
       "Metadata": {
         "AWS::CloudFormation::Designer": {
           "id": "cbe68e38-fa90-4c72-83f4-b34103430146"
-        }
-      }
-    },
-    "AgentSecurityGroup": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "Security Group of the Agents",
-        "VpcId": {
-          "Ref": "VPC"
-        },
-        "SecurityGroupIngress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "22",
-            "ToPort": "22",
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "80",
-            "ToPort": "80",
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "443",
-            "ToPort": "443",
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "udp",
-            "FromPort": "9700",
-            "ToPort": "9799",
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "-1",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "SourceSecurityGroupId": {
-              "Ref": "AgentSecurityGroup"
-            }
-          },
-          {
-            "IpProtocol": "-1",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "SourceSecurityGroupId": {
-              "Ref": "ValidatorSecurityGroup"
-            }
-          }
-        ],
-        "SecurityGroupEgress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "udp",
-            "FromPort": "0",
-            "ToPort": "65535",
-            "CidrIp": "0.0.0.0/0"
-          }
-        ]
-      },
-      "Metadata": {
-        "AWS::CloudFormation::Designer": {
-          "id": "adb107a8-2301-4607-afe3-0deb3aafdf9b"
         }
       }
     }
