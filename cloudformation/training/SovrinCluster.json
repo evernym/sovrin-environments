@@ -4184,6 +4184,22 @@
             "FromPort": "9700",
             "ToPort": "9799",
             "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "-1",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "AgentSecurityGroup"
+            }
+          },
+          {
+            "IpProtocol": "-1",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "ValidatorSecurityGroup"
+            }
           }
         ],
         "SecurityGroupEgress": [
@@ -4238,6 +4254,22 @@
             "FromPort": "9700",
             "ToPort": "9799",
             "CidrIp": "0.0.0.0/0"
+          },
+          {
+            "IpProtocol": "-1",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "AgentSecurityGroup"
+            }
+          },
+          {
+            "IpProtocol": "-1",
+            "FromPort": "0",
+            "ToPort": "65535",
+            "SourceSecurityGroupId": {
+              "Ref": "ValidatorSecurityGroup"
+            }
           }
         ],
         "SecurityGroupEgress": [
