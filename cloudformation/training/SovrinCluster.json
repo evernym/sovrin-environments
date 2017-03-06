@@ -248,7 +248,8 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "8fc9ea52-83c8-44ad-a17d-cea3121c1360": {
@@ -271,7 +272,8 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "6a50d886-ed7e-4a74-804e-a35c11dd1546": {
@@ -294,7 +296,8 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "dd58a2bf-9a16-45ba-b6ec-64cd16b01b24": {
@@ -317,7 +320,8 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "cbe68e38-fa90-4c72-83f4-b34103430146"
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "4aabb978-1d4a-4b8f-a711-552b3664632f": {
@@ -340,7 +344,9 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "adb107a8-2301-4607-afe3-0deb3aafdf9b",
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "cbe68e38-fa90-4c72-83f4-b34103430146": {
@@ -379,7 +385,9 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "adb107a8-2301-4607-afe3-0deb3aafdf9b",
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "0e77f545-9754-4d16-89d1-56e85c9d6c21": {
@@ -402,7 +410,9 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "adb107a8-2301-4607-afe3-0deb3aafdf9b",
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "8b507c85-9e50-41a3-b012-d59557e02177": {
@@ -425,7 +435,9 @@
           "f6af709a-d125-4e24-ab7c-1ba926452562"
         ],
         "isrelatedto": [
-          "adb107a8-2301-4607-afe3-0deb3aafdf9b"
+          "adb107a8-2301-4607-afe3-0deb3aafdf9b",
+          "cbe68e38-fa90-4c72-83f4-b34103430146",
+          "2584f912-0400-47bb-9429-bedf64d51c58"
         ]
       },
       "d25f47a0-d2ae-4d12-8f69-289ffda0df54": {
@@ -1471,9 +1483,19 @@
                 "\\\"\"\n",
                 "\n",
                 "# Bug Fixes\n",
-                "perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "if grep -Fxq '[Install]' /etc/systemd/system/sovrin-node.service\n",
+                "then\n",
+                "  echo '[Install] section is present in sovrin-node target'\n",
+                "else\n",
+                "  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "fi\n",
                 "chmod -x /etc/systemd/system/orientdb.service\n",
-                "echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "if grep -Fxq 'SendMonitorStats' /home/sovrin/.sovrin/sovrin_config.py\n",
+                "then\n",
+                "  echo 'SendMonitorStats is configured in sovrin_config.py'\n",
+                "else\n",
+                "  echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "fi\n",
                 "chown sovrin:sovrin /home/sovrin/.sovrin/sovrin_config.py\n",
                 "\n",
                 "# Clean Up\n",
@@ -1901,9 +1923,19 @@
                 "\\\"\"\n",
                 "\n",
                 "# Bug Fixes\n",
-                "perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "if grep -Fxq '[Install]' /etc/systemd/system/sovrin-node.service\n",
+                "then\n",
+                "  echo '[Install] section is present in sovrin-node target'\n",
+                "else\n",
+                "  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "fi\n",
                 "chmod -x /etc/systemd/system/orientdb.service\n",
-                "echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "if grep -Fxq 'SendMonitorStats' /home/sovrin/.sovrin/sovrin_config.py\n",
+                "then\n",
+                "  echo 'SendMonitorStats is configured in sovrin_config.py'\n",
+                "else\n",
+                "  echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "fi\n",
                 "chown sovrin:sovrin /home/sovrin/.sovrin/sovrin_config.py\n",
                 "\n",
                 "# Clean Up\n",
@@ -2331,9 +2363,19 @@
                 "\\\"\"\n",
                 "\n",
                 "# Bug Fixes\n",
-                "perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "if grep -Fxq '[Install]' /etc/systemd/system/sovrin-node.service\n",
+                "then\n",
+                "  echo '[Install] section is present in sovrin-node target'\n",
+                "else\n",
+                "  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "fi\n",
                 "chmod -x /etc/systemd/system/orientdb.service\n",
-                "echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "if grep -Fxq 'SendMonitorStats' /home/sovrin/.sovrin/sovrin_config.py\n",
+                "then\n",
+                "  echo 'SendMonitorStats is configured in sovrin_config.py'\n",
+                "else\n",
+                "  echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "fi\n",
                 "chown sovrin:sovrin /home/sovrin/.sovrin/sovrin_config.py\n",
                 "\n",
                 "# Clean Up\n",
@@ -2761,9 +2803,19 @@
                 "\\\"\"\n",
                 "\n",
                 "# Bug Fixes\n",
-                "perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "if grep -Fxq '[Install]' /etc/systemd/system/sovrin-node.service\n",
+                "then\n",
+                "  echo '[Install] section is present in sovrin-node target'\n",
+                "else\n",
+                "  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service\n",
+                "fi\n",
                 "chmod -x /etc/systemd/system/orientdb.service\n",
-                "echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "if grep -Fxq 'SendMonitorStats' /home/sovrin/.sovrin/sovrin_config.py\n",
+                "then\n",
+                "  echo 'SendMonitorStats is configured in sovrin_config.py'\n",
+                "else\n",
+                "  echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py\n",
+                "fi\n",
                 "chown sovrin:sovrin /home/sovrin/.sovrin/sovrin_config.py\n",
                 "\n",
                 "# Clean Up\n",
@@ -3087,7 +3139,19 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client\n",
+                "pip3 install -U ",
+                {
+                  "Fn::FindInMap": [
+                    "ClientCodePyPi",
+                    {
+                      "Ref": "Agent01OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
@@ -3448,7 +3512,19 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client\n",
+                "pip3 install -U ",
+                {
+                  "Fn::FindInMap": [
+                    "ClientCodePyPi",
+                    {
+                      "Ref": "Agent02OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
@@ -3809,7 +3885,19 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client\n",
+                "pip3 install -U ",
+                {
+                  "Fn::FindInMap": [
+                    "ClientCodePyPi",
+                    {
+                      "Ref": "Agent03OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
@@ -4170,7 +4258,19 @@
                 "chmod +x setup-charm.sh\n",
                 "./setup-charm.sh\n",
                 "ldconfig\n",
-                "pip3 install -U sovrin-client\n",
+                "pip3 install -U ",
+                {
+                  "Fn::FindInMap": [
+                    "ClientCodePyPi",
+                    {
+                      "Ref": "Agent04OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\n",
                 "su - ",
                 {
                   "Ref": "AgentUsername"
@@ -4772,6 +4872,12 @@
       },
       "Agent04": {
         "IPaddress": "10.0.0.204"
+      }
+    },
+    "ClientCodePyPi": {
+      "Ubuntu1604": {
+        "stable": "sovrin-client",
+        "test": "sovrin-client-dev"
       }
     },
     "RegionBasedData": {
