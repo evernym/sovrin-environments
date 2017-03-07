@@ -3131,18 +3131,32 @@
                 "service sshd restart\n",
                 "\n",
                 "# Install Packages\n",
-                "apt-get update\n",
-                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen tmux vim wget\n",
-                "\n",
-                "# Install Sovrin Client\n",
-                "wget https://raw.githubusercontent.com/evernym/anoncreds/master/setup-charm.sh\n",
-                "chmod +x setup-charm.sh\n",
-                "./setup-charm.sh\n",
-                "ldconfig\n",
-                "pip3 install -U ",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
                 {
                   "Fn::FindInMap": [
-                    "ClientCodePyPi",
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "evernym"
+                  ]
+                },
+                "\n",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "sovrin"
+                  ]
+                },
+                "\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryEvernym",
                     {
                       "Ref": "Agent01OperatingSystem"
                     },
@@ -3151,6 +3165,22 @@
                     }
                   ]
                 },
+                "\"\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositorySovrin",
+                    {
+                      "Ref": "Agent01OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\"\n",
+                "apt-get update\n",
+                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin-client tmux vim wget\n",
                 "\n",
                 "su - ",
                 {
@@ -3504,18 +3534,32 @@
                 "service sshd restart\n",
                 "\n",
                 "# Install Packages\n",
-                "apt-get update\n",
-                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen tmux vim wget\n",
-                "\n",
-                "# Install Sovrin Client\n",
-                "wget https://raw.githubusercontent.com/evernym/anoncreds/master/setup-charm.sh\n",
-                "chmod +x setup-charm.sh\n",
-                "./setup-charm.sh\n",
-                "ldconfig\n",
-                "pip3 install -U ",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
                 {
                   "Fn::FindInMap": [
-                    "ClientCodePyPi",
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "evernym"
+                  ]
+                },
+                "\n",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "sovrin"
+                  ]
+                },
+                "\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryEvernym",
                     {
                       "Ref": "Agent02OperatingSystem"
                     },
@@ -3524,6 +3568,22 @@
                     }
                   ]
                 },
+                "\"\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositorySovrin",
+                    {
+                      "Ref": "Agent02OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\"\n",
+                "apt-get update\n",
+                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin-client tmux vim wget\n",
                 "\n",
                 "su - ",
                 {
@@ -3877,18 +3937,32 @@
                 "service sshd restart\n",
                 "\n",
                 "# Install Packages\n",
-                "apt-get update\n",
-                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen tmux vim wget\n",
-                "\n",
-                "# Install Sovrin Client\n",
-                "wget https://raw.githubusercontent.com/evernym/anoncreds/master/setup-charm.sh\n",
-                "chmod +x setup-charm.sh\n",
-                "./setup-charm.sh\n",
-                "ldconfig\n",
-                "pip3 install -U ",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
                 {
                   "Fn::FindInMap": [
-                    "ClientCodePyPi",
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "evernym"
+                  ]
+                },
+                "\n",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "sovrin"
+                  ]
+                },
+                "\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryEvernym",
                     {
                       "Ref": "Agent03OperatingSystem"
                     },
@@ -3897,6 +3971,22 @@
                     }
                   ]
                 },
+                "\"\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositorySovrin",
+                    {
+                      "Ref": "Agent03OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\"\n",
+                "apt-get update\n",
+                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin-client tmux vim wget\n",
                 "\n",
                 "su - ",
                 {
@@ -4250,18 +4340,32 @@
                 "service sshd restart\n",
                 "\n",
                 "# Install Packages\n",
-                "apt-get update\n",
-                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen tmux vim wget\n",
-                "\n",
-                "# Install Sovrin Client\n",
-                "wget https://raw.githubusercontent.com/evernym/anoncreds/master/setup-charm.sh\n",
-                "chmod +x setup-charm.sh\n",
-                "./setup-charm.sh\n",
-                "ldconfig\n",
-                "pip3 install -U ",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
                 {
                   "Fn::FindInMap": [
-                    "ClientCodePyPi",
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "evernym"
+                  ]
+                },
+                "\n",
+                "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryKeys",
+                    {
+                      "Ref": "Validator01OperatingSystem"
+                    },
+                    "sovrin"
+                  ]
+                },
+                "\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositoryEvernym",
                     {
                       "Ref": "Agent04OperatingSystem"
                     },
@@ -4270,6 +4374,22 @@
                     }
                   ]
                 },
+                "\"\n",
+                "add-apt-repository \"",
+                {
+                  "Fn::FindInMap": [
+                    "RepositorySovrin",
+                    {
+                      "Ref": "Agent04OperatingSystem"
+                    },
+                    {
+                      "Ref": "CodeBase"
+                    }
+                  ]
+                },
+                "\"\n",
+                "apt-get update\n",
+                "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin-client tmux vim wget\n",
                 "\n",
                 "su - ",
                 {
