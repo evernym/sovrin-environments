@@ -75,36 +75,6 @@
             "Agent01InstanceType",
             "Agent01OperatingSystem"
           ]
-        },
-        {
-          "Label": {
-            "default": "Agent #2"
-          },
-          "Parameters": [
-            "Agent02Hostname",
-            "Agent02InstanceType",
-            "Agent02OperatingSystem"
-          ]
-        },
-        {
-          "Label": {
-            "default": "Agent #3"
-          },
-          "Parameters": [
-            "Agent03Hostname",
-            "Agent03InstanceType",
-            "Agent03OperatingSystem"
-          ]
-        },
-        {
-          "Label": {
-            "default": "Agent #4"
-          },
-          "Parameters": [
-            "Agent04Hostname",
-            "Agent04InstanceType",
-            "Agent04OperatingSystem"
-          ]
         }
       ],
       "ParameterLabels": {
@@ -192,37 +162,10 @@
         "Agent01Hostname": {
           "default": "Hostname"
         },
-        "Agent02Hostname": {
-          "default": "Hostname"
-        },
-        "Agent03Hostname": {
-          "default": "Hostname"
-        },
-        "Agent04Hostname": {
-          "default": "Hostname"
-        },
         "Agent01InstanceType": {
           "default": "Instance Type"
         },
-        "Agent02InstanceType": {
-          "default": "Instance Type"
-        },
-        "Agent03InstanceType": {
-          "default": "Instance Type"
-        },
-        "Agent04InstanceType": {
-          "default": "Instance Type"
-        },
         "Agent01OperatingSystem": {
-          "default": "Operating System"
-        },
-        "Agent02OperatingSystem": {
-          "default": "Operating System"
-        },
-        "Agent03OperatingSystem": {
-          "default": "Operating System"
-        },
-        "Agent04OperatingSystem": {
           "default": "Operating System"
         }
       }
@@ -1119,69 +1062,6 @@
                 "echo \"",
                 {
                   "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent02",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent03",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent04",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
                     "ValidatorData",
                     "Validator01",
                     "IPaddress"
@@ -1550,69 +1430,6 @@
                 " ",
                 {
                   "Ref": "Agent01Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent02",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent03",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent04",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent04Hostname"
                 },
                 ".",
                 {
@@ -1999,69 +1816,6 @@
                 "echo \"",
                 {
                   "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent02",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent03",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent04",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
                     "ValidatorData",
                     "Validator01",
                     "IPaddress"
@@ -2439,69 +2193,6 @@
                 "echo \"",
                 {
                   "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent02",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent03",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent04",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
                     "ValidatorData",
                     "Validator01",
                     "IPaddress"
@@ -2870,69 +2561,6 @@
                 " ",
                 {
                   "Ref": "Agent01Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent02",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent02Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent03",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent03Hostname"
-                },
-                ".",
-                {
-                  "Ref": "DomainName"
-                },
-                "\" >> /etc/hosts\n",
-                "echo \"",
-                {
-                  "Fn::FindInMap": [
-                    "AgentData",
-                    "Agent04",
-                    "IPaddress"
-                  ]
-                },
-                "\t",
-                {
-                  "Ref": "Agent04Hostname"
-                },
-                " ",
-                {
-                  "Ref": "Agent04Hostname"
                 },
                 ".",
                 {
@@ -3592,87 +3220,6 @@
     },
     "Agent01OperatingSystem": {
       "Description": "Operating System for Agent #1",
-      "Type": "String",
-      "Default": "Ubuntu1604",
-      "AllowedValues": [
-        "Ubuntu1604"
-      ]
-    },
-    "Agent02Hostname": {
-      "Description": "Hostname for Agent #2",
-      "Type": "String",
-      "Default": "agent02",
-      "AllowedPattern": "[a-zA-Z0-9]+",
-      "ConstraintDescription": "Must be a valid hostname (not FQDN)"
-    },
-    "Agent02InstanceType": {
-      "Description": "Instance type for Agent #2",
-      "Type": "String",
-      "Default": "t2.nano",
-      "AllowedValues": [
-        "t2.nano",
-        "t2.micro",
-        "t2.small",
-        "t2.medium"
-      ],
-      "ConstraintDescription": "Must be a valid EC2 Instance Type"
-    },
-    "Agent02OperatingSystem": {
-      "Description": "Operating System for Agent #2",
-      "Type": "String",
-      "Default": "Ubuntu1604",
-      "AllowedValues": [
-        "Ubuntu1604"
-      ]
-    },
-    "Agent03Hostname": {
-      "Description": "Hostname for Agent #3",
-      "Type": "String",
-      "Default": "agent03",
-      "AllowedPattern": "[a-zA-Z0-9]+",
-      "ConstraintDescription": "Must be a valid hostname (not FQDN)"
-    },
-    "Agent03InstanceType": {
-      "Description": "Instance type for Agent #3",
-      "Type": "String",
-      "Default": "t2.nano",
-      "AllowedValues": [
-        "t2.nano",
-        "t2.micro",
-        "t2.small",
-        "t2.medium"
-      ],
-      "ConstraintDescription": "Must be a valid EC2 Instance Type"
-    },
-    "Agent03OperatingSystem": {
-      "Description": "Operating System for Agent #3",
-      "Type": "String",
-      "Default": "Ubuntu1604",
-      "AllowedValues": [
-        "Ubuntu1604"
-      ]
-    },
-    "Agent04Hostname": {
-      "Description": "Hostname for Agent #4",
-      "Type": "String",
-      "Default": "agent04",
-      "AllowedPattern": "[a-zA-Z0-9]+",
-      "ConstraintDescription": "Must be a valid hostname (not FQDN)"
-    },
-    "Agent04InstanceType": {
-      "Description": "Instance type for Agent #4",
-      "Type": "String",
-      "Default": "t2.nano",
-      "AllowedValues": [
-        "t2.nano",
-        "t2.micro",
-        "t2.small",
-        "t2.medium"
-      ],
-      "ConstraintDescription": "Must be a valid EC2 Instance Type"
-    },
-    "Agent04OperatingSystem": {
-      "Description": "Operating System for Agent #4",
       "Type": "String",
       "Default": "Ubuntu1604",
       "AllowedValues": [
