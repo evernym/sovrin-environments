@@ -2983,7 +2983,7 @@
       "Default": "stable",
       "AllowedValues": [
         "stable",
-        "test"
+        "master"
       ],
       "ConstraintDescription": "Must be either `stable` or `test`"
     },
@@ -3236,7 +3236,7 @@
     "ClientCodePyPi": {
       "Ubuntu1604": {
         "stable": "sovrin-client",
-        "test": "sovrin-client-dev"
+        "master": "sovrin-client-dev"
       }
     },
     "RegionBasedData": {
@@ -3289,13 +3289,13 @@
     "RepositoryEvernym": {
       "Ubuntu1604": {
         "stable": "deb https://repo.evernym.com/deb xenial stable",
-        "test": "deb https://repo.evernym.com/deb xenial master"
+        "master": "deb https://repo.evernym.com/deb xenial master"
       }
     },
     "RepositorySovrin": {
       "Ubuntu1604": {
         "stable": "deb https://repo.sovrin.org/deb xenial stable",
-        "test": "deb https://repo.sovrin.org/deb xenial master"
+        "master": "deb https://repo.sovrin.org/deb xenial master"
       }
     },
     "ValidatorData": {
