@@ -1097,6 +1097,9 @@
             }
           ]
         },
+        "KeyName": {
+          "Ref": "KeyPairName"
+        },
         "NetworkInterfaces": [
           {
             "DeviceIndex": 0,
@@ -1536,6 +1539,9 @@
               "Ref": "Validator02OperatingSystem"
             }
           ]
+        },
+        "KeyName": {
+          "Ref": "KeyPairName"
         },
         "NetworkInterfaces": [
           {
@@ -1977,6 +1983,9 @@
             }
           ]
         },
+        "KeyName": {
+          "Ref": "KeyPairName"
+        },
         "NetworkInterfaces": [
           {
             "DeviceIndex": 0,
@@ -2416,6 +2425,9 @@
               "Ref": "Validator04OperatingSystem"
             }
           ]
+        },
+        "KeyName": {
+          "Ref": "KeyPairName"
         },
         "NetworkInterfaces": [
           {
@@ -2857,6 +2869,9 @@
             }
           ]
         },
+        "KeyName": {
+          "Ref": "KeyPairName"
+        },
         "NetworkInterfaces": [
           {
             "DeviceIndex": 0,
@@ -3259,6 +3274,9 @@
               "Ref": "Agent02OperatingSystem"
             }
           ]
+        },
+        "KeyName": {
+          "Ref": "KeyPairName"
         },
         "NetworkInterfaces": [
           {
@@ -3663,6 +3681,9 @@
             }
           ]
         },
+        "KeyName": {
+          "Ref": "KeyPairName"
+        },
         "NetworkInterfaces": [
           {
             "DeviceIndex": 0,
@@ -4065,6 +4086,9 @@
               "Ref": "Agent04OperatingSystem"
             }
           ]
+        },
+        "KeyName": {
+          "Ref": "KeyPairName"
         },
         "NetworkInterfaces": [
           {
