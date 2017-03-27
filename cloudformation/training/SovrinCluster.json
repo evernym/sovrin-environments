@@ -4840,7 +4840,7 @@
       "ConstraintDescription": "Must be between 9700-9799"
     },
     "Validator04Hostname": {
-      "Description": "Hostname for Validator #41",
+      "Description": "Hostname for Validator #4",
       "Type": "String",
       "Default": "Node4",
       "AllowedPattern": "[a-zA-Z0-9]+",
