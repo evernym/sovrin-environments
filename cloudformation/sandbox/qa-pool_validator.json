@@ -781,6 +781,12 @@
             "CidrIp": "0.0.0.0/0"
           },
           {
+            "IpProtocol": "tcp",
+            "FromPort": "9701",
+            "ToPort": "9702",
+            "CidrIp": "0.0.0.0/0"
+          },
+          {
             "IpProtocol": "udp",
             "FromPort": "9701",
             "ToPort": "9702",
