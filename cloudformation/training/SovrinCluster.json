@@ -5014,43 +5014,43 @@
     },
     "RegionBasedData": {
       "ap-northeast-1": {
-        "Ubuntu1604": "ami-1c13787b"
+        "Ubuntu1604": "ami-c9e3c0ae"
       },
       "ap-northeast-2": {
-        "Ubuntu1604": "ami-14a0767a"
+        "Ubuntu1604": "ami-3cda0852"
       },
       "ap-southeast-1": {
-        "Ubuntu1604": "ami-75ac0216"
+        "Ubuntu1604": "ami-6e74ca0d"
       },
       "ap-southeast-2": {
-        "Ubuntu1604": "ami-bdc7fcde"
+        "Ubuntu1604": "ami-92e8e6f1"
       },
       "ca-central-1": {
-        "Ubuntu1604": "ami-e72a9883"
+        "Ubuntu1604": "ami-9eee52fa"
       },
       "eu-central-1": {
-        "Ubuntu1604": "ami-232aea4c"
+        "Ubuntu1604": "ami-1b4d9e74"
       },
       "eu-west-1": {
-        "Ubuntu1604": "ami-cac6e6b9"
+        "Ubuntu1604": "ami-b5a893d3"
       },
       "eu-west-2": {
-        "Ubuntu1604": "ami-e8e3e98c"
+        "Ubuntu1604": "ami-4d3a2e29"
       },
       "sa-east-1": {
-        "Ubuntu1604": "ami-687de504"
+        "Ubuntu1604": "ami-36187a5a"
       },
       "us-east-1": {
-        "Ubuntu1604": "ami-2c57433b"
+        "Ubuntu1604": "ami-e4139df2"
       },
       "us-east-2": {
-        "Ubuntu1604": "ami-8ccd97e9"
+        "Ubuntu1604": "ami-33ab8f56"
       },
       "us-west-1": {
-        "Ubuntu1604": "ami-fe26779e"
+        "Ubuntu1604": "ami-30476250"
       },
       "us-west-2": {
-        "Ubuntu1604": "ami-2709bd47"
+        "Ubuntu1604": "ami-17ba2a77"
       }
     },
     "RepositoryKeys": {
