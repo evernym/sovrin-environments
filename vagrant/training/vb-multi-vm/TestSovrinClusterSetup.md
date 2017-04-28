@@ -50,3 +50,21 @@ ____
 **Tip:** It may be instructive to examine the scripts/vagrant.sh file to see the steps taken to install, configure, and run the Validator nodes.
 ____
 
+If at any time you need to log in to a validator node to check logs or do other administrative tasks, you can ssh into it easily.  For example, to access the first validator node, which has the name 'validator01', enter the following on the command line. 
+```sh
+$ vagrant ssh validator01
+```
+Login is seamless since Vagrant automatically generates and configures an ssh keypair for access.
+
+## Set Up Agent Nodes
+The Vagrantfile has configuration settings for provisioning up to four Agent nodes.  These can be used to play the role of remote entities like "Faber College", in the Getting Started Guide.  They can also be used for CLI interactive sessions, such as the "Alice" user in the same guide.  If your Sovrin network is to be used with the Getting Started Guide, you will want to provision four Agent nodes, one each for "Faber College", "Acme Corp", and "Thrift Bank", as well as one that we can use interactively.
+
+Since Agent nodes are not configured to provision automatically with as simple "vagrant up" command, you must instruct Vagrant to provision each one specifically, adding the name of the desired node after the "vagrant up" command.  To spin up all four, add all four names to the command line:
+```sh
+$ vagrant up agent01 agent02 agent03 agent04
+```
+Unlike the Sovrin Validator nodes, Agent nodes do not start the agent process automatically upon provisioning.  You will need to "vagrant ssh" into each one of them and start the agent process manually.
+````sh
+$ vagrant ssh agent01
+agent01 $ 
+````
