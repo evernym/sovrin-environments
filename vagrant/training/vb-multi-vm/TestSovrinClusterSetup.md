@@ -23,7 +23,7 @@ Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with VirtualBo
  **TODO:**  Update the repository location.
  ```sh
  $ git clone https://github.com/mgbailey/sovrin-environments.git
- $ cd sovrin-environments/vagrant/training/vb-multi-vm/
+ $ cd sovrin-environments/vagrant/training/vb-multi-vm
  ```
  At this point, you have all the artifacts necessary to create a Sovrin cluster on VMs in your PC. Next, we will proceed to set up the cluster.
  
@@ -50,7 +50,7 @@ ____
 **Tip:** It may be instructive to examine the scripts/vagrant.sh file to see the steps taken to install, configure, and run the Validator nodes.
 ____
 
-If at any time you need to log in to a Validator node to check logs or do other administrative tasks, you can ssh into it easily.  For example, to access the first Validator node, which has the name 'validator01', enter the following on the command line. 
+If at any time you need to log in to a Validator node to check logs or do other administrative tasks, you can ssh into it easily.  For example, to access the first Validator node, which has the name 'validator01', go into the directory with your Vagrantfile script and enter the following on the command line. 
 ```sh
 $ vagrant ssh validator01
 ```
@@ -63,7 +63,7 @@ Since Agent nodes are not configured to provision automatically with a simple "v
 ```sh
 $ vagrant up agent01 agent02 agent03 agent04
 ```
-Unlike the Sovrin Validator nodes, Agent nodes do not start the agent process automatically upon provisioning.  You will need to "vagrant ssh" into each one of them and start the agent process manually.  If you are setting up to run through the getting started guide, bring up a terminal and execute the following to start up the "Faber College" agent process.
+Unlike the Sovrin Validator nodes, Agent nodes do not start the agent process automatically upon provisioning.  You will need to "vagrant ssh" into each one of them and start the agent process manually.  If you are setting up to run through the getting started guide, bring up a terminal, go into the directory with your Vagrantfile script, and execute the following to start up the "Faber College" agent process.
 ````sh
 $ vagrant ssh agent01
 vagrant@agent01:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/faber.py  --port 5555
