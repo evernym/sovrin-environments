@@ -1,4 +1,4 @@
-# Setting Up a Test Sovrin Network
+# Setting Up a Test Sovrin Network in VMs
 This document will guide you in configuring a private network of Sovrin Validator nodes for testing and learning about Sovrin.  Additional servers acting as Sovrin Agents can also be provisioned on an ad-hoc basis, using this framework.  Using this guide, VrtualBox VMs will be used as the basis for creating a four-Validator network appropriate for completing the [*Getting Started Guide*](https://github.com/sovrin-foundation/sovrin-client/blob/master/getting-started.md) and for other purposes.  Future editions of this guide will include the ability to provision the Validator and Agent nodes in AWS and other environments.
 
 ### Assumptions
