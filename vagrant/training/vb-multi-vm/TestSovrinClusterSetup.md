@@ -86,10 +86,10 @@ In the above commands, 'FuN98eH2eZybECWkofW6A9BKJxxnTatBCopfUiNxo6ZB' is the val
 The "Acme Corp" and the "Thrift Bank" Agents are registered and configured in like manner:
 ```
 sovrin@test> send NYM dest=7YD5NKn3P4wVJLesAmA1rr7sLPqW9mR1nhFdKD518k21 role=TRUST_ANCHOR
-sovrin@test> send ATTRIB dest=7YD5NKn3P4wVJLesAmA1rr7sLPqW9mR1nhFdKD518k21 raw={"endpoint": {"ha": "10.20.30.102:5555", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
+sovrin@test> send ATTRIB dest=7YD5NKn3P4wVJLesAmA1rr7sLPqW9mR1nhFdKD518k21 raw={"endpoint": {"ha": "10.20.30.102:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
 sovrin@test> 
 sovrin@test> send NYM dest=9jegUr9vAMqoqQQUEAiCBYNQDnUbTktQY9nNspxfasZW role=TRUST_ANCHOR
-sovrin@test> send ATTRIB dest=9jegUr9vAMqoqQQUEAiCBYNQDnUbTktQY9nNspxfasZW raw={"endpoint": {"ha": "10.20.30.103:5555", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
+sovrin@test> send ATTRIB dest=9jegUr9vAMqoqQQUEAiCBYNQDnUbTktQY9nNspxfasZW raw={"endpoint": {"ha": "10.20.30.103:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
 ```
 ### Starting the Agent Processes
 Now that the Agents are registered with the Sovrin cluster, the Agent processes can be started on their respective nodes.  You will need to "vagrant ssh" into each one of them and start the agent process manually.  If you are setting up to run through the getting started guide, bring up a terminal, go into the directory with your Vagrantfile script, and execute the following to start up the "Faber College" agent process.
@@ -100,12 +100,12 @@ vagrant@agent01:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/
 You will see logging output to the screen.  In another term window (or tab), ssh into agent02 and bring up the "Acme Corp" agent process:
 ````sh
 $ vagrant ssh agent02
-vagrant@agent02:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/acme.py  --port 5555
+vagrant@agent02:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/acme.py  --port 6666
 ````
 In another term window (or tab), ssh into agent03 and bring up the "Thrift Bank" agent process:
 ````sh
 $ vagrant ssh agent03
-vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py  --port 5555
+vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py  --port 7777
 ````
 
 Congratulations!  Your Sovrin four-Validator cluster, along with Agent nodes as desired, is complete.  Now, in the CLI client on agent04, type quit to exit the CLI.  If you are doing the Getting Started Guide you are ready to proceed, using agent04 for the interactive 'Alice' client.
