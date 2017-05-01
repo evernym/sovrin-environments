@@ -56,42 +56,27 @@ $ vagrant ssh validator01
 ```
 Login is seamless since Vagrant automatically generates and configures an ssh key pair for access.
 
-## Set Up Agent and Client Nodes
+## Provision Agent and Client Nodes
 The Vagrantfile has configuration settings for provisioning up to four Agent (or client) nodes.  These can be used to play the role of remote entities like "Faber College", in the Getting Started Guide.  They can also be used for CLI interactive client sessions, such as the "Alice" user in the same guide.  If your Sovrin network is to be used with the Getting Started Guide, you will want to provision four Agent nodes, one each for "Faber College", "Acme Corp", and "Thrift Bank", as well as one that can be used as an interactive client.
 
 Since Agent nodes are not configured to provision automatically with a simple "vagrant up" command, you must instruct Vagrant to provision each one specifically, adding the name of the desired node after the "vagrant up" command.  To spin up all four, add all four names to the command line:
 ```sh
 $ vagrant up agent01 agent02 agent03 agent04
 ```
-Unlike the Sovrin Validator nodes, Agent nodes do not start the agent process automatically upon provisioning.  You will need to "vagrant ssh" into each one of them and start the agent process manually.  If you are setting up to run through the getting started guide, bring up a terminal, go into the directory with your Vagrantfile script, and execute the following to start up the "Faber College" agent process.
-````sh
-$ vagrant ssh agent01
-vagrant@agent01:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/faber.py  --port 5555
-````
-You will see logging output to the screen.  In another term window (or tab), ssh into agent02 and bring up the "Acme Corp" agent process:
-````sh
-$ vagrant ssh agent02
-vagrant@agent02:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/acme.py  --port 5555
-````
-In another term window (or tab), ssh into agent03 and bring up the "Thrift Bank" agent process:
-````sh
-$ vagrant ssh agent03
-vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py  --port 5555
-````
 ## Setting Up a CLI Client and Configuring the Agents in the Sovrin Cluster
-Finally, you will need to have another term session for an interactive CLI client.  With this you will be able to interact with the Sovrin Validator cluster and with the Agents that you have set up to this point.  If you are doing the Getting Started Guide, two roles will be performed using the CLI client.  First, you will use it in the role of a Sovrin Steward, a privileged user who will be used to register and configure the Agents on the Sovrin Validator cluster that we have set up.  At that point, you will be ready to return to the Getting Started Guide, where you will use the CLI client in the role of Alice, a user who has various interactions with the Agents that are facilitated by Sovrin.
+You will need to have a term session to ssh into one of these nodes, which will be used as an interactive CLI client.  With this you will be able to interact with the Sovrin Validator cluster and with the Agents.  If you are doing the Getting Started Guide, two roles will be performed using the CLI client.  First, you will use it in the role of a Sovrin Steward, a privileged user who will be used to register and configure the Agents on the Sovrin Validator cluster that we have set up.  Later, you will use the CLI client in the role of Alice, a user who has various interactions with the Agents that are facilitated by Sovrin.
 
-In a term window, ssh into agent04, bring up the CLI, and configure the CLI to communicate with the "test" Sovrin Validator cluster that we have configured here. Note that even though we are using a node named agent04, we will actually be using it as a CLI client instead.
+In a term window, you will now ssh into agent04, bring up the CLI, and configure the CLI to communicate with the "test" Sovrin Validator cluster that we have configured here. Note that even though we are using a node named agent04, we will actually be using it as a CLI client instead.
 ````
 $ vagrant ssh agent04
 vagrant@agent04:~$ sovrin
 sovrin> connect test
 ````
-The next task is to register the Agents with Sovrin.  In order to do this we must be able to authenticate with Sovrin as a Steward.  In our test cluster, there is a pre-configured user called Steward1 with a known key that we are able to use.  In the CLI, type:
+The next task is to register the Agents that we will be using with Sovrin.  We must do this before starting the Agent processes in the other nodes, since these processes expect to be registered in Sovrin before starting. In order to do the registration, we must be able to authenticate to Sovrin as a Steward.  In our test cluster, there is a pre-configured user called Steward1 with a known key that we are able to use.  In the CLI, type:
 ```
 sovrin@test> new key with seed 000000000000000000000000Steward1
 ```
-Now that the CLI client can authenticate as the Steward1 user, we can put transactions into the Sovrin Validator cluster that will register each Agent and establish its endpoint attribute.  First, for the "Faber College" Agent:
+Now that the CLI client can authenticate as the Steward1 user, we can put transactions into the Sovrin Validator cluster that will register each Agent and establish its endpoint attribute.  To register the Agents used in the Getting Started Guide, first, do the following for "Faber College":
 ```
 sovrin@test> send NYM dest=FuN98eH2eZybECWkofW6A9BKJxxnTatBCopfUiNxo6ZB role=TRUST_ANCHOR
 sovrin@test> send ATTRIB dest=FuN98eH2eZybECWkofW6A9BKJxxnTatBCopfUiNxo6ZB raw={"endpoint": {"ha": "10.20.30.101:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
@@ -106,5 +91,22 @@ sovrin@test>
 sovrin@test> send NYM dest=9jegUr9vAMqoqQQUEAiCBYNQDnUbTktQY9nNspxfasZW role=TRUST_ANCHOR
 sovrin@test> send ATTRIB dest=9jegUr9vAMqoqQQUEAiCBYNQDnUbTktQY9nNspxfasZW raw={"endpoint": {"ha": "10.20.30.103:5555", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
 ```
+### Starting the Agent Processes
+Now that the Agents are registered with the Sovrin cluster, the Agent processes can be started on their respective nodes.  You will need to "vagrant ssh" into each one of them and start the agent process manually.  If you are setting up to run through the getting started guide, bring up a terminal, go into the directory with your Vagrantfile script, and execute the following to start up the "Faber College" agent process.
+````sh
+$ vagrant ssh agent01
+vagrant@agent01:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/faber.py  --port 5555
+````
+You will see logging output to the screen.  In another term window (or tab), ssh into agent02 and bring up the "Acme Corp" agent process:
+````sh
+$ vagrant ssh agent02
+vagrant@agent02:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/acme.py  --port 5555
+````
+In another term window (or tab), ssh into agent03 and bring up the "Thrift Bank" agent process:
+````sh
+$ vagrant ssh agent03
+vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py  --port 5555
+````
+
 Congratulations!  Your Sovrin four-Validator cluster, along with Agent nodes as desired, is complete.  Now, in the CLI client on agent04, type quit to exit the CLI.  If you are doing the Getting Started Guide you are ready to proceed, using agent04 for the interactive 'Alice' client.
     
