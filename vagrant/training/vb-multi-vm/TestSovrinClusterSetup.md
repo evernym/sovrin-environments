@@ -20,9 +20,8 @@ Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with VirtualBo
  ## Download Vagrant script and bash scripts
  Scripts to spin up Sovrin Validator and Agent nodes are available on github, in the same location as this document.  If you have not already done so, install git on your machine, then clone the repository to your local machine.  This is the quickest way to get all the necessary files (plus more).  Then go into the directory containing the scripts.
  
- **TODO:**  Update the repository location.
  ```sh
- $ git clone https://github.com/mgbailey/sovrin-environments.git
+ $ git clone https://github.com/evernym/sovrin-environments.git
  $ cd sovrin-environments/vagrant/training/vb-multi-vm
  ```
  At this point, you have all the artifacts necessary to create a Sovrin cluster on VMs in your PC. Next, we will proceed to set up the cluster.
@@ -39,7 +38,6 @@ Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with VirtualBo
    -- Likewise, change the list of Validator IP addresses on line 42 of scripts/agent.sh
    -- Change the IP addresses in the template hosts file at etc/hosts
 
-**TODO:** configure scripts so that IP address changes can all happen in 1 spot, in the Vagrantfile
 
 After the configuration file has the correct settings, provision your Validator nodes:
 ```sh
