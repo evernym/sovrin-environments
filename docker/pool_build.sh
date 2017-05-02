@@ -1,16 +1,22 @@
-CNT="$1"
-IPS="$2"
-CLI_CNT="$3"
-START_PORT="$4"
-BASE_IP="10.0.0."
+POOL_DATA_FILE="$1"
+BASE_IP="$2"
+CNT="$3"
+NODE_START_PORT="$4"
+CLI_CNT="$5"
+IPS="$6"
 BASE_NODE_NAME="Node"
 SCRIPT_DIR=$(dirname $0)
 POOL_DATA=""
-POOL_DATA_FILE="pool_data"
+
+echo "$CNT $IPS $CLI_CNT"
 
 if [ "$CNT" = "--help" ]; then
-        echo "Usage: $0 <node-cnt> <pool-ips> <cli-cnt> <node-start-port>"
+        echo "Usage: $0 <pool-data-file> [<base-ip>] [<node-cnt>] [<node-start-port>] [<cli-cnt>] [<pool-ips>]"
         return
+fi
+
+if [ -z "$BASE_IP" ]; then
+	BASE_IP="10.0.0."
 fi
 
 if [ -z "$CNT" ]; then
@@ -27,10 +33,15 @@ fi
 
 if [ -z "$IPS" ]; then
 	for i in `seq 1 $CNT`; do
-		IP="${BASE_IP}${i}"
+		ADDR=$((i+1))
+		IP="${BASE_IP}${ADDR}"
 		IPS="${IPS},${IP}"
 	done
 	IPS=${IPS:1}
+fi
+
+if [ -z "$POOL_DATA_FILE" ]; then
+        POOL_DATA_FILE="pool_data"
 fi
 
 echo "Creating pool of ${CNT} nodes with ips ${IPS}"
@@ -45,8 +56,9 @@ for i in `seq 1 $CNT`; do
 	((PORT++))
 	CPORT=$PORT
 	((PORT++))
-	POOL_DATA="${POOL_DATA},${IPS_ARRAY[i-1]} $NPORT $CPORT"
-	$SCRIPT_DIR/node_build.sh $NODE_NAME $NPORT $CPORT "${IPS}" $CNT $CLI_CNT $i
+	NODE_IMAGE_TAG="$(echo "$NODE_NAME" | tr '[:upper:]' '[:lower:]')"
+	POOL_DATA="${POOL_DATA},$NODE_IMAGE_TAG ${IPS_ARRAY[i-1]} $NPORT $CPORT"
+	$SCRIPT_DIR/node_build.sh $NODE_NAME $NPORT $CPORT $NODE_IMAGE_TAG  "${IPS}" $CNT $CLI_CNT $i
 done
 POOL_DATA=${POOL_DATA:1}
 
