@@ -1,6 +1,6 @@
 # Evernym CloudFormation Templates
 
-- [Overview](overview)
+- [Overview](#overview)
 - [Training Templates](#training-templates)
 - [Sandbox Templates](#sandbox-templates)
 - [Caveats](#caveats)
