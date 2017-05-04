@@ -17,6 +17,6 @@ fi
 echo "Removing old container"
 docker rm -fv $IMAGE_NAME
 echo "Starting node $IMAGE_NAME $NODE_IP"
-docker run -td -P --name=$IMAGE_NAME --ip="${NODE_IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
+docker run -td -P --memory="1512m" --name=$IMAGE_NAME --ip="${NODE_IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
 docker exec -td $IMAGE_NAME systemctl start sovrin-node
 echo "Node started"
