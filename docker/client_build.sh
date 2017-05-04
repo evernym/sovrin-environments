@@ -22,6 +22,6 @@ docker build -t 'sovrincore' --build-arg uid=$USER_ID -f ${SCRIPT_DIR}/core.ubun
 echo "Building sovrinclient"
 docker build -t 'sovrinclient' -f ${SCRIPT_DIR}/client.common.ubuntu.dockerfile $SCRIPT_DIR
 echo "Building sovrinclientinteractive"
-docker build -t "sovrinclientinteractive" --build-arg --build-arg ips=$IPS --build-arg --build-arg nodecnt=$CNT --build-arg clicnt=$CLI_CNT -f ${SCRIPT_DIR}/client.interactive.ubuntu.dockerfile $SCRIPT_DIR
+docker build -t "sovrinclientinteractive" --build-arg ips=$IPS --build-arg nodecnt=$CNT --build-arg clicnt=$CLI_CNT -f ${SCRIPT_DIR}/client.interactive.ubuntu.dockerfile $SCRIPT_DIR
 
 echo "Sovrin client created"
