@@ -8,7 +8,7 @@ POOL_DATA=""
 
 if [ "$POOL_DATA_FILE" = "--help" ]; then
         echo "Usage: $0 <pool-data-file> <client-ip> <cli-cnt>"
-        return
+        exit 1
 fi
 
 if [ -z "$CLI_CNT" ]; then

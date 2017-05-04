@@ -13,12 +13,12 @@ USER_ID="$(id -u)"
 
 if [ "$NODE_NAME" = "--help" ] ; then
         echo "Usage: $0 <node-name> <node-port> <client-port> <node-image-tag> <cluster-ips> <node-cnt> <cli-cnt> <node-num>"
-        return
+        exit 1
 fi
 
 if [ -z "$NODE_NAME" ] || [ -z "$NPORT" ] || [ -z "$CPORT" ]; then
         echo "Incorrect input. Type $0 --help for help."
-	return
+	exit 1
 fi
 
 if [ -z "$NODE_IMAGE_TAG" ]; then

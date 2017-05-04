@@ -6,12 +6,12 @@ SCRIPT_DIR=$(dirname $0)
 
 if [ "$CNT" = "--help" ]; then
         echo "Usage: $0 <client-ip> <pool-network-name>"
-        return
+        exit 1
 fi
 
 if [ -z "$POOL_NETWORK_NAME" ] || [ -z "$IP" ]; then
 	echo "Invalid arguments. Try --help for usage."
-	return
+	exit 1
 fi
 
 echo "Removing old container"

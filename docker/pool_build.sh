@@ -12,7 +12,7 @@ echo "$CNT $IPS $CLI_CNT"
 
 if [ "$CNT" = "--help" ]; then
         echo "Usage: $0 <pool-data-file> [<base-ip>] [<node-cnt>] [<node-start-port>] [<cli-cnt>] [<pool-ips>]"
-        return
+        exit 1
 fi
 
 if [ -z "$BASE_IP" ]; then

@@ -7,7 +7,7 @@ USER_ID="$(id -u)"
 
 if [ "$IPS" = "--help" ] ; then
         echo "Usage: $0 [<pool-ips>] [<node-cnt>] [<cli-cnt>]"
-        return
+        exit 1
 fi
 
 echo "Creating a new client"

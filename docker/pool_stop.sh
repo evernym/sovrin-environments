@@ -6,7 +6,7 @@ POOL_DATA=""
 
 if [ "$CNT" = "--help" ]; then
         echo "Usage: $0 [<pool-data-file>] [<pool-network-name>]"
-        return
+        exit 1
 fi
 
 if [ -z "$POOL_DATA_FILE" ]; then

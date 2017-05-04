@@ -10,7 +10,7 @@ POOL_DATA=""
 
 if [ "$CNT" = "--help" ]; then
         echo "Usage: $0 <node-cnt> <pool-ips> <cli-cnt> <node-start-port>"
-        return
+        exit 1
 fi
 
 echo "Creating pool"
