@@ -12,4 +12,4 @@ EXPOSE 5000-9799
 USER sovrin
 # Init pool data
 RUN if [ ! -z "$ips" ] && [ ! -z "$nodecnt" ]; then generate_sovrin_pool_transactions --nodes $nodecnt --clients $clicnt --ips "$ips"; fi
-CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
+CMD sovrin

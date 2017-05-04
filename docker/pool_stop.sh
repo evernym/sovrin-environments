@@ -10,7 +10,7 @@ if [ "$CNT" = "--help" ]; then
 fi
 
 if [ -z "$POOL_DATA_FILE" ]; then
-	POOL_DATA_FILE="pool-data"
+	POOL_DATA_FILE="pool_data"
 fi
 
 if [ -z "$POOL_NETWORK_NAME" ]; then
