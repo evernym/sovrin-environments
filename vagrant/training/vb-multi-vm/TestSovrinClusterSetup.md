@@ -1,5 +1,5 @@
 # Setting Up a Test Sovrin Network in VMs
-This document will guide you in configuring a private network of Sovrin Validator nodes for testing and learning about Sovrin.  Additional servers acting as Sovrin Agents can also be provisioned on an ad-hoc basis, using this framework.  Using this guide, VirtualBox VMs will be used as the basis for creating a four-Validator network appropriate for completing the [*Getting Started Guide*](https://github.com/sovrin-foundation/sovrin-client/blob/master/getting-started.md) and for other purposes.  Future editions of this guide will include the ability to provision the Validator and Agent nodes in AWS and other environments.
+This document will guide you in configuring a private network of Sovrin Validator nodes for testing and learning about Sovrin.  Additional servers acting as Sovrin Agents can also be provisioned on an ad-hoc basis, using this framework.  Using this guide, VirtualBox VMs will be used as the basis for creating a four-Validator network appropriate for completing the [*Getting Started Guide*](https://github.com/sovrin-foundation/sovrin-client/blob/master/getting-started.md) and for other purposes.
 
 ### Assumptions
 These instructions assume that you have an Internet connection, and are using a computer with ample memory, CPU cores, and storage available.  A MacBook Pro was used while writing this, but it should be easily adapted to other capable computers.
@@ -106,5 +106,21 @@ $ vagrant ssh agent03
 vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py  --port 7777
 ````
 
-Congratulations!  Your Sovrin four-Validator cluster, along with Agent nodes as desired, is complete.  Now, in the CLI client on agent04, type quit to exit the CLI.  If you are doing the Getting Started Guide you are ready to proceed, using agent04 for the interactive 'Alice' client.
-    
+Congratulations!  Your Sovrin four-Validator cluster, along with Agent nodes as desired, is complete.  Now, in the CLI client on agent04, type quit to exit the CLI.  If you are doing the Getting Started Guide you are ready to proceed, using agent04 for the interactive 'Alice' client.  In agent04, type sovrin to once again to bring up the CLI prompt, and continue with the guide.
+
+```
+vagrant@agent04:~$ sovrin
+Loading module /usr/local/lib/python3.5/dist-packages/config/config-crypto-example1.py
+Module loaded.
+
+Sovrin-CLI (c) 2017 Evernym, Inc.
+Node registry loaded.
+    Node1: 10.20.30.201:9701
+    Node2: 10.20.30.202:9703
+    Node3: 10.20.30.203:9705
+    Node4: 10.20.30.204:9707
+Type 'help' for more information.
+Running Sovrin 0.3.15
+
+sovrin>    
+```
