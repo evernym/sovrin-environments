@@ -1,3 +1,5 @@
+#!/bin/bash
+
 POOL_DATA_FILE="$1"
 POOL_NETWORK_NAME="$2"
 

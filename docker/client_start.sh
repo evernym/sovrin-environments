@@ -1,3 +1,5 @@
+#!/bin/bash
+
 IP="$1"
 POOL_NETWORK_NAME="$2"
 

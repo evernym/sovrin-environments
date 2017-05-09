@@ -1,3 +1,5 @@
+#!/bin/bash
+
 IMAGE_NAME="$1"
 IP="$2"
 POOL_NETWORK_NAME="$3"
