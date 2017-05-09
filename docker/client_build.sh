@@ -1,3 +1,5 @@
+#!/bin/bash
+
 IPS="$1"
 CNT="$2"
 CLI_CNT="$3"
