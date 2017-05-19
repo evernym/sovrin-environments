@@ -742,6 +742,7 @@
                                 },
                                 "\"\n",
                                 "apt-get update\n",
+                                "DEBIAN_FRONTEND=noninteractive apt-get install -y debsigs debsig-verify apt-transport-https\n",
                                 "DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin-node tmux vim wget\n",
                                 "\n",
                                 "# Install and Configure Node\n",
