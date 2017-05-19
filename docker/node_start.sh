@@ -3,6 +3,8 @@
 IMAGE_NAME="$1"
 IP="$2"
 POOL_NETWORK_NAME="$3"
+NODE_PORT="$4"
+CLI_PORT="$5"
 
 SCRIPT_DIR=$(dirname $0)
 
@@ -19,6 +21,6 @@ fi
 echo "Removing old container"
 docker rm -fv $IMAGE_NAME
 echo "Starting node $IMAGE_NAME $NODE_IP"
-docker run -td -P --memory="1512m" --name=$IMAGE_NAME --ip="${NODE_IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
+docker run -td -p $NODE_PORT:$NODE_PORT -p $CLI_PORT:$CLI_PORT --memory="1512m" --name=$IMAGE_NAME --ip="${NODE_IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
 docker exec -td $IMAGE_NAME systemctl start sovrin-node
 echo "Node started"
