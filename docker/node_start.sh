@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IMAGE_NAME="$1"
-IP="$2"
+NODE_IP="$2"
 POOL_NETWORK_NAME="$3"
 NODE_PORT="$4"
 CLI_PORT="$5"
@@ -13,7 +13,7 @@ if [ "$CNT" = "--help" ]; then
         exit 1
 fi
 
-if [ -z "$POOL_NETWORK_NAME" ] || [ -z "$IMAGE_NAME" ] || [ -z "$IP" ]; then
+if [ -z "$POOL_NETWORK_NAME" ] || [ -z "$IMAGE_NAME" ] || [ -z "$NODE_IP" ]; then
 	echo "Invalid arguments. Try --help for usage."
 	exit 1
 fi
