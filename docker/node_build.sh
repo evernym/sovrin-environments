@@ -1,3 +1,5 @@
+#!/bin/bash
+
 NODE_NAME="$1"
 NPORT="$2"
 CPORT="$3"

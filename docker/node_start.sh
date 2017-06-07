@@ -1,10 +1,12 @@
+#!/bin/bash
+
 IMAGE_NAME="$1"
 IP="$2"
 POOL_NETWORK_NAME="$3"
 
 SCRIPT_DIR=$(dirname $0)
 
-if [ "$CNT" = "--help" ]; then
+if [ "$IMAGE_NAME" = "--help" ]; then
         echo "Usage: $0 <image-name> <node-ip> <pool-network-name>"
         exit 1
 fi
