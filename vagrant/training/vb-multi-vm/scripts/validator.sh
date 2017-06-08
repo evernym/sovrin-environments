@@ -58,7 +58,6 @@ then
 else
   perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service
 fi
-chmod -x /etc/systemd/system/orientdb.service
 if grep -Fxq 'SendMonitorStats' /home/sovrin/.sovrin/sovrin_config.py
 then
   echo 'SendMonitorStats is configured in sovrin_config.py'
