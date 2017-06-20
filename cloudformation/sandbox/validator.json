@@ -946,50 +946,55 @@
         "validator": {
             "ap-northeast-1": {
                 "ami": "ami-c9e3c0ae",
-                "hostname": "asobi"
+                "hostname": "japan"
             },
             "ap-northeast-2": {
-                "ami": "ami-3cda0852"
+                "ami": "ami-3cda0852",
+                "hostname": "korea"
             },
             "ap-southeast-1": {
                 "ami": "ami-6e74ca0d",
-                "hostname": "masakmasak"
+                "hostname": "singapore"
             },
             "ap-southeast-2": {
                 "ami": "ami-92e8e6f1",
-                "hostname": "majiyan"
+                "hostname": "australia"
             },
             "ca-central-1": {
                 "ami": "ami-9eee52fa",
-                "hostname": "jouer"
+                "hostname": "canada"
             },
             "eu-central-1": {
                 "ami": "ami-1b4d9e74",
-                "hostname": "spielen"
+                "hostname": "germany"
             },
             "eu-west-1": {
                 "ami": "ami-b5a893d3",
-                "hostname": "imirt"
+                "hostname": "ireland"
             },
             "eu-west-2": {
-                "ami": "ami-4d3a2e29"
+                "ami": "ami-4d3a2e29",
+                "hostname": "england"
             },
             "sa-east-1": {
-                "ami": "ami-36187a5a"
+                "ami": "ami-36187a5a",
+                "hostname": "brazil"
             },
             "us-east-1": {
-                "ami": "ami-e4139df2"
+                "ami": "ami-e4139df2",
+                "hostname": "virginia"
             },
             "us-east-2": {
                 "ami": "ami-33ab8f56",
-                "hostname": "test"
+                "hostname": "ohio"
             },
             "us-west-1": {
                 "ami": "ami-30476250",
-                "hostname": "play"
+                "hostname": "california"
             },
             "us-west-2": {
-                "ami": "ami-17ba2a77"
+                "ami": "ami-17ba2a77",
+                "hostname": "oregon"
             }
         },
         "repository": {
