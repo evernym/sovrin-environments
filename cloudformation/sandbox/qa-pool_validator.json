@@ -971,11 +971,11 @@
     },
     "repository": {
       "evernym": {
-        "key": "D82D8E35",
+        "key": "BD33704C",
         "repo": "deb https://repo.evernym.com/deb xenial master"
       },
       "sovrin": {
-        "key": "EAA542E8",
+        "key": "68DB5E88",
         "repo": "deb https://repo.sovrin.org/deb xenial master"
       }
     }
