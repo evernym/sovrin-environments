@@ -9,7 +9,7 @@ VirtualBox is a (FREE!) hypervisor technology similar to VMware's ESX that runs 
    - [Download VirtualBox](https://www.virtualbox.org/wiki/Downloads) and install it using the normal procedures for your OS. 
 
 ### Install Vagrant
-Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with VirtualBox, ESX, AWS, and others.  We will be using it to run scripts provided to you for creating VirtualBox VMs that will be our Sovrin Validator and Agent nodes.  In addition to controlling VM provisioning, the Vagrant script will remotely execute a configuration script on each node.  You will also be able to use Vagrant commands to ssh login to the nodes, and to halt them or even to destroy them when you are done.
+Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with VirtualBox, ESX, AWS, and others.  We will be using it to run scripts provided to you for creating VirtualBox VMs that will be our Sovrin Validator and Agent nodes.  In addition to controlling VM provisioning, the Vagrant script will remotely execute a configuration script on each node.  You will also be able to use Vagrant commands to ssh login to the nodes, and to halt them or even to destroy them when you are done. [Vagrant Command Help](https://www.vagrantup.com/docs/cli/)
    - [Download Vagrant](https://www.vagrantup.com/downloads.html) and install it using the normal procedures for your OS.
    - run this command from a terminal window:
      ```sh

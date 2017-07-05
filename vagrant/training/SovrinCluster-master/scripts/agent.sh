@@ -10,8 +10,8 @@ service sshd restart
 echo "Installing Required Packages"
 apt-get update
 apt-get install -y software-properties-common python-software-properties
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D82D8E35
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EAA542E8
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BD33704C
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68DB5E88
 add-apt-repository "deb https://repo.evernym.com/deb xenial master"
 add-apt-repository "deb https://repo.sovrin.org/deb xenial master"
 apt-get update
