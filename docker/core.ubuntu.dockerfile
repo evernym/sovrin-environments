@@ -21,6 +21,6 @@ RUN echo "deb https://repo.evernym.com/deb xenial master" >> /etc/apt/sources.li
 RUN echo "deb https://repo.sovrin.org/deb xenial master" >> /etc/apt/sources.list 
 RUN useradd -ms /bin/bash -u $uid sovrin
 RUN apt-get update -y && apt-get install -y \ 
-	sovrin-node
+	sovrin
 USER sovrin
 WORKDIR /home/sovrin
