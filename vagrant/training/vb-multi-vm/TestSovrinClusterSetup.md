@@ -27,7 +27,7 @@ Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with VirtualBo
  At this point, you have all the artifacts necessary to create a Sovrin cluster on VMs in your PC. Next, we will proceed to set up the cluster.
  
  ## Set Up Cluster of Sovrin Validator Nodes
- The file that you see in the current directory, called "Vagrantfile", contains the instructions that Vagrant will follow to command VirtualBox to provision your VMs.  In addition, it instructs Vagrant to execute a bash file called scripts/validator.sh on each of the Validator VMs to install and configure the required Validator software.  It also has instructions for ad-hoc provisioning of up to four Agent or client VMs, with the required bash configuration file for that purpose.
+ The file that you see in the current directory, called "Vagrantfile", contains the instructions that Vagrant will follow to command VirtualBox to provision your VMs.  In addition, it instructs Vagrant to execute a bash file called scripts/validator.sh on each of the Validator VMs to install and configure the required Validator software.  It also has instructions for provisioning of three Agent VMs and one for use as a CLI client, with the required bash configuration file for that purpose.
  
  The script assumes that a 10.20.30.00/24 virtual network can be created in your PC without conflicting with your external network configuration.  The addresses of the VMs that will be provisioned will be taken from this network's address range.  The Vagrantfile script also assumes that a bridged network connection can be made over the 'en0: Wi-Fi (AirPort)' network adapter, which is correct if you are running in a Mac, and you use Wi-Fi instead of a wired ethernet connection.  It assumes that you are in the US:Mountain timezone.  All of these settings, and more, can be changed in the Vagrantfile using a text editor.  You may be able to run this script as-is, or you may want to:
    - Change the timezone  (for a list of candidates, refer to /usr/share/zoneinfo on an Ubuntu system)
@@ -38,8 +38,7 @@ Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with VirtualBo
    -- Likewise, change the list of Validator IP addresses on line 42 of scripts/agent.sh
    -- Change the IP addresses in the template hosts file at etc/hosts
 
-
-After the configuration file has the correct settings, provision your Validator nodes:
+After the configuration file has the correct settings, provision your Validator, Agent and CLI client nodes:
 ```sh
 $ vagrant up
 ```
@@ -54,40 +53,35 @@ $ vagrant ssh validator01
 ```
 Login is seamless since Vagrant automatically generates and configures an ssh key pair for access.
 
-## Provision Agent and Client Nodes
-The Vagrantfile has configuration settings for provisioning up to four Agent (or client) nodes.  These can be used to play the role of remote entities like "Faber College", in the Getting Started Guide.  They can also be used for CLI interactive client sessions, such as the "Alice" user in the same guide.  If your Sovrin network is to be used with the Getting Started Guide, you will want to provision four Agent nodes, one each for "Faber College", "Acme Corp", and "Thrift Bank", as well as one that can be used as an interactive client.
-
-Since Agent nodes are not configured to provision automatically with a simple "vagrant up" command, you must instruct Vagrant to provision each one specifically, adding the name of the desired node after the "vagrant up" command.  To spin up all four, add all four names to the command line:
-```sh
-$ vagrant up agent01 agent02 agent03 agent04
-```
 ## Setting Up a CLI Client and Configuring the Agents in the Sovrin Cluster
 You will need to have a term session to ssh into one of these nodes, which will be used as an interactive CLI client.  With this you will be able to interact with the Sovrin Validator cluster and with the Agents.  If you are doing the Getting Started Guide, two roles will be performed using the CLI client.  First, you will use it in the role of a Sovrin Steward, a privileged user who will be used to register and configure the Agents on the Sovrin Validator cluster that we have set up.  Later, you will use the CLI client in the role of Alice, a user who has various interactions with the Agents that are facilitated by Sovrin.
 
-In a term window, you will now ssh into agent04, bring up the CLI, and configure the CLI to communicate with the "test" Sovrin Validator cluster that we have configured here. Note that even though we are using a node named agent04, we will actually be using it as a CLI client instead.
+In a term window, you will now ssh into cli01, bring up the CLI, and configure the CLI to communicate with the "test" Sovrin Validator cluster that we have configured here. 
 ````
-$ vagrant ssh agent04
-vagrant@agent04:~$ sovrin
+$ vagrant ssh cli01
+vagrant@cli01:~$ sovrin
 sovrin> connect test
 ````
 The next task is to register the Agents that we will be using with Sovrin.  We must do this before starting the Agent processes in the other nodes, since these processes expect to be registered in Sovrin before starting. In order to do the registration, we must be able to authenticate to Sovrin as a Steward.  In our test cluster, there is a pre-configured user called Steward1 with a known key that we are able to use.  In the CLI, type:
 ```
 sovrin@test> new key with seed 000000000000000000000000Steward1
 ```
-Now that the CLI client can authenticate as the Steward1 user, we can put transactions into the Sovrin Validator cluster that will register each Agent and establish its endpoint attribute.  To register the Agents used in the Getting Started Guide, first, do the following for "Faber College":
+Now that the CLI client can authenticate as the Steward1 user, we can put transactions into the Sovrin Validator cluster that will register each agent and establish its endpoint attribute.  To register the agents used in the Getting Started Guide, first, as the Steward, add each of the three agent's Trust Anchor to the ledger.:
 ```
-sovrin@test> send NYM dest=FuN98eH2eZybECWkofW6A9BKJxxnTatBCopfUiNxo6ZB role=TRUST_ANCHOR
-sovrin@test> send ATTRIB dest=FuN98eH2eZybECWkofW6A9BKJxxnTatBCopfUiNxo6ZB raw={"endpoint": {"ha": "10.20.30.101:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
+sovrin@test> send NYM dest=ULtgFQJe6bjiFbs7ke3NJD role=TRUST_ANCHOR verkey=~5kh3FB4H3NKq7tUDqeqHc1
+sovrin@test> send NYM dest=CzkavE58zgX7rUMrzSinLr role=TRUST_ANCHOR verkey=~WjXEvZ9xj4Tz9sLtzf7HVP
+sovrin@test> send NYM dest=H2aKRiDeq8aLZSydQMDbtf role=TRUST_ANCHOR verkey=~3sphzTb2itL2mwSeJ1Ji28
 ```
-In the above commands, 'FuN98eH2eZybECWkofW6A9BKJxxnTatBCopfUiNxo6ZB' is the validator key of the Agent.  A corresponding private key is retained by the agent process.  
+In the first of the above commands, '~5kh3FB4H3NKq7tUDqeqHc1' is the verification key of the "Faber College" Trust Anchor.  A corresponding private key is retained by the agent process. 'ULtgFQJe6bjiFbs7ke3NJD' is the "Faber College" Trust Anchor ID.  The other two lines put the Trust Anchors for "Acme Corp" and "Thrift Bank" onto the ledger as well.
 
-The "Acme Corp" and the "Thrift Bank" Agents are registered and configured in like manner:
+Next, we provide information on the nodes that these Trust Anchors will use to interact with clients.  If necessary, replace the IP addresses and ports in these commands with what you are using.  Since only the Trust Anchor can modify his information on the ledger, we must assume the proper identity before posting each transaction.
 ```
-sovrin@test> send NYM dest=7YD5NKn3P4wVJLesAmA1rr7sLPqW9mR1nhFdKD518k21 role=TRUST_ANCHOR
-sovrin@test> send ATTRIB dest=7YD5NKn3P4wVJLesAmA1rr7sLPqW9mR1nhFdKD518k21 raw={"endpoint": {"ha": "10.20.30.102:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
-sovrin@test> 
-sovrin@test> send NYM dest=9jegUr9vAMqoqQQUEAiCBYNQDnUbTktQY9nNspxfasZW role=TRUST_ANCHOR
-sovrin@test> send ATTRIB dest=9jegUr9vAMqoqQQUEAiCBYNQDnUbTktQY9nNspxfasZW raw={"endpoint": {"ha": "10.20.30.103:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
+sovrin@test> new key with seed Faber000000000000000000000000000
+sovrin@test> send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.20.30.201:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
+sovrin@test> new key with seed Acme0000000000000000000000000000
+sovrin@test> send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint": {"ha": "10.20.30.202:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
+sovrin@test> new key with seed Thrift00000000000000000000000000
+sovrin@test> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.20.30.203:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
 ```
 ### Starting the Agent Processes
 Now that the Agents are registered with the Sovrin cluster, the Agent processes can be started on their respective nodes.  You will need to "vagrant ssh" into each one of them and start the agent process manually.  If you are setting up to run through the getting started guide, bring up a terminal, go into the directory with your Vagrantfile script, and execute the following to start up the "Faber College" agent process.
@@ -106,10 +100,10 @@ $ vagrant ssh agent03
 vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py  --port 7777
 ````
 
-Congratulations!  Your Sovrin four-Validator cluster, along with Agent nodes as desired, is complete.  Now, in the CLI client on agent04, type quit to exit the CLI.  If you are doing the Getting Started Guide you are ready to proceed, using agent04 for the interactive 'Alice' client.  In agent04, type sovrin to once again to bring up the CLI prompt, and continue with the guide.
+Congratulations!  Your Sovrin four-Validator cluster, along with Agent nodes as desired, is complete.  Now, in the CLI client on cli01, type quit to exit the CLI.  If you are doing the Getting Started Guide you are ready to proceed, using cli01 for the interactive 'Alice' client.  In cli01, type sovrin to once again to bring up the CLI prompt, and continue with the guide.
 
 ```
-vagrant@agent04:~$ sovrin
+vagrant@cli01:~$ sovrin
 Loading module /usr/local/lib/python3.5/dist-packages/config/config-crypto-example1.py
 Module loaded.
 
