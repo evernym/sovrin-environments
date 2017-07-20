@@ -1,5 +1,5 @@
 # Development
-FROM sovrinnode
+FROM sovrincore
 
 ARG nodename
 ARG nport
