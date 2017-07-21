@@ -35,7 +35,7 @@ add-apt-repository "deb https://repo.evernym.com/deb xenial stable"
 add-apt-repository "deb https://repo.sovrin.org/deb xenial stable"
 apt-get update
 #DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
-DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin-client tmux vim wget
+DEBIAN_FRONTEND=noninteractive apt-get install -y debsigs debsig-verify apt-transport-https dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin tmux vim wget
 
 #--------------------------------------------------------
 echo 'Generating Genesis Transaction Files'

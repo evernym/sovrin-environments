@@ -17,7 +17,7 @@ network_bridge   = 'en0: Wi-Fi (AirPort)'                       # delete this fo
 
 Vagrant.configure("2") do |config|
 
-  config.vm.define "agent01", autostart: false do |agent01|
+  config.vm.define "agent01", autostart: true do |agent01|
     agent01.vm.box = agent_box
     agent01.vm.host_name = "agent01.evernym.lab"
     agent01.vm.network 'private_network', ip: "10.20.30.101"
@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
     agent01.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
   end
 
-  config.vm.define "agent02", autostart: false do |agent02|
+  config.vm.define "agent02", autostart: true do |agent02|
     agent02.vm.box = agent_box
     agent02.vm.host_name = "agent02.evernym.lab"
     agent02.vm.network 'private_network', ip: "10.20.30.102"
@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
     agent02.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
   end
 
-  config.vm.define "agent03", autostart: false do |agent03|
+  config.vm.define "agent03", autostart: true do |agent03|
     agent03.vm.box = agent_box
     agent03.vm.host_name = "agent03.evernym.lab"
     agent03.vm.network 'private_network', ip: "10.20.30.103"
@@ -74,23 +74,23 @@ Vagrant.configure("2") do |config|
     agent03.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
   end
 
-  config.vm.define "agent04", autostart: false do |agent04|
-    agent04.vm.box = agent_box
-    agent04.vm.host_name = "agent04.evernym.lab"
-    agent04.vm.network 'private_network', ip: "10.20.30.104"
+  config.vm.define "cli01", autostart: true do |cli01|
+    cli01.vm.box = agent_box
+    cli01.vm.host_name = "cli01.evernym.lab"
+    cli01.vm.network 'private_network', ip: "10.20.30.104"
     if (defined?(network_bridge) == nil)
-      agent04.vm.network "public_network", bridge: network_bridge
+      cli01.vm.network "public_network", bridge: network_bridge
     end
-    agent04.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
-    agent04.ssh.insert_key = false
-    agent04.vm.provider "virtualbox" do |vb|
-      vb.name   = "agent04"
+    cli01.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
+    cli01.ssh.insert_key = false
+    cli01.vm.provider "virtualbox" do |vb|
+      vb.name   = "cli01"
       vb.gui    = false
       vb.memory = agent_memory
       vb.cpus   = agent_cpus
       vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
     end
-    agent04.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
+    cli01.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
   end
 
   config.vm.define "validator01" do |validator01|
