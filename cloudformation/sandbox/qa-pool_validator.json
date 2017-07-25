@@ -788,12 +788,6 @@
             "CidrIp": "0.0.0.0/0"
           },
           {
-            "IpProtocol": "udp",
-            "FromPort": "9701",
-            "ToPort": "9702",
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
             "IpProtocol": "icmp",
             "FromPort": "8",
             "ToPort": "-1",
@@ -917,55 +911,55 @@
   "Mappings": {
     "validator": {
       "ap-northeast-1": {
-        "ami": "ami-1c13787b",
+        "ami": "ami-62edf205",
         "hostname": "tokyo"
       },
       "ap-northeast-2": {
-        "ami": "ami-14a0767a",
+        "ami": "ami-4db06e23",
         "hostname": "seoul"
       },
       "ap-southeast-1": {
-        "ami": "ami-75ac0216",
+        "ami": "ami-b869e3db",
         "hostname": "singapore"
       },
       "ap-southeast-2": {
-        "ami": "ami-bdc7fcde",
+        "ami": "ami-08eaf86b",
         "hostname": "sydney"
       },
       "ca-central-1": {
-        "ami": "ami-e72a9883",
+        "ami": "ami-4d77c829",
         "hostname": "canada"
       },
       "eu-central-1": {
-        "ami": "ami-232aea4c",
+        "ami": "ami-3d48e852",
         "hostname": "frankfurt"
       },
       "eu-west-1": {
-        "ami": "ami-cac6e6b9",
+        "ami": "ami-841ffefd",
         "hostname": "ireland"
       },
       "eu-west-2": {
-        "ami": "ami-e8e3e98c",
+        "ami": "ami-a5c8dec1",
         "hostname": "london"
       },
       "sa-east-1": {
-        "ami": "ami-687de504",
+        "ami": "ami-a46613c8",
         "hostname": "saopaulo"
       },
       "us-east-1": {
-        "ami": "ami-2c57433b",
+        "ami": "ami-9a0c088c",
         "hostname": "virgina"
       },
       "us-east-2": {
-        "ami": "ami-8ccd97e9",
+        "ami": "ami-d7eecfb2",
         "hostname": "ohio"
       },
       "us-west-1": {
-        "ami": "ami-fe26779e",
+        "ami": "ami-e0f3dc80",
         "hostname": "california"
       },
       "us-west-2": {
-        "ami": "ami-2709bd47",
+        "ami": "ami-16f5e66f",
         "hostname": "oregon"
       }
     },

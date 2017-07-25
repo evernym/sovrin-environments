@@ -808,12 +808,6 @@
                         "CidrIp": "0.0.0.0/0"
                     },
                     {
-                        "IpProtocol": "udp",
-                        "FromPort": "9701",
-                        "ToPort": "9702",
-                        "CidrIp": "0.0.0.0/0"
-                    },
-                    {
                         "IpProtocol": "icmp",
                         "FromPort": "8",
                         "ToPort": "-1",
@@ -945,55 +939,55 @@
     "Mappings": {
         "validator": {
             "ap-northeast-1": {
-                "ami": "ami-c9e3c0ae",
+                "ami": "ami-62edf205",
                 "hostname": "japan"
             },
             "ap-northeast-2": {
-                "ami": "ami-3cda0852",
+                "ami": "ami-4db06e23",
                 "hostname": "korea"
             },
             "ap-southeast-1": {
-                "ami": "ami-6e74ca0d",
+                "ami": "ami-b869e3db",
                 "hostname": "singapore"
             },
             "ap-southeast-2": {
-                "ami": "ami-92e8e6f1",
+                "ami": "ami-08eaf86b",
                 "hostname": "australia"
             },
             "ca-central-1": {
-                "ami": "ami-9eee52fa",
+                "ami": "ami-4d77c829",
                 "hostname": "canada"
             },
             "eu-central-1": {
-                "ami": "ami-1b4d9e74",
+                "ami": "ami-3d48e852",
                 "hostname": "germany"
             },
             "eu-west-1": {
-                "ami": "ami-b5a893d3",
+                "ami": "ami-841ffefd",
                 "hostname": "ireland"
             },
             "eu-west-2": {
-                "ami": "ami-4d3a2e29",
+                "ami": "ami-a5c8dec1",
                 "hostname": "england"
             },
             "sa-east-1": {
-                "ami": "ami-36187a5a",
+                "ami": "ami-a46613c8",
                 "hostname": "brazil"
             },
             "us-east-1": {
-                "ami": "ami-e4139df2",
+                "ami": "ami-9a0c088c",
                 "hostname": "virginia"
             },
             "us-east-2": {
-                "ami": "ami-33ab8f56",
+                "ami": "ami-d7eecfb2",
                 "hostname": "ohio"
             },
             "us-west-1": {
-                "ami": "ami-30476250",
+                "ami": "ami-e0f3dc80",
                 "hostname": "california"
             },
             "us-west-2": {
-                "ami": "ami-17ba2a77",
+                "ami": "ami-16f5e66f",
                 "hostname": "oregon"
             }
         },

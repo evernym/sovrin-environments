@@ -4635,7 +4635,7 @@
             "CidrIp": "0.0.0.0/0"
           },
           {
-            "IpProtocol": "udp",
+            "IpProtocol": "tcp",
             "FromPort": "9700",
             "ToPort": "9799",
             "CidrIp": "0.0.0.0/0"
@@ -4746,7 +4746,7 @@
       ]
     },
     "Validator01NodePort": {
-      "Description": "Node port (UDP) for Validator #1",
+      "Description": "Node port (TCP) for Validator #1",
       "Type": "Number",
       "Default": 9701,
       "MinValue": 9700,
@@ -4754,7 +4754,7 @@
       "ConstraintDescription": "Must be between 9700-9799"
     },
     "Validator01NodeClientPort": {
-      "Description": "Node client port (UDP) for Validator #1",
+      "Description": "Node client port (TCP) for Validator #1",
       "Type": "Number",
       "Default": 9702,
       "MinValue": 9700,
@@ -4789,7 +4789,7 @@
       ]
     },
     "Validator02NodePort": {
-      "Description": "Node port (UDP) for Validator #2",
+      "Description": "Node port (TCP) for Validator #2",
       "Type": "Number",
       "Default": 9703,
       "MinValue": 9700,
@@ -4797,7 +4797,7 @@
       "ConstraintDescription": "Must be between 9700-9799"
     },
     "Validator02NodeClientPort": {
-      "Description": "Node client port (UDP) for Validator #2",
+      "Description": "Node client port (TCP) for Validator #2",
       "Type": "Number",
       "Default": 9704,
       "MinValue": 9700,
@@ -4832,7 +4832,7 @@
       ]
     },
     "Validator03NodePort": {
-      "Description": "Node port (UDP) for Validator #3",
+      "Description": "Node port (TCP) for Validator #3",
       "Type": "Number",
       "Default": 9705,
       "MinValue": 9700,
@@ -4840,7 +4840,7 @@
       "ConstraintDescription": "Must be between 9700-9799"
     },
     "Validator03NodeClientPort": {
-      "Description": "Node client port (UDP) for Validator #3",
+      "Description": "Node client port (TCP) for Validator #3",
       "Type": "Number",
       "Default": 9706,
       "MinValue": 9700,
@@ -4875,7 +4875,7 @@
       ]
     },
     "Validator04NodePort": {
-      "Description": "Node port (UDP) for Validator #4",
+      "Description": "Node port (TCP) for Validator #4",
       "Type": "Number",
       "Default": 9707,
       "MinValue": 9700,
@@ -4883,7 +4883,7 @@
       "ConstraintDescription": "Must be between 9700-9799"
     },
     "Validator04NodeClientPort": {
-      "Description": "Node client port (UDP) for Validator #4",
+      "Description": "Node client port (TCP) for Validator #4",
       "Type": "Number",
       "Default": 9708,
       "MinValue": 9700,
@@ -5022,43 +5022,43 @@
     },
     "RegionBasedData": {
       "ap-northeast-1": {
-        "Ubuntu1604": "ami-c9e3c0ae"
+        "Ubuntu1604": "ami-62edf205"
       },
       "ap-northeast-2": {
-        "Ubuntu1604": "ami-3cda0852"
+        "Ubuntu1604": "ami-4db06e23"
       },
       "ap-southeast-1": {
-        "Ubuntu1604": "ami-6e74ca0d"
+        "Ubuntu1604": "ami-b869e3db"
       },
       "ap-southeast-2": {
-        "Ubuntu1604": "ami-92e8e6f1"
+        "Ubuntu1604": "ami-08eaf86b"
       },
       "ca-central-1": {
-        "Ubuntu1604": "ami-9eee52fa"
+        "Ubuntu1604": "ami-4d77c829"
       },
       "eu-central-1": {
-        "Ubuntu1604": "ami-1b4d9e74"
+        "Ubuntu1604": "ami-3d48e852"
       },
       "eu-west-1": {
-        "Ubuntu1604": "ami-b5a893d3"
+        "Ubuntu1604": "ami-841ffefd"
       },
       "eu-west-2": {
-        "Ubuntu1604": "ami-4d3a2e29"
+        "Ubuntu1604": "ami-a5c8dec1"
       },
       "sa-east-1": {
-        "Ubuntu1604": "ami-36187a5a"
+        "Ubuntu1604": "ami-a46613c8"
       },
       "us-east-1": {
-        "Ubuntu1604": "ami-e4139df2"
+        "Ubuntu1604": "ami-9a0c088c"
       },
       "us-east-2": {
-        "Ubuntu1604": "ami-33ab8f56"
+        "Ubuntu1604": "ami-d7eecfb2"
       },
       "us-west-1": {
-        "Ubuntu1604": "ami-30476250"
+        "Ubuntu1604": "ami-e0f3dc80"
       },
       "us-west-2": {
-        "Ubuntu1604": "ami-17ba2a77"
+        "Ubuntu1604": "ami-16f5e66f"
       }
     },
     "RepositoryKeys": {
