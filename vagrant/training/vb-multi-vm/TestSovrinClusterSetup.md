@@ -77,11 +77,11 @@ In the first of the above commands, '~5kh3FB4H3NKq7tUDqeqHc1' is the verificatio
 Next, we provide information on the nodes that these Trust Anchors will use to interact with clients.  If necessary, replace the IP addresses and ports in these commands with what you are using.  Since only the Trust Anchor can modify his information on the ledger, we must assume the proper identity before posting each transaction.
 ```
 sovrin@test> new key with seed Faber000000000000000000000000000
-sovrin@test> send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.20.30.201:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
+sovrin@test> send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.20.30.101:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
 sovrin@test> new key with seed Acme0000000000000000000000000000
-sovrin@test> send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint": {"ha": "10.20.30.202:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
+sovrin@test> send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint": {"ha": "10.20.30.102:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
 sovrin@test> new key with seed Thrift00000000000000000000000000
-sovrin@test> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.20.30.203:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
+sovrin@test> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.20.30.103:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
 ```
 ### Starting the Agent Processes
 Now that the Agents are registered with the Sovrin cluster, the Agent processes can be started on their respective nodes.  You will need to "vagrant ssh" into each one of them and start the agent process manually.  If you are setting up to run through the getting started guide, bring up a terminal, go into the directory with your Vagrantfile script, and execute the following to start up the "Faber College" agent process.
