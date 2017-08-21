@@ -24,9 +24,9 @@ Defaults:
 
 Container is removed automatically after sovrin shell is closed.
 
-# Start agents (optional - if you are running the Sovrin Tutorial)
+# Start agents (optional)
 
-See the file StartingAgents.md in this folder.
+If you are planning to run the Sovrin Tutorial (about Emily, her transcripts, job and bank), start the organization Sovring Agents using the instructions in [StartingSovrinAgents.md](StartingSovrinAgents.md) in this folder.
 
 # Stop pool
 ```
@@ -36,9 +36,9 @@ Defaults:
 * File is pool_data
 * Network name is pool-network
 
-# Running on Windows and using the git bash shell
+# Running on Windows and using git bash
 
-Using the git bash shell is usually the preferred command line for those familiar with Unix/Linux to run applications/environments like Sovrin, however, it can create problems with pathnames. By default git bash converts absolute path names to the Windows path name (e.g. C:\...), which is helpful if it is expected by an app, but not always.  In particular, [it's not helpful with Docker](https://github.com/moby/moby/issues/24029) creating problems with volume mounting on docker run and build commands. For this application - the client_build.sh, node_build.sh, client_start.sh and node_start.sh are all affected by this. When just run, docker build/run commands error off with messages like:
+Using the git bash shell is a productive command line for those familiar with Unix/Linux to run applications/environments on Windows. However, git bash can create problems with pathnames, and does so with this application. Specifcally, by default git bash converts absolute path names to a Windows equivalent path name (e.g. C:\...), which is helpful if it is expected by an app, but not always - and never with Docker.  In particular, [it's not helpful with Docker](https://github.com/moby/moby/issues/24029) volume mounting on docker run and build commands. The Sovrin test scripts - client_build.sh, node_build.sh, client_start.sh and node_start.sh are all affected by this. When just run, docker build/run commands error off with messages like:
 
 ```
 C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: invalid bind mount spec "/C/Program Files/Git/sys/fs/cgroup;C:\\Program Files\\Git\\sys\\fs\\cgroup;ro": invalid volume specification: '/C/Program Files/Git/sys/fs/cgroup;C:\Program Files\Git\sys\fs\cgroup;ro': invalid mount config for type "bind": invalid mount path: '\Program Files\Git\sys\fs\cgroup;ro' mount path must be absolute.
