@@ -26,7 +26,7 @@ Container is removed automatically after sovrin shell is closed.
 
 # Start agents (optional)
 
-If you are planning to run the Sovrin Tutorial (about Emily, her transcripts, job and bank), start the organization Sovring Agents using the instructions in [StartingSovrinAgents.md](StartingSovrinAgents.md) in this folder.
+If you are planning to run the Sovrin Tutorial (about Emily, her transcripts, job and bank), start the organization Sovring Agents using the instructions in [StartSovrinAgents.md](StartSovrinAgents.md) in this folder.
 
 # Stop pool
 ```

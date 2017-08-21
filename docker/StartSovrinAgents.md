@@ -82,7 +82,7 @@ You should be back to the bash prompt within the Sovrinclient container.
 We'll now invoke the Sovrin Agents from the same command line, redirecting the output to different files. We can then review the logs as commands are executed.
 
 #### Invoke the clients
-Use these commands to invoke each of the clients:
+Use these commands to invoke each of the clients. Note the ports entered on the commands above for setting the endpoints are referenced below. If you used different ports above, adjust these commands below to match.
 
 ```python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/faber.py --port 5555 >faber.log &```
 
