@@ -98,6 +98,6 @@ If you want to monitor one of the logs while executing the rest of the tutorial,
 
 To stream the end of the (in the case) Faber College agent log. Ctrl-C to exit out of that.
 
-That completes the process for starting the Agents. Leave this command line running while you complete the rest of the tutorial - the story of Emily, her transcripts, job and banking - in the terminal window in which you ran the script to start the Sovrin Client. You should be at a "soverin" prompt.
+That completes the process for starting the Agents. Leave this command line running while you complete the rest of the tutorial - the story of Emily, her transcripts, job and banking - in the terminal window in which you ran the script to start the Sovrin Client. You should be at a "sovrin" prompt.
 
 Note that when the sovrinclient container stops, the agents will stop automatically. That will happen when you "exit" from the sovrin command line in the other terminal window.
