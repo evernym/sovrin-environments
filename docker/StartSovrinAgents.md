@@ -34,6 +34,11 @@ Create Faber College as an Identity and one that is a Trust Anchor.
 
 ```send NYM dest=ULtgFQJe6bjiFbs7ke3NJD role=TRUST_ANCHOR verkey=~5kh3FB4H3NKq7tUDqeqHc1```
 
+NOTE: Be sure that the CLI responds with an "ADDED" response such as
+```Adding nym ULtgFQJe6bjiFbs7ke3NJD
+Nym ULtgFQJe6bjiFbs7ke3NJD added
+If you don't get the "ADDED" response then one of the Nodes may not have started and you likely have to restart the pool with the ./pool_start.sh command
+
 ```new key with seed Faber000000000000000000000000000```
 
 In the next step to create the endpoint for the Faber Agent, we're using the IP address of the Sovrin client (10.0.0.6), and a unique port for the agent. If you used a different IP in starting up Sovrin, you need to replace your IP/Port in the following command:
