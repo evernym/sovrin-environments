@@ -36,7 +36,8 @@ Create Faber College as an Identity and one that is a Trust Anchor.
 
 NOTE: Be sure that the CLI responds with an "ADDED" response such as
 ```Adding nym ULtgFQJe6bjiFbs7ke3NJD
-Nym ULtgFQJe6bjiFbs7ke3NJD added
+Nym ULtgFQJe6bjiFbs7ke3NJD added```
+
 If you don't get the "ADDED" response then one of the Nodes may not have started and you likely have to restart the pool with the ./pool_start.sh command
 
 ```new key with seed Faber000000000000000000000000000```
