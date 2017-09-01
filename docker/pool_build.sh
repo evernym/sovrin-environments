@@ -13,41 +13,41 @@ POOL_DATA=""
 echo "$CNT $IPS $CLI_CNT"
 
 if [ "$CNT" = "--help" ]; then
-	echo "Usage: $0 <pool-data-file> [<base-ip>] [<node-cnt>] [<node-start-port>] [<cli-cnt>] [<pool-ips>]"
-	exit 1
+        echo "Usage: $0 <pool-data-file> [<base-ip>] [<node-cnt>] [<node-start-port>] [<cli-cnt>] [<pool-ips>]"
+        exit 1
 fi
 
 if [ -z "$BASE_IP" ]; then
-	BASE_IP="10.0.0."
+        BASE_IP="10.0.0."
 fi
 
 if [ -z "$CNT" ]; then
-	CNT=4
+        CNT=4
 fi
 
 if [ -z "$CLI_CNT" ]; then
-	CLI_CNT=10
+        CLI_CNT=10
 fi
 
 if [ -z "$START_PORT" ]; then
-	START_PORT=9701
+        START_PORT=9701
 fi
 
 if [ -z "$IPS" ]; then
-	for i in `seq 1 $CNT`; do
-		ADDR=$((i+1))
-		IP="${BASE_IP}${ADDR}"
-		IPS="${IPS},${IP}"
-	done
-	IPS=${IPS:1}
+        for i in `seq 1 $CNT`; do
+                ADDR=$((i+1))
+                IP="${BASE_IP}${ADDR}"
+                IPS="${IPS},${IP}"
+        done
+        IPS=${IPS:1}
 fi
 
 if [ -z "$POOL_DATA_FILE" ]; then
-	POOL_DATA_FILE="pool_data"
+        POOL_DATA_FILE="pool_data"
 fi
 
 if [ -f "$POOL_DATA_FILE" ]; then
-	$SCRIPT_DIR/pool_stop.sh "$POOL_DATA_FILE" "pool-network"
+        $SCRIPT_DIR/pool_stop.sh "$POOL_DATA_FILE" "pool-network"
 fi
 
 echo "Creating pool of ${CNT} nodes with ips ${IPS}"
@@ -57,14 +57,14 @@ IFS=','
 IPS_ARRAY=($IPS)
 IFS=$ORIGINAL_IFS
 for i in `seq 1 $CNT`; do
-	NODE_NAME="${BASE_NODE_NAME}${i}"
-	NPORT=$PORT
-	((PORT++))
-	CPORT=$PORT
-	((PORT++))
-	NODE_IMAGE_TAG="$(echo "$NODE_NAME" | tr '[:upper:]' '[:lower:]')"
-	POOL_DATA="${POOL_DATA},$NODE_IMAGE_TAG ${IPS_ARRAY[i-1]} $NPORT $CPORT"
-	$SCRIPT_DIR/node_build.sh $NODE_NAME $NPORT $CPORT $NODE_IMAGE_TAG  "${IPS}" $CNT $CLI_CNT $i
+        NODE_NAME="${BASE_NODE_NAME}${i}"
+        NPORT=$PORT
+        ((PORT++))
+        CPORT=$PORT
+        ((PORT++))
+        NODE_IMAGE_TAG="$(echo "$NODE_NAME" | tr '[:upper:]' '[:lower:]')"
+        POOL_DATA="${POOL_DATA},$NODE_IMAGE_TAG ${IPS_ARRAY[i-1]} $NPORT $CPORT"
+        $SCRIPT_DIR/node_build.sh $NODE_NAME $NPORT $CPORT $NODE_IMAGE_TAG  "${IPS}" $CNT $CLI_CNT $i
 done
 POOL_DATA=${POOL_DATA:1}
 
