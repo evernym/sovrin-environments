@@ -11,7 +11,7 @@ BASE_IP="10.0.0."
 POOL_DATA=""
 
 if [ "$CNT" = "--help" ]; then
-        echo "Usage: $0 <node-cnt> <pool-ips> <cli-cnt> <node-start-port>"
+        echo "Usage: $0 <node-cnt> <pool-ips> <cli-cnt> <node-start-port> [<pool-network-name>]"
         exit 1
 fi
 
@@ -32,13 +32,13 @@ docker network create --subnet=$SUBNET "$POOL_NETWORK_NAME"
 
 echo "Starting pool"
 for NODE_DATA in "${POOL_DATA[@]}"; do
-    IFS=" "
-    NODE_DATA=($NODE_DATA)
-    IMAGE_NAME=${NODE_DATA[0]}
-    NODE_IP=${NODE_DATA[1]}
-    NODE_PORT=${NODE_DATA[2]}
-    CLI_PORT=${NODE_DATA[3]}
-    $SCRIPT_DIR/node_start.sh "$IMAGE_NAME" $NODE_IP "$POOL_NETWORK_NAME" $NODE_PORT $CLI_PORT
+        IFS=" "
+        NODE_DATA=($NODE_DATA)
+        IMAGE_NAME=${NODE_DATA[0]}
+        NODE_IP=${NODE_DATA[1]}
+        NODE_PORT=${NODE_DATA[2]}
+        CLI_PORT=${NODE_DATA[3]}
+        $SCRIPT_DIR/node_start.sh "$IMAGE_NAME" $NODE_IP "$POOL_NETWORK_NAME" $NODE_PORT $CLI_PORT
 done
 IFS=$ORIGINAL_IFS
 echo "Pool started"
