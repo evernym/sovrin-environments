@@ -9,18 +9,18 @@ CLI_PORT="$5"
 SCRIPT_DIR=$(dirname $0)
 
 if [ "$IMAGE_NAME" = "--help" ]; then
-        echo "Usage: $0 <image-name> <node-ip> <pool-network-name>"
-        exit 1
+	echo "Usage: $0 <image-name> <node-ip> <pool-network-name>"
+	exit 1
 fi
 
 if [ -z "$POOL_NETWORK_NAME" ] || [ -z "$IMAGE_NAME" ] || [ -z "$NODE_IP" ]; then
-    echo "Invalid arguments. Try --help for usage."
-    exit 1
+	echo "Invalid arguments. Try --help for usage."
+	exit 1
 fi
 
 if [[ $(docker ps -f name="$IMAGE_NAME" | grep -w "$IMAGE_NAME" | wc -l) -gt 0 ]]; then
-    echo "Removing old container $IMAGE_NAME"
-    docker rm -fv "$IMAGE_NAME"
+	echo "Removing old container $IMAGE_NAME"
+	docker rm -fv "$IMAGE_NAME"
 fi
 
 echo "Starting node $IMAGE_NAME $NODE_IP"
