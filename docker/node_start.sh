@@ -26,4 +26,4 @@ fi
 echo "Starting node $IMAGE_NAME $NODE_IP"
 docker run -td -p $NODE_PORT:$NODE_PORT -p $CLI_PORT:$CLI_PORT --memory="1512m" --name=$IMAGE_NAME --ip="${NODE_IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
 docker exec -td $IMAGE_NAME systemctl start sovrin-node
-echo "Node started"
+echo "Node $IMAGE_NAME started on $NODE_IP"
