@@ -25,7 +25,7 @@ ORIGINAL_IFS=$IFS
 IFS=","
 POOL_DATA=($POOL_DATA)
 
-echo "Creating pool network"
+echo "Creating pool network $POOL_NETWORK_NAME"
 SUBNET="${BASE_IP}0/8"
 (($(docker network ls -f name="$POOL_NETWORK_NAME" | grep -w "$POOL_NETWORK_NAME" | wc -l))) && docker network rm "$POOL_NETWORK_NAME"
 docker network create --subnet=$SUBNET "$POOL_NETWORK_NAME"
