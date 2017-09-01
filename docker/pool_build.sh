@@ -1,44 +1,74 @@
 #!/bin/bash
 
-CNT="$1"
-IPS="$2"
-CLI_CNT="$3"
-START_PORT="$4"
-POOL_NETWORK_NAME="${5:-pool-network}"
+POOL_DATA_FILE="$1"
+BASE_IP="$2"
+CNT="$3"
+NODE_START_PORT="$4"
+CLI_CNT="$5"
+IPS="$6"
+BASE_NODE_NAME="Node"
 SCRIPT_DIR=$(dirname $0)
-POOL_DATA_FILE="pool_data"
-BASE_IP="10.0.0."
 POOL_DATA=""
 
+echo "$CNT $IPS $CLI_CNT"
+
 if [ "$CNT" = "--help" ]; then
-        echo "Usage: $0 <node-cnt> <pool-ips> <cli-cnt> <node-start-port>"
+        echo "Usage: $0 <pool-data-file> [<base-ip>] [<node-cnt>] [<node-start-port>] [<cli-cnt>] [<pool-ips>]"
         exit 1
 fi
 
-echo "Creating pool"
-$SCRIPT_DIR/pool_build.sh $POOL_DATA_FILE $BASE_IP $CNT $START_PORT $CLI_CNT $IPS
+if [ -z "$BASE_IP" ]; then
+    BASE_IP="10.0.0."
+fi
 
-echo "Reading pool data"
-read -r POOL_DATA < $POOL_DATA_FILE
-echo "Pool data is ${POOL_DATA}"
+if [ -z "$CNT" ]; then
+        CNT=4
+fi
+
+if [ -z "$CLI_CNT" ]; then
+        CLI_CNT=10
+fi
+
+if [ -z "$START_PORT" ]; then
+        START_PORT=9701
+fi
+
+if [ -z "$IPS" ]; then
+    for i in `seq 1 $CNT`; do
+        ADDR=$((i+1))
+        IP="${BASE_IP}${ADDR}"
+        IPS="${IPS},${IP}"
+    done
+    IPS=${IPS:1}
+fi
+
+if [ -z "$POOL_DATA_FILE" ]; then
+        POOL_DATA_FILE="pool_data"
+fi
+
+if [ -f "$POOL_DATA_FILE" ]; then
+    $SCRIPT_DIR/pool_stop.sh "$POOL_DATA_FILE" "pool-network"
+fi
+
+echo "Creating pool of ${CNT} nodes with ips ${IPS}"
+PORT=$START_PORT
 ORIGINAL_IFS=$IFS
-IFS=","
-POOL_DATA=($POOL_DATA)
-
-echo "Creating pool network"
-SUBNET="${BASE_IP}0/8"
-(($(docker network ls -f name="$POOL_NETWORK_NAME" | grep -w "$POOL_NETWORK_NAME" | wc -l))) && docker network rm "$POOL_NETWORK_NAME"
-docker network create --subnet=$SUBNET "$POOL_NETWORK_NAME"
-
-echo "Starting pool"
-for NODE_DATA in "${POOL_DATA[@]}"; do
-    IFS=" "
-    NODE_DATA=($NODE_DATA)
-    IMAGE_NAME=${NODE_DATA[0]}
-    NODE_IP=${NODE_DATA[1]}
-    NODE_PORT=${NODE_DATA[2]}
-    CLI_PORT=${NODE_DATA[3]}
-    $SCRIPT_DIR/node_start.sh "$IMAGE_NAME" $NODE_IP "$POOL_NETWORK_NAME" $NODE_PORT $CLI_PORT
-done
+IFS=','
+IPS_ARRAY=($IPS)
 IFS=$ORIGINAL_IFS
-echo "Pool started"
+for i in `seq 1 $CNT`; do
+    NODE_NAME="${BASE_NODE_NAME}${i}"
+    NPORT=$PORT
+    ((PORT++))
+    CPORT=$PORT
+    ((PORT++))
+    NODE_IMAGE_TAG="$(echo "$NODE_NAME" | tr '[:upper:]' '[:lower:]')"
+    POOL_DATA="${POOL_DATA},$NODE_IMAGE_TAG ${IPS_ARRAY[i-1]} $NPORT $CPORT"
+    $SCRIPT_DIR/node_build.sh $NODE_NAME $NPORT $CPORT $NODE_IMAGE_TAG  "${IPS}" $CNT $CLI_CNT $i
+done
+POOL_DATA=${POOL_DATA:1}
+
+echo "Writing pool data $POOL_DATA to file $POOL_DATA_FILE"
+echo "$POOL_DATA" > $POOL_DATA_FILE
+
+echo "Pool created"
