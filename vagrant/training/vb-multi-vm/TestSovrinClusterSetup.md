@@ -43,6 +43,12 @@ Help](https://www.vagrantup.com/docs/cli/)
 This downloads a Vagrant "box" for Ubuntu 16.04 (LTS) onto your PC.  Think of
 your "box" as an VM image, similar to an AWS AMI or a VMware OVA.
  
+> **Tip:** Try this if you get the error "The box 'bento/ubuntu-1604' could not be found"
+>   * `git clone https://github.com/chef/bento`
+>   * `cd bento/ubuntu`
+>   * `packer build ubuntu-16.04-i386.json` # adjust for your environment
+>   * `vagrant box add ../builds/ubuntu-16.04-i386.virtualbox.box --name bento/ubuntu1604`
+ 
 ## Download Vagrant script and bash scripts
 
 Scripts to spin up Sovrin Validator and Agent nodes are available on github, in
