@@ -3,10 +3,10 @@
 
 # Make sure to be using the vagrant-vbguest plugin
 
-agent_box        = 'boxcutter/ubuntu1604'
+agent_box        = 'bento/ubuntu-1604'
 agent_cpus       = '1'
 agent_memory     = '768'
-validator_box    = 'boxcutter/ubuntu1604'
+validator_box    = 'bento/ubuntu-1604'
 validator_cpus   = '1'
 validator_memory = '1536'
 
