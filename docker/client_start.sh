@@ -7,13 +7,13 @@ IMAGE_NAME="sovrinclient"
 SCRIPT_DIR=$(dirname $0)
 
 if [ "$CNT" = "--help" ]; then
-	echo "Usage: $0 <client-ip> <pool-network-name>"
-	exit 1
+        echo "Usage: $0 <client-ip> <pool-network-name>"
+        exit 1
 fi
 
 if [ -z "$POOL_NETWORK_NAME" ] || [ -z "$IP" ]; then
-	echo "Invalid arguments. Try --help for usage."
-	exit 1
+        echo "Invalid arguments. Try --help for usage."
+        exit 1
 fi
 
 $SCRIPT_DIR/client_stop.sh
