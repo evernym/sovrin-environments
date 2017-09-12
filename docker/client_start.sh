@@ -12,11 +12,14 @@ if [ "$CNT" = "--help" ]; then
 fi
 
 if [ -z "$POOL_NETWORK_NAME" ] || [ -z "$IP" ]; then
-	echo "Invalid arguments. Try --help for usage."
-	exit 1
+        echo "Invalid arguments. Try --help for usage."
+        exit 1
 fi
 
-echo "Removing old container"
-docker rm -fv $IMAGE_NAME
-echo "Starting client $IMAGE_NAME $NODE_IP"
-docker run -it --rm --memory="1512m" --name=$IMAGE_NAME --ip="${NODE_IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
+$SCRIPT_DIR/client_stop.sh
+
+echo "Starting container $IMAGE_NAME at $IP"
+docker run -itd --rm --memory="1512m" --name=$IMAGE_NAME --ip="${IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
+
+echo "Starting sovrin client"
+docker exec -it $IMAGE_NAME sovrin
