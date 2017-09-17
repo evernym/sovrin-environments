@@ -26,7 +26,7 @@ Container is retained after sovrin shell is closed. Executing ```client_stop.sh`
 
 # Start agents (optional)
 
-If you are planning to run the Sovrin Tutorial (about Emily, her transcripts, job and bank), start the organization Sovrin Agents using the instructions in [StartSovrinAgents.md](StartSovrinAgents.md) in this folder.
+If you are planning to run the Sovrin Tutorial (about Alice, her transcripts, job, and bank), start the organization Sovrin Agents using the instructions in [StartSovrinAgents.md](StartSovrinAgents.md) in this folder.
 
 # Stop pool
 ```
