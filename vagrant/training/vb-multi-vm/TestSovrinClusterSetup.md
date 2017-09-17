@@ -5,7 +5,7 @@ Validator nodes for testing and learning about Sovrin.  Additional servers
 acting as Sovrin Agents can also be provisioned on an ad-hoc basis, using this
 framework.  Using this guide, VirtualBox VMs will be used as the basis for
 creating a four-Validator network appropriate for completing the [*Getting
-Started Guide*](https://github.com/sovrin-foundation/sovrin-client/blob/master/getting-started.md)
+Started Guide*](https://github.com/hyperledger/indy-node/blob/master/getting-started.md)
 and for other purposes.
 
 ### Assumptions
