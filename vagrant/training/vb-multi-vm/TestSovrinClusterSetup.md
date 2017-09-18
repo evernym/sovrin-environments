@@ -38,7 +38,7 @@ Help](https://www.vagrantup.com/docs/cli/)
   using the normal procedures for your OS.
 * run this command from a terminal window:
   ```sh
-  $ vagrant box add bento/ubuntu-1604
+  $ vagrant box add bento/ubuntu-16.04
   ```
 This downloads a Vagrant "box" for Ubuntu 16.04 (LTS) onto your PC.  Think of
 your "box" as an VM image, similar to an AWS AMI or a VMware OVA.
