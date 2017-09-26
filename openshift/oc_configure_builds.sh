@@ -30,13 +30,13 @@ if [ -z "$PROJECT_NAME" ]; then
 fi
 
 if [ -z "$GIT_REF" ]; then
-	GIT_REF="OpenShift"
+	GIT_REF="master"
 	echo "Defaulting 'GIT_REF' to ${GIT_REF} ..."
 	echo
 fi
 
 if [ -z "$GIT_URI" ]; then
-	GIT_URI="https://github.com/WadeBarnes/sovrin-environments.git"
+	GIT_URI="https://github.com/evernym/sovrin-environments.git"
 	echo "Defaulting 'GIT_URI' to ${GIT_URI} ..."
 	echo
 fi
