@@ -939,55 +939,55 @@
     "Mappings": {
         "validator": {
             "ap-northeast-1": {
-                "ami": "ami-62edf205",
+                "ami": "ami-aae114cc",
                 "hostname": "japan"
             },
             "ap-northeast-2": {
-                "ami": "ami-4db06e23",
+                "ami": "ami-d24e97bc",
                 "hostname": "korea"
             },
             "ap-southeast-1": {
-                "ami": "ami-b869e3db",
+                "ami": "ami-e8da418b",
                 "hostname": "singapore"
             },
             "ap-southeast-2": {
-                "ami": "ami-08eaf86b",
+                "ami": "ami-49b3aa2a",
                 "hostname": "australia"
             },
             "ca-central-1": {
-                "ami": "ami-4d77c829",
+                "ami": "ami-b3cf71d7",
                 "hostname": "canada"
             },
             "eu-central-1": {
-                "ami": "ami-3d48e852",
+                "ami": "ami-9c1db3f3",
                 "hostname": "germany"
             },
             "eu-west-1": {
-                "ami": "ami-841ffefd",
+                "ami": "ami-016f9e78",
                 "hostname": "ireland"
             },
             "eu-west-2": {
-                "ami": "ami-a5c8dec1",
+                "ami": "ami-fde6f799",
                 "hostname": "england"
             },
             "sa-east-1": {
-                "ami": "ami-a46613c8",
+                "ami": "ami-7ad8ae16",
                 "hostname": "brazil"
             },
             "us-east-1": {
-                "ami": "ami-9a0c088c",
+                "ami": "ami-b391b9c8",
                 "hostname": "virginia"
             },
             "us-east-2": {
-                "ami": "ami-d7eecfb2",
+                "ami": "ami-a7aa8ac2",
                 "hostname": "ohio"
             },
             "us-west-1": {
-                "ami": "ami-e0f3dc80",
+                "ami": "ami-8edbf0ee",
                 "hostname": "california"
             },
             "us-west-2": {
-                "ami": "ami-16f5e66f",
+                "ami": "ami-9d04e4e5",
                 "hostname": "oregon"
             }
         },
