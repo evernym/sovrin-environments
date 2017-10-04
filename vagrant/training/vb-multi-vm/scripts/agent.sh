@@ -37,7 +37,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y debsigs debsig-verify apt-tran
 
 #--------------------------------------------------------
 echo 'Generating Genesis Transaction Files'
-su - vagrant -c "generate_sovrin_pool_transactions --nodes 4 --clients 4 --ips '10.20.30.201,10.20.30.202,10.20.30.203,10.20.30.204'"
+su - vagrant -c "generate_indy_pool_transactions --nodes 4 --clients 4 --ips '10.20.30.201,10.20.30.202,10.20.30.203,10.20.30.204'"
 
 #--------------------------------------------------------
 echo 'Cleaning Up'
