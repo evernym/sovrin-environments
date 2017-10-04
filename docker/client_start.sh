@@ -6,7 +6,7 @@ POOL_NETWORK_NAME="$2"
 IMAGE_NAME="sovrinclient"
 SCRIPT_DIR=$(dirname $0)
 
-if [ "$CNT" = "--help" ]; then
+if [ "$IP" = "--help" ]; then
         echo "Usage: $0 <client-ip> <pool-network-name>"
         exit 1
 fi
@@ -21,5 +21,5 @@ $SCRIPT_DIR/client_stop.sh
 echo "Starting container $IMAGE_NAME at $IP"
 docker run -itd --rm --memory="1512m" --name=$IMAGE_NAME --ip="${IP}" --network=$POOL_NETWORK_NAME --security-opt seccomp=unconfined --tmpfs /run --tmpfs /run/lock -v /sys/fs/cgroup:/sys/fs/cgroup:ro $IMAGE_NAME
 
-echo "Starting sovrin client"
-docker exec -it $IMAGE_NAME sovrin
+echo "Starting indy client"
+docker exec -it $IMAGE_NAME indy

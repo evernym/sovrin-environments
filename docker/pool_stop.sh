@@ -6,7 +6,7 @@ POOL_NETWORK_NAME="$2"
 SCRIPT_DIR=$(dirname $0)
 POOL_DATA=""
 
-if [ "$CNT" = "--help" ]; then
+if [ "$POOL_DATA_FILE" = "--help" ]; then
         echo "Usage: $0 [<pool-data-file>] [<pool-network-name>]"
         exit 1
 fi
