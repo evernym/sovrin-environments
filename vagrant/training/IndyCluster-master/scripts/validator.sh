@@ -20,32 +20,32 @@ add-apt-repository "deb https://repo.evernym.com/deb xenial master"
 add-apt-repository "deb https://repo.sovrin.org/deb xenial master"
 apt-get update
 #DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
-DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin-node tmux vim wget
+DEBIAN_FRONTEND=noninteractive apt-get install -y dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin tmux vim wget
 
 #--------------------------------------------------------
-echo 'Setting Up Sovrin Node'
-su - sovrin -c "init_sovrin_node $HOSTNAME $NODEPORT $CLIENTPORT"
-systemctl start sovrin-node
-systemctl enable sovrin-node
-systemctl status sovrin-node.service
-su - sovrin -c "generate_sovrin_pool_transactions --nodes 4 --clients 4 --ips '10.20.30.201,10.20.30.202,10.20.30.203,10.20.30.204'"
+echo 'Setting Up Indy Node'
+su - indy -c "init_indy_node $HOSTNAME $NODEPORT $CLIENTPORT"
+systemctl start indy-node
+systemctl enable indy-node
+systemctl status indy-node.service
+su - indy -c "generate_indy_pool_transactions --nodes 4 --clients 4 --ips '10.20.30.201,10.20.30.202,10.20.30.203,10.20.30.204'"
 
 #--------------------------------------------------------
 echo 'Fixing Bugs'
-if grep -Fxq '[Install]' /etc/systemd/system/sovrin-node.service
+if grep -Fxq '[Install]' /etc/systemd/system/indy-node.service
 then
-  echo '[Install] section is present in sovrin-node target'
+  echo '[Install] section is present in indy-node target'
 else 
-  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service
+  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/indy-node.service
 fi
 chmod -x /etc/systemd/system/orientdb.service
-if grep -Fxq 'SendMonitorStats' /home/sovrin/.sovrin/sovrin_config.py
+if grep -Fxq 'SendMonitorStats' /home/indy/.indy/indy_config.py
 then
-  echo 'SendMonitorStats is configured in sovrin_config.py'
+  echo 'SendMonitorStats is configured in indy_config.py'
 else
-  echo 'SendMonitorStats = False' > /home/sovrin/.sovrin/sovrin_config.py
+  echo 'SendMonitorStats = False' > /home/indy/.indy/indy_config.py
 fi
-chown sovrin:sovrin /home/sovrin/.sovrin/sovrin_config.py
+chown indy:indy /home/indy/.indy/indy_config.py
 
 #--------------------------------------------------------
 echo 'Cleaning Up'
