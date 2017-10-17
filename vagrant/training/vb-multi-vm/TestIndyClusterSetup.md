@@ -1,8 +1,8 @@
-# Setting Up a Test Sovrin Network in VMs
+# Setting Up a Test Indy Network in VMs
 
-This document will guide you in configuring a private network of Sovrin
-Validator nodes for testing and learning about Sovrin.  Additional servers
-acting as Sovrin Agents can also be provisioned on an ad-hoc basis, using this
+This document will guide you in configuring a private network of Indy
+Validator nodes for testing and learning about Indy.  Additional servers
+acting as Indy Agents can also be provisioned on an ad-hoc basis, using this
 framework.  Using this guide, VirtualBox VMs will be used as the basis for
 creating a four-Validator network appropriate for completing the [*Getting
 Started Guide*](https://github.com/hyperledger/indy-node/blob/master/getting-started.md)
@@ -27,7 +27,7 @@ on OSX, Linux and Windows PCs.
 
 Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with
 VirtualBox, ESX, AWS, and others.  We will be using it to run scripts provided
-to you for creating VirtualBox VMs that will be our Sovrin Validator and Agent
+to you for creating VirtualBox VMs that will be our Indy Validator and Agent
 nodes.  In addition to controlling VM provisioning, the Vagrant script will
 remotely execute a configuration script on each node.  You will also be able to
 use Vagrant commands to ssh login to the nodes, and to halt them or even to
@@ -51,7 +51,7 @@ your "box" as an VM image, similar to an AWS AMI or a VMware OVA.
  
 ## Download Vagrant script and bash scripts
 
-Scripts to spin up Sovrin Validator and Agent nodes are available on github, in
+Scripts to spin up Indy Validator and Agent nodes are available on github, in
 the same location as this document.  If you have not already done so, install
 git on your machine, then clone the repository to your local machine.  This is
 the quickest way to get all the necessary files (plus more).  Then go into the
@@ -62,10 +62,10 @@ $ git clone https://github.com/evernym/sovrin-environments.git
 $ cd sovrin-environments/vagrant/training/vb-multi-vm
 ```
 
-At this point, you have all the artifacts necessary to create a Sovrin cluster
+At this point, you have all the artifacts necessary to create an Indy cluster
 on VMs in your PC. Next, we will proceed to set up the cluster.
  
-## Set Up Cluster of Sovrin Validator Nodes
+## Set Up Cluster of Indy Validator Nodes
 
 The file that you see in the current directory, called "Vagrantfile", contains
 the instructions that Vagrant will follow to command VirtualBox to provision
@@ -107,7 +107,7 @@ $ vagrant up
 
 This command will take several minutes to complete, as each VM is provisioned
 and its vagrant.sh script is executed.  After provisioning, each of these nodes
-automatically joins the Sovrin Validator cluster.  
+automatically joins the Indy Validator cluster.
 
 
 > **Tip:** It may be instructive to examine the scripts/vagrant.sh file to see
@@ -126,49 +126,49 @@ $ vagrant ssh validator01
 Login is seamless since Vagrant automatically generates and configures an ssh
 key pair for access.
 
-## Setting Up a CLI Client and Configuring the Agents in the Sovrin Cluster
+## Setting Up a CLI Client and Configuring the Agents in the Indy Cluster
 
 You will need to have a term session to ssh into one of these nodes, which will
 be used as an interactive CLI client.  With this you will be able to interact
-with the Sovrin Validator cluster and with the Agents.  If you are doing the
+with the Indy Validator cluster and with the Agents.  If you are doing the
 Getting Started Guide, two roles will be performed using the CLI client.
-First, you will use it in the role of a Sovrin Steward, a privileged user who
-will be used to register and configure the Agents on the Sovrin Validator
+First, you will use it in the role of an Indy Steward, a privileged user who
+will be used to register and configure the Agents on the Indy Validator
 cluster that we have set up.  Later, you will use the CLI client in the role of
 Alice, a user who has various interactions with the Agents that are facilitated
-by Sovrin.
+by Indy.
 
 In a term window, you will now ssh into `cli01`, bring up the CLI, and
-configure the CLI to communicate with the "test" Sovrin Validator cluster that
+configure the CLI to communicate with the "test" Indy Validator cluster that
 we have configured here. 
 
 ```sh
 $ vagrant ssh cli01
-vagrant@cli01:~$ sovrin
-sovrin> connect test
+vagrant@cli01:~$ indy
+indy> connect test
 ```
 
-The next task is to register the Agents that we will be using with Sovrin.  We
+The next task is to register the Agents that we will be using with Indy.  We
 must do this before starting the Agent processes in the other nodes, since
-these processes expect to be registered in Sovrin before starting. In order to
-do the registration, we must be able to authenticate to Sovrin as a Steward.
+these processes expect to be registered in Indy before starting. In order to
+do the registration, we must be able to authenticate to Indy as a Steward.
 In our test cluster, there is a pre-configured user called `Steward1` with a
 known key that we are able to use.  In the CLI, type:
 
 ```
-sovrin@test> new key with seed 000000000000000000000000Steward1
+indy@test> new key with seed 000000000000000000000000Steward1
 ```
 
 Now that the CLI client can authenticate as the `Steward1` user, we can put
-transactions into the Sovrin Validator cluster that will register each agent
+transactions into the Indy Validator cluster that will register each agent
 and establish its endpoint attribute.  To register the agents used in the
 Getting Started Guide, first, as the Steward, add each of the three agent's
 Trust Anchor to the ledger.:
 
 ```
-sovrin@test> send NYM dest=ULtgFQJe6bjiFbs7ke3NJD role=TRUST_ANCHOR verkey=~5kh3FB4H3NKq7tUDqeqHc1
-sovrin@test> send NYM dest=CzkavE58zgX7rUMrzSinLr role=TRUST_ANCHOR verkey=~WjXEvZ9xj4Tz9sLtzf7HVP
-sovrin@test> send NYM dest=H2aKRiDeq8aLZSydQMDbtf role=TRUST_ANCHOR verkey=~3sphzTb2itL2mwSeJ1Ji28
+indy@test> send NYM dest=ULtgFQJe6bjiFbs7ke3NJD role=TRUST_ANCHOR verkey=~5kh3FB4H3NKq7tUDqeqHc1
+indy@test> send NYM dest=CzkavE58zgX7rUMrzSinLr role=TRUST_ANCHOR verkey=~WjXEvZ9xj4Tz9sLtzf7HVP
+indy@test> send NYM dest=H2aKRiDeq8aLZSydQMDbtf role=TRUST_ANCHOR verkey=~3sphzTb2itL2mwSeJ1Ji28
 ```
 
 In the first of the above commands, `~5kh3FB4H3NKq7tUDqeqHc1` is the
@@ -184,17 +184,17 @@ his information on the ledger, we must assume the proper identity before
 posting each transaction.
 
 ```
-sovrin@test> new key with seed Faber000000000000000000000000000
-sovrin@test> send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.20.30.101:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
-sovrin@test> new key with seed Acme0000000000000000000000000000
-sovrin@test> send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint": {"ha": "10.20.30.102:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
-sovrin@test> new key with seed Thrift00000000000000000000000000
-sovrin@test> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.20.30.103:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
+indy@test> new key with seed Faber000000000000000000000000000
+indy@test> send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.20.30.101:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
+indy@test> new key with seed Acme0000000000000000000000000000
+indy@test> send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint": {"ha": "10.20.30.102:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
+indy@test> new key with seed Thrift00000000000000000000000000
+indy@test> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.20.30.103:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
 ```
 
 ### Starting the Agent Processes
 
-Now that the Agents are registered with the Sovrin cluster, the Agent processes
+Now that the Agents are registered with the Indy cluster, the Agent processes
 can be started on their respective nodes.  You will need to `vagrant ssh` into
 each one of them and start the agent process manually.  If you are setting up
 to run through the getting started guide, bring up a terminal, go into the
@@ -203,7 +203,7 @@ the "Faber College" agent process.
 
 ````sh
 $ vagrant ssh agent01
-vagrant@agent01:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/faber.py  --port 5555
+vagrant@agent01:~$ python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/faber.py  --port 5555
 ```
 
 You will see logging output to the screen.  In another term window (or tab),
@@ -211,7 +211,7 @@ ssh into agent02 and bring up the "Acme Corp" agent process:
 
 ````sh
 $ vagrant ssh agent02
-vagrant@agent02:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/acme.py  --port 6666
+vagrant@agent02:~$ python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/acme.py  --port 6666
 ```
 
 In another term window (or tab), ssh into agent03 and bring up the "Thrift
@@ -219,28 +219,28 @@ Bank" agent process:
 
 ```sh
 $ vagrant ssh agent03
-vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py  --port 7777
+vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/thrift.py  --port 7777
 ````
 
-Congratulations!  Your Sovrin four-Validator cluster, along with Agent nodes as
+Congratulations!  Your Indy four-Validator cluster, along with Agent nodes as
 desired, is complete.  Now, in the CLI client on `cli01`, type quit to exit the
 CLI.  If you are doing the Getting Started Guide you are ready to proceed,
-using `cli01` for the interactive 'Alice' client.  In `cli01`, type sovrin to
+using `cli01` for the interactive 'Alice' client.  In `cli01`, type indy
 once again to bring up the CLI prompt, and continue with the guide.
 
 ```
-vagrant@cli01:~$ sovrin
+vagrant@cli01:~$ indy
 Loading module /usr/local/lib/python3.5/dist-packages/config/config-crypto-example1.py
 Module loaded.
 
-Sovrin-CLI (c) 2017 Evernym, Inc.
+Indy-CLI (c) 2017 Evernym, Inc.
 Node registry loaded.
     Node1: 10.20.30.201:9701
     Node2: 10.20.30.202:9703
     Node3: 10.20.30.203:9705
     Node4: 10.20.30.204:9707
 Type 'help' for more information.
-Running Sovrin 0.3.15
+Running Indy 0.3.15
 
-sovrin>    
+indy>
 ```

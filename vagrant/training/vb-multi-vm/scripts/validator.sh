@@ -41,28 +41,28 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y debsigs debsig-verify apt-tran
 #--------------------------------------------------------
 [[ $HOSTNAME =~ [^0-9]*([0-9]*) ]]
 NODENUM=${BASH_REMATCH[1]}
-echo "Setting Up Sovrin Node Number $NODENUM"
-su - sovrin -c "init_sovrin_node $HOSTNAME $NODEPORT $CLIENTPORT"  # set up /home/sovrin/.sovrin/sovrin.env
-su - sovrin -c "generate_sovrin_pool_transactions --nodes 4 --clients 4 --nodeNum $NODENUM --ips '10.20.30.201,10.20.30.202,10.20.30.203,10.20.30.204'"
-systemctl start sovrin-node
-systemctl enable sovrin-node
-systemctl status sovrin-node.service
+echo "Setting Up Indy Node Number $NODENUM"
+su - indy -c "init_indy_node $HOSTNAME $NODEPORT $CLIENTPORT"  # set up /home/indy/.indy/indy.env
+su - indy -c "generate_indy_pool_transactions --nodes 4 --clients 4 --nodeNum $NODENUM --ips '10.20.30.201,10.20.30.202,10.20.30.203,10.20.30.204'"
+systemctl start indy-node
+systemctl enable indy-node
+systemctl status indy-node.service
 
 #--------------------------------------------------------
 echo 'Fixing Bugs'
-if grep -Fxq '[Install]' /etc/systemd/system/sovrin-node.service
+if grep -Fxq '[Install]' /etc/systemd/system/indy-node.service
 then
-  echo '[Install] section is present in sovrin-node target'
+  echo '[Install] section is present in indy-node target'
 else
-  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/sovrin-node.service
+  perl -p -i -e 's/\\n\\n/[Install]\\nWantedBy=multi-user.target\\n/' /etc/systemd/system/indy-node.service
 fi
-if grep -Fxq 'SendMonitorStats' /home/sovrin/.sovrin/sovrin_config.py
+if grep -Fxq 'SendMonitorStats' /home/indy/.indy/indy_config.py
 then
-  echo 'SendMonitorStats is configured in sovrin_config.py'
+  echo 'SendMonitorStats is configured in indy_config.py'
 else
-  echo 'SendMonitorStats = False' >> /home/sovrin/.sovrin/sovrin_config.py
+  echo 'SendMonitorStats = False' >> /home/indy/.indy/indy_config.py
 fi
-chown sovrin:sovrin /home/sovrin/.sovrin/sovrin_config.py
+chown indy:indy /home/indy/.indy/indy_config.py
 
 #--------------------------------------------------------
 echo 'Cleaning Up'
