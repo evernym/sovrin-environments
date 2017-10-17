@@ -180,14 +180,11 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
   loop do
     user_input = $stdin.gets.chomp
     case user_input
-    when "Y"
-    when "y"
+    when "Y", "y"
       puts "Code will be built during VM provisioning..."
       development_run_build = "Y"
       break
-    when "N"
-    when "n"
-    when ""
+    when "N", "n", ""
       puts "Code will NOT be built during VM provisioning..."
       development_run_build = "N"
       break
@@ -206,14 +203,11 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
     loop do
       user_input = $stdin.gets.chomp
       case user_input
-      when "Y"
-      when "y"
+      when "Y", "y"
         puts "Test will be run during VM provisioning..."
         development_run_tests = 'Y'
         break
-      when "N"
-      when "n"
-      when ""
+      when "N", "n", ""
         puts "Tests will NOT be run during VM provisioning..."
         development_run_tests = 'N'
         break
@@ -346,6 +340,11 @@ Vagrant.configure("2") do |config|
       vb.cpus   = development_cpus
       vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
     end
+    # Uncomment the following line to set the default bridge.
+    # The bridge string MUST match your connection exactly as
+    # it appears when you are prompted to select a bridge during
+    # provisioning.
+    #default.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
     development.vm.provision "shell" do |s|
       s.inline = $script
       s.args   = [
