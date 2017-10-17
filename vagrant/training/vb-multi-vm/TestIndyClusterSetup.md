@@ -5,7 +5,7 @@ Validator nodes for testing and learning about Indy.  Additional servers
 acting as Indy Agents can also be provisioned on an ad-hoc basis, using this
 framework.  Using this guide, VirtualBox VMs will be used as the basis for
 creating a four-Validator network appropriate for completing the [*Getting
-Started Guide*](https://github.com/hyperledger/indy-node/blob/master/getting-started.md)
+Started Guide*](https://github.com/hyperledger/indy-node/blob/stable/getting-started.md)
 and for other purposes.
 
 ### Assumptions
@@ -15,13 +15,18 @@ computer with ample memory, CPU cores, and storage available.  A MacBook Pro
 was used while writing this, but it should be easily adapted to other capable
 computers.
 
+Also, be aware that if during this process, you close out one agent or the CLI before instructed to, it may effect the performance and behavior of the other terminals you're working with. If you find that relaunching the terminal and reaccessing the CLI or the specific agent you closed does not fix the problem, you'll need to essentially start over with this process, which may be more time consuming than you originally planned.
+
+It is best to work through this slowly and carefully. In the past, others have made errors during this process and have found that starting over completely was the only way to "fix it". If this process is not done correctly, you will not be able to run through the "Getting Started Guide" successfully.
+
+
 ### Installing VirtualBox
 
 VirtualBox is a (FREE!) hypervisor technology similar to VMware's ESX that runs
 on OSX, Linux and Windows PCs.  
 
 * [Download VirtualBox](https://www.virtualbox.org/wiki/Downloads) and install
-  it using the normal procedures for your OS. 
+  it using the normal procedures for your OS.
 
 ### Install Vagrant
 
@@ -42,21 +47,21 @@ Help](https://www.vagrantup.com/docs/cli/)
   ```
 This downloads a Vagrant "box" for Ubuntu 16.04 (LTS) onto your PC.  Think of
 your "box" as an VM image, similar to an AWS AMI or a VMware OVA.
- 
+
 > **Tip:** Try this if you get the error "The box 'bento/ubuntu-1604' could not be found"
 >   * `git clone https://github.com/chef/bento`
 >   * `cd bento/ubuntu`
 >   * `packer build ubuntu-16.04-i386.json` # adjust for your environment
 >   * `vagrant box add ../builds/ubuntu-16.04-i386.virtualbox.box --name bento/ubuntu1604`
- 
+
 ## Download Vagrant script and bash scripts
 
 Scripts to spin up Indy Validator and Agent nodes are available on github, in
 the same location as this document.  If you have not already done so, install
 git on your machine, then clone the repository to your local machine.  This is
-the quickest way to get all the necessary files (plus more).  Then go into the
+the quickest way to get all the necessary files (plus more).  Then navigate to the
 directory containing the scripts.
- 
+
 ```sh
 $ git clone https://github.com/evernym/sovrin-environments.git
 $ cd sovrin-environments/vagrant/training/vb-multi-vm
@@ -64,7 +69,7 @@ $ cd sovrin-environments/vagrant/training/vb-multi-vm
 
 At this point, you have all the artifacts necessary to create an Indy cluster
 on VMs in your PC. Next, we will proceed to set up the cluster.
- 
+
 ## Set Up Cluster of Indy Validator Nodes
 
 The file that you see in the current directory, called "Vagrantfile", contains
@@ -74,7 +79,7 @@ scripts/validator.sh on each of the Validator VMs to install and configure the
 required Validator software.  It also has instructions for provisioning of
 three Agent VMs and one for use as a CLI client, with the required bash
 configuration file for that purpose.
- 
+
 The script assumes that a 10.20.30.00/24 virtual network can be created in your
 PC without conflicting with your external network configuration.  The addresses
 of the VMs that will be provisioned will be taken from this network's address
@@ -105,6 +110,8 @@ Validator, Agent and CLI client nodes:
 $ vagrant up
 ```
 
+> **Note:** You will still need to be in this same directory (sovrin-environments/vagrant/training/vb-multi-vm) in order to run the above command. Also, you must wait until this process of "vagrant up" is complete prior to proceeding with the instructions below. If you attempt to proceed with the instructions below, it will cause error later in the process.
+
 This command will take several minutes to complete, as each VM is provisioned
 and its vagrant.sh script is executed.  After provisioning, each of these nodes
 automatically joins the Indy Validator cluster.
@@ -117,7 +124,7 @@ automatically joins the Indy Validator cluster.
 If at any time you need to log in to a Validator node to check logs or do other
 administrative tasks, you can ssh into it easily.  For example, to access the
 first Validator node, which has the name `validator01`, go into the directory
-with your Vagrantfile script and enter the following on the command line. 
+with your Vagrantfile script and enter the following on the command line.
 
 ```sh
 $ vagrant ssh validator01
@@ -127,6 +134,8 @@ Login is seamless since Vagrant automatically generates and configures an ssh
 key pair for access.
 
 ## Setting Up a CLI Client and Configuring the Agents in the Indy Cluster
+
+Before you begin, make sure you have four console windows open, one for the CLI and one each for the other three VMs.
 
 You will need to have a term session to ssh into one of these nodes, which will
 be used as an interactive CLI client.  With this you will be able to interact
@@ -140,7 +149,7 @@ by Indy.
 
 In a term window, you will now ssh into `cli01`, bring up the CLI, and
 configure the CLI to communicate with the "test" Indy Validator cluster that
-we have configured here. 
+we have configured here.
 
 ```sh
 $ vagrant ssh cli01
@@ -196,7 +205,7 @@ indy@test> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.2
 
 Now that the Agents are registered with the Indy cluster, the Agent processes
 can be started on their respective nodes.  You will need to `vagrant ssh` into
-each one of them and start the agent process manually.  If you are setting up
+each one of them and start the agent process manually. Remember, you will need to do each one in its own separate terminal. If you are setting up
 to run through the getting started guide, bring up a terminal, go into the
 directory with your `Vagrantfile` script, and execute the following to start up
 the "Faber College" agent process.
