@@ -23,6 +23,7 @@
 # Prerequisites:
 #  1. Install VirtualBox
 #  2. Install Vagrant
+#  3. Install Git
 #
 # How to use:
 # Run 'vagrant up' and answer any questions this Vagrantfile or the Vagrant VM
