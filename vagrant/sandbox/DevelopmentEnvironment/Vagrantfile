@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# README
+# ////README////
 #
 # This Vagrantfile is designed to instantiate an Evernym Development Environment
 # using Virtualbox as the vagrant provider and automates the following:
@@ -20,18 +20,18 @@
 #  3. (Optional) Build source code on 'vagrant up'. Defaults to (N)o.
 #  4. (Optional) Run unit tests on 'vagrant up'. Defaults to (N)o.
 #
-# Prerequisites:
+# //Prerequisites://
 #  1. Install VirtualBox
 #  2. Install Vagrant
 #
-# How to use:
+# //How to use://
 # Run 'vagrant up' and answer any questions this Vagrantfile or the Vagrant VM
 # instance (i.e. network bridge) needs to complete the process. If you run into
 # problems (i.e. shared folders, etc.), try 'vagrant reload --provision'. Doing
 # so will restart the VM and re-run the provisioning script. A slightly more
 # expensive operation would be to 'vagrant destroy' followed by 'vagrant up'.
 #
-# Some details to be aware of:
+# //Some details to be aware of://
 #  1. All files and folders in the Vagrant project folder show up as shared
 #     resources in /vagrant on all Vagrant VM(s)/guests instantiated by this
 #     Vagrantfile. This is a design descision made by the Vagrant folks.
@@ -48,7 +48,7 @@
 #     code associated with the symlinks on your Vagrant host are available in
 #     /src/<git project name> in your Vagrant VM(s)/guests.
 
-# Make sure to be using the vagrant-vbguest plugin
+# //Make sure to be using the vagrant-vbguest plugin.//
 
 development_box         = 'bento/ubuntu-16.04'
 development_cpus        = '2'
@@ -63,7 +63,7 @@ development_run_cleanup = 'N'
 # their favorite IDE/tools to write code and have a cheap, fast way to build
 # and test their changes.
 
-# Define development repos and setup default Shared Folder path.
+# //Define development repos and setup default Shared Folder path.//
 #
 # If you do not want to develop one or more of the following repos, you can
 # either remove a repo from the following associative array or can "Skip" the
@@ -73,7 +73,7 @@ development_repos      = {
   "indy-sdk" => "/vagrant/indy-sdk"
 }
 
-# - Pseudocode -
+# //- Pseudocode -//
 # For each 'repo' in development_repos
 #   Detect 'repo' in Vagrant project directory root
 #     If 'repo' detected
@@ -82,7 +82,7 @@ development_repos      = {
 #       Prompt the user for one of two options:
 #         Option 1: Skip - I will not be developing 'repo'
 #           Go to next repo
-#         Option 2: Enter path of 'repo' git clone on Vagrant host 
+#         Option 2: Enter path of 'repo' git clone on Vagrant host
 #           Update the <path> for 'repo' => <path> in the development_repos
 #           associative array
 #         Option 3: Clone 'repo' for me. Note that this option requires that you
@@ -98,7 +98,7 @@ development_repos      = {
 #             If failed to clone (404, etc.)
 #               Exit with a verbose error message
 username = ""
-development_repos.each_pair { |key, value| 
+development_repos.each_pair { |key, value|
   filepath = File.expand_path(File.dirname(__FILE__))
   directory = File.join("#{filepath}", "#{key}")
   puts "Check if directory #{directory} exists..."
@@ -123,7 +123,7 @@ development_repos.each_pair { |key, value|
         break
       when "2"
         puts "Enter a full path to repo '#{key}' on your Vagrant host."
-        print prompt 
+        print prompt
         absolute_path = $stdin.gets.chomp
         if !File.directory?(absolute_path)
           $stderr.puts "#{absolute_path} does not exist."
@@ -144,7 +144,7 @@ development_repos.each_pair { |key, value|
       when "3"
         if username == ""
           puts "Enter your github username."
-          print prompt 
+          print prompt
           username = $stdin.gets.chomp
         end
         url = "https://github.com/#{username}/#{key}.git"
