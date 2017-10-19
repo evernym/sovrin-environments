@@ -22,7 +22,10 @@
 #
 # Prerequisites:
 #  1. Install VirtualBox
+#       - Note that Vagrant 2.0.0 doesn't seem to work with Virtualbox 5.2.
+#         If you are using Vagrant <= 2.0.0, please use Virtualbox 5.1.30
 #  2. Install Vagrant
+#       - See Note under Install Virtualbox above
 #  3. Install Git
 #
 # How to use:
@@ -99,14 +102,15 @@ development_repos      = {
 #             If failed to clone (404, etc.)
 #               Exit with a verbose error message
 username = ""
+filtered_development_repos = {}
 development_repos.each_pair { |key, value| 
   filepath = File.expand_path(File.dirname(__FILE__))
   directory = File.join("#{filepath}", "#{key}")
-  puts "Check if directory #{directory} exists..."
+  puts "Check if directory #{directory} exists ..."
   if File.directory?("#{directory}")
     puts "Directory #{directory} exists. Will mount #{directory} as "\
       "/src/#{key}"
-    development_repos["#{key}"] = "#{directory}"
+    filtered_development_repos["#{key}"] = "#{directory}"
   else
     prompt = "> "
     puts "Unable to detect a clone of repo '#{key}'. What would you like to do?"
@@ -119,8 +123,20 @@ development_repos.each_pair { |key, value|
       user_input = $stdin.gets.chomp
       case user_input
       when "1"
-        puts "Skipping..."
-        development_repos.delete('#{key}')
+        puts "Skipping ..."
+
+        # Create an empty directory using the repo name (key) so the developer is
+        # never prompted again. TODO: use properties file to manage the Skip
+        # feature (and others).
+        Dir.mkdir(key) unless Dir.exist?(key)
+
+        # Write a README file to the empty directory informing them
+        File.open("#{key}/README", "w") {
+          |f| f.write('You chose to skip this codebase. If you change your mind'\
+          ', do the following:' + "\n\n" + '1. Delete this directory.' + "\n" +
+          '2. Run \'vagrant reload --provision\' -OR- \'vagrant destroy &&'\
+          ' vagrant up\'')
+        }
         break
       when "2"
         puts "Enter a full path to repo '#{key}' on your Vagrant host."
@@ -130,10 +146,9 @@ development_repos.each_pair { |key, value|
           $stderr.puts "#{absolute_path} does not exist."
           exit 1
         else
-          puts "Verified #{absolute_path} exists..."
+          puts "Verified #{absolute_path} exists ..."
         end
-        development_repos["#{key}"] = absolute_path
-        puts "Creating symbolic link '#{key}' in Vagrant project to #{absolute_path}..."
+        puts "Creating symbolic link '#{key}' in Vagrant project to #{absolute_path} ..."
         require 'open3'
         stdout, stderr, status = Open3.capture3("ln -sf #{absolute_path} #{directory}")
         if status.exitstatus != 0
@@ -141,6 +156,7 @@ development_repos.each_pair { |key, value|
           $stderr.puts stderr
           exit 1
         end
+        filtered_development_repos[key] = absolute_path
         break
       when "3"
         if username == ""
@@ -159,6 +175,7 @@ development_repos.each_pair { |key, value|
           $stderr.puts stderr
           exit 1
         end
+        filtered_development_repos[key] = value
         break
       else
         puts "Please select either 1, 2, or 3"
@@ -173,7 +190,7 @@ if ARGV.include?("up")
 end
 
 if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provision")
-  puts "Bringing up VM(s)..."
+  puts "Bringing up VM(s) ..."
   prompt = "> "
   puts "Build source? (y/N)"
   print prompt
@@ -182,11 +199,11 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
     user_input = $stdin.gets.chomp
     case user_input
     when "Y", "y"
-      puts "Code will be built during VM provisioning..."
+      puts "Code will be built during VM provisioning ..."
       development_run_build = "Y"
       break
     when "N", "n", ""
-      puts "Code will NOT be built during VM provisioning..."
+      puts "Code will NOT be built during VM provisioning ..."
       development_run_build = "N"
       break
     else
@@ -205,11 +222,11 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
       user_input = $stdin.gets.chomp
       case user_input
       when "Y", "y"
-        puts "Test will be run during VM provisioning..."
+        puts "Test will be run during VM provisioning ..."
         development_run_tests = 'Y'
         break
       when "N", "n", ""
-        puts "Tests will NOT be run during VM provisioning..."
+        puts "Tests will NOT be run during VM provisioning ..."
         development_run_tests = 'N'
         break
       else
@@ -260,19 +277,22 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     vim \
     wget
 
-
 #--------------------------------------------------------
-echo "Install docker..."
+echo "Install docker ..."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
 sudo apt-get install -y docker-ce
 
 #--------------------------------------------------------
+echo "Install docker SDK for Python ..."
+pip install docker
+
+#--------------------------------------------------------
 # The following steps were derived from:
 # https://github.com/hyperledger/indy-sdk/blob/master/doc/ubuntu-build.md
 #
-echo "Installing Rust and rustup non-interactively as user vagrant..."
+echo "Installing Rust and rustup non-interactively as user vagrant ..."
 echo "Note that rustup typically runs interactively and allows you to "
 echo "customize installation. Defaults are used in this case. You can "
 echo "reinstall Rust and rustup if you would like. See the following URL "
@@ -295,23 +315,30 @@ apt-get install -y \
 #
 # For some reason, sourcing the vagrant users .profile isn't working.
 # Must use the absolute path to /home/vagrant/.cargo/bin/cargo to get
-# the build to work.
+# the build to work. Note that the .profile IS sourced when the
+# vagrant user logs in (next time 'vagrant ssh development' is run)
 #
 # Sourcing the /home/vagrant/.profile file as root didn't work
 #  source /home/vagrant/.profile
 if [ "$RUN_BUILD" == "Y" ]; then
-  cd /src/indy-sdk/libindy
-  su -c "/home/vagrant/.cargo/bin/cargo build" vagrant
+  # Only build indy-sdk if the source is present.
+  if [ -d "/src/indy-sdk" ]; then
+    cd /src/indy-sdk/libindy
+    su -c "/home/vagrant/.cargo/bin/cargo build" vagrant
+  fi
 fi
 
 #--------------------------------------------------------
 # Run tests?
 if [ "$RUN_TESTS" == "Y" ]; then
-  cd /src/indy-sdk
-  docker build -f ci/indy-pool.dockerfile -t indy_pool .
-  docker run -itd -p 9701-9708:9701-9708 indy_pool
-  cd /src/indy-sdk/libindy
-  su -c "RUST_TEST_THREADS=1 /home/vagrant/.cargo/bin/cargo test" vagrant
+  # Only run indy-sdk tests if the source is present
+  if [ -d "/src/indy-sdk" ]; then
+    cd /src/indy-sdk
+    docker build -f ci/indy-pool.dockerfile -t indy_pool .
+    docker run -itd --name indy_pool -p 9701-9708:9701-9708 indy_pool
+    cd /src/indy-sdk/libindy
+    su -c "RUST_TEST_THREADS=1 /home/vagrant/.cargo/bin/cargo test" vagrant
+  fi
 fi
 
 #--------------------------------------------------------
@@ -320,6 +347,33 @@ if [ "$RUN_CLEANUP" == "Y" ]; then
   rm /etc/update-motd.d/10-help-text
   rm /etc/update-motd.d/97-overlayroot
 fi
+
+#--------------------------------------------------------
+echo "Post-Build/Test setup..."
+if [ -d "/src/indy-sdk" ]; then
+  echo "Making sure indy_pool is running ..."
+  sudo /vagrant/indypool.py start
+
+  echo "Setting up vagrant user's .bashrc to use indy-sdk Python bindings ..."
+  # Only add indy-sdk python wrappers to the PTHONPATH if indy-sdk source is present
+  vagrant_bashrc="/home/vagrant/.bashrc"
+  python_wrappers_path='export PYTHONPATH=$PYTHONPATH:/src/indy-sdk/wrappers/python'
+  if ! grep -q "${python_wrappers_path}" ${vagrant_bashrc}; then
+    echo "Add libindy python wrappers to the PYTHONPATH in ${vagrant_bashrc} ..."
+    echo "${python_wrappers_path}" >> ${vagrant_bashrc}
+  fi
+  libindy_debug_lib_path='export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/src/indy-sdk/libindy/target/debug'
+  if ! grep -q "${libindy_debug_lib_path}" ${vagrant_bashrc}; then
+    echo "Add libindy debug libs to LD_LIBRARY_PATH in ${vagrant_bashrc} ..."
+    echo "${libindy_debug_lib_path}" >> ${vagrant_bashrc}
+  fi
+fi
+
+#--------------------------------------------------------
+echo "Install Python 3.6 ..."
+add-apt-repository ppa:jonathonf/python-3.6
+apt-get update
+apt-get install -y python3.6
 
 apt-get update
 #DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
@@ -355,7 +409,7 @@ Vagrant.configure("2") do |config|
         development_run_cleanup
       ]
     end
-    development_repos.each do |key, value|
+    filtered_development_repos.each do |key, value|
       print "Setup synced folder: development.vm.synced_folder '#{value}', '/src/#{key}'\n"
       development.vm.synced_folder "#{value}", "/src/#{key}"
     end

@@ -81,20 +81,54 @@ def runContainer(image, **kwargs):
 
     return container
 
+def getContainer(name_or_id):
+    '''Get the container with the given name or ID (str). No side effects.
+    Idempotent. Returns None if the container does not exist. Otherwise, the
+    continer is returned'''
+    require_str("name_or_id", name_or_id)
+
+    container = None
+    try:
+        container = client.containers.get(name_or_id)
+    except NotFound as exc:
+        # Return None when the container is not found
+        pass
+    except APIError as exc:
+        eprint("Unhandled error")
+        raise exc
+
+    return container
+
 def containerIsRunning(name_or_id):
     '''Check if container with the given name or ID (str) is running. No side
     effects. Idempotent. Returns True if running, False if not.'''
     require_str("name_or_id", name_or_id)
 
     try:
-        container = client.containers.get(name_or_id)
+        container = getContainer(name_or_id)
+        # Refer to the latest status list here: https://docs.docker.com/engine/
+        #   api/v1.33/#operation/ContainerList
+        if container:
+            if container.status == 'created':
+              return False
+            elif container.status == 'restarting':
+              return True
+            elif container.status == 'running':
+              return True
+            elif container.status == 'removing':
+              return False
+            elif container.status == 'paused':
+              return False
+            elif container.status == 'exited':
+              return False
+            elif container.status == 'dead':
+              return False
+            else:
+              return False
     except NotFound as exc:
         return False
-    except APIError as exc:
-        eprint("Unhandled error")
-        raise exc
 
-    return True
+    return False
 
 def getContainerByTag(tag):
     '''Check if a container with a given tag exists. No side-effects.
@@ -150,6 +184,12 @@ def startIndyPool(**kwargs):
     if containerIsRunning("indy_pool"):
         print("... already running")
         exit(0)
+    else:
+        # If the container already exists and isn't running, force remove it and
+        # readd it. This is brute force, but is sufficient and simple.
+        container = getContainer("indy_pool")
+        if container:
+          container.remove(force=True)
 
     # Build and run indy_pool if it is not already running
     # Build the indy_pool image from the dockerfile in:
@@ -180,6 +220,7 @@ def startIndyPool(**kwargs):
         '9708/tcp': ('0.0.0.0', 9708)
       }, detach=True, name="indy_pool"
     )
+
     print("...started")
 
 def stopIndyPool(**kwargs):
@@ -193,6 +234,13 @@ def stopIndyPool(**kwargs):
     except Exception as exc:
       eprint("...Failed to stop")
       raise exc
+
+def statusIndyPool(**kwargs):
+    '''Return the status of the indy_pool docker container. Idempotent.'''
+    if containerIsRunning("indy_pool"):
+        print("running")
+    else:
+        print("not running")
 
 def restartIndyPool(**kwargs):
     '''Restart the indy_pool docker container. Idempotent. Ensures that the
@@ -226,6 +274,10 @@ if __name__ == '__main__':
       description="Stops the indy_pool docker container if it is not already stopped and then starts it",
       help='Restarts the indy_pool docker container')
     sp_restart.set_defaults(func=restartIndyPool)
+
+    sp_status = sp.add_parser('status',
+      help='Get the status of the indy_pool docker container')
+    sp_status.set_defaults(func=statusIndyPool)
 
     args = parser.parse_args()
     args.func(args=args)
