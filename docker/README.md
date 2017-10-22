@@ -22,11 +22,11 @@ Defaults:
 * IP address is the next in sequence of IP addresses read from pool data (e.g. 10.0.0.6)
 * Number of clients is 10
 
-Container is retained after sovrin shell is closed. Executing ```client_stop.sh``` removes the container.
+Container is retained after indy shell is closed. Executing ```client_stop.sh``` removes the container.
 
 # Start agents (optional)
 
-If you are planning to run the Sovrin Tutorial (about Alice, her transcripts, job, and bank), start the organization Sovrin Agents using the instructions in [StartSovrinAgents.md](StartSovrinAgents.md) in this folder.
+If you are planning to run the Indy Tutorial (about Alice, her transcripts, job, and bank), start the organization Indy Agents using the instructions in [StartSovrinAgents.md](StartSovrinAgents.md) in this folder.
 
 # Stop pool
 ```
@@ -40,11 +40,11 @@ Defaults:
 ```
 ./client_stop.sh
 ```
-Stopping the sovrin client removes the client container.
+Stopping the indy client removes the client container.
 
 # Running on Windows using git bash
 
-Using the git bash shell is a productive command line for those familiar with Unix/Linux to run applications/environments on Windows. However, git bash can create problems with pathnames, and does so with this application. Specifcally, by default git bash converts absolute path names to a Windows equivalent path name (e.g. C:\\...), which is helpful if it is expected by an app, but not always - and rarely with Docker.  In particular, [it's not helpful with Docker](https://github.com/moby/moby/issues/24029) volume mounting on docker run and build commands. The Sovrin test scripts - client_build.sh, node_build.sh, client_start.sh and node_start.sh are all affected by this. When just run, docker build/run commands error off with messages like:
+Using the git bash shell is a productive command line for those familiar with Unix/Linux to run applications/environments on Windows. However, git bash can create problems with pathnames, and does so with this application. Specifcally, by default git bash converts absolute path names to a Windows equivalent path name (e.g. C:\\...), which is helpful if it is expected by an app, but not always - and rarely with Docker.  In particular, [it's not helpful with Docker](https://github.com/moby/moby/issues/24029) volume mounting on docker run and build commands. The Indy test scripts - client_build.sh, node_build.sh, client_start.sh and node_start.sh are all affected by this. When just run, docker build/run commands error off with messages like:
 
 ```
 C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: invalid bind mount spec "/C/Program Files/Git/sys/fs/cgroup;C:\\Program Files\\Git\\sys\\fs\\cgroup;ro": invalid volume specification: '/C/Program Files/Git/sys/fs/cgroup;C:\Program Files\Git\sys\fs\cgroup;ro': invalid mount config for type "bind": invalid mount path: '\Program Files\Git\sys\fs\cgroup;ro' mount path must be absolute.

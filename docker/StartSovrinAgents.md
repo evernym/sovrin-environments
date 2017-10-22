@@ -1,20 +1,20 @@
-Starting the Sovrin Agent Scripts on a Docker Sovrin Test Deployment
+Starting the Indy Agent Scripts on a Docker Indy Test Deployment
 ------
 
-Once you have the Sovrin test nodes and client running, and before you run through the Sovrin tutorial script, you need to start the Sovrin Agents that represent the organizations in the scenario - Faber College, Acme Corp. and Thrift Bank. The steps to start the agents are outlined below.
+Once you have the Indy test nodes and client running, and before you run through the Indy tutorial script, you need to start the Indy Agents that represent the organizations in the scenario - Faber College, Acme Corp. and Thrift Bank. The steps to start the agents are outlined below.
 
 ## Open terminal and exec into the client docker container:
-When you start up the Sovrin client for testing, you will be in a shell running the Sovrin CLI. Leave that command line as is (we'll return to it after these steps) and start up a new shell to carry out the series of steps here.
+When you start up the Indy client for testing, you will be in a shell running the Indy CLI. Leave that command line as is (we'll return to it after these steps) and start up a new shell to carry out the series of steps here.
 
-Within the new command line, log into the Sovrin Client docker container:
+Within the new command line, log into the Indy Client docker container:
 
 ```docker exec -i -t sovrinclient bash```
 
-### Start up Sovrin and carry out the next series of commands with Sovrin.
+### Start up Indy and carry out the next series of commands with Indy.
 
 To start sovrin:
 
-```sovrin```
+```indy```
 
 Connect to the test network - the nodes that you are running on docker:
 
@@ -22,7 +22,7 @@ Connect to the test network - the nodes that you are running on docker:
 
 #### Create Steward
 
-Create an initial Sovrin Steward for the test network. The Steward will be used to add the three organizations as Trust Anchors in the network.
+Create an initial Indy Steward for the test network. The Steward will be used to add the three organizations as Trust Anchors in the network.
 
 _NOTE_: The commands in this script need to be copied and pasted exactly as specified here. There are many "magic strings" that must match exactly for the communication to work.
 
@@ -44,7 +44,7 @@ If you don't get the "ADDED" response then one of the Nodes may not have started
 
 ```new key with seed Faber000000000000000000000000000```
 
-In the next step to create the endpoint for the Faber Agent, we're using the IP address of the Sovrin client (10.0.0.6), and a unique port for the agent. If you used a different IP in starting up Sovrin, you need to replace your IP/Port in the following command:
+In the next step to create the endpoint for the Faber Agent, we're using the IP address of the Indy client (10.0.0.6), and a unique port for the agent. If you used a different IP in starting up Indy, you need to replace your IP/Port in the following command:
 
 ```send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.0.0.6:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}```
 
@@ -59,7 +59,7 @@ Once that's done, repeat the steps for Acme (with different parameters).
 
 ```new key with seed Acme0000000000000000000000000000```
 
-As with Faber, we're using the IP address of the Sovrin client (10.0.0.6), and a unique port for the agent in the next command. If you used different IPs in starting up Sovrin, you need to replace your IP/Port in the following command:
+As with Faber, we're using the IP address of the Indy client (10.0.0.6), and a unique port for the agent in the next command. If you used different IPs in starting up Indy, you need to replace your IP/Port in the following command:
 
 ```send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint":{"ha": "10.0.0.6:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}```
 
@@ -74,20 +74,20 @@ Once that's done, repeat the steps, using different IDs.
 
 ```new key with seed Thrift00000000000000000000000000```
 
-As with Faber and Acme, we're using the IP address of the Sovrin client (10.0.0.6), and a unique port for the agent in the next command. If you used different IPs in starting up Sovrin, you need to replace your IP/Port in the following command:
+As with Faber and Acme, we're using the IP address of the Indy client (10.0.0.6), and a unique port for the agent in the next command. If you used different IPs in starting up Indy, you need to replace your IP/Port in the following command:
 
 ```send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.0.0.6:7777", "pubkey":"AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}```
 
-#### Sovrin steps complete - Exit
-Exit from the Sovrin command line application, but stay in the bash shell in the docker container. To do that, just run at the 'sovrin' prompt:
+#### Indy steps complete - Exit
+Exit from the Indy command line application, but stay in the bash shell in the docker container. To do that, just run at the 'sovrin' prompt:
 
 ```exit```
 
-You should be back to the bash prompt within the Sovrinclient container.
+You should be back to the bash prompt within the Indy client container.
 
-## Start the Sovrin Agents
+## Start the Indy Agents
 
-We'll now invoke the Sovrin Agents from the same command line, redirecting the output to different files. We can then review the logs as commands are executed.
+We'll now invoke the Indy Agents from the same command line, redirecting the output to different files. We can then review the logs as commands are executed.
 
 #### Invoke the clients
 Use these commands to invoke each of the clients. Note the ports entered on the commands above for setting the endpoints are referenced below. If you used different ports above, adjust these commands below to match.
@@ -106,6 +106,6 @@ If you want to monitor one of the logs while executing the rest of the tutorial,
 
 To stream the end of the (in the case) Faber College agent log. Ctrl-C to exit out of that.
 
-That completes the process for starting the Agents. Leave this command line running while you complete the rest of the tutorial - the story of Alice, her transcripts, job, and banking - in the terminal window in which you ran the script to start the Sovrin Client. You should be at a "sovrin" prompt.
+That completes the process for starting the Agents. Leave this command line running while you complete the rest of the tutorial - the story of Alice, her transcripts, job, and banking - in the terminal window in which you ran the script to start the Indy Client. You should be at a "sovrin" prompt.
 
 Note that when the sovrinclient container stops, the agents will stop automatically. That will happen when you "exit" from the sovrin command line in the other terminal window.
