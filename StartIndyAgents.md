@@ -12,7 +12,7 @@ Within the new command line, log into the Indy Client docker container:
 
 ### Start up Indy and carry out the next series of commands with Indy.
 
-To start sovrin:
+To start indy:
 
 ```indy```
 
