@@ -92,11 +92,11 @@ We'll now invoke the Indy Agents from the same command line, redirecting the out
 #### Invoke the clients
 Use these commands to invoke each of the clients. Note the ports entered on the commands above for setting the endpoints are referenced below. If you used different ports above, adjust these commands below to match.
 
-```python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/faber.py --port 5555 >faber.log &```
+```python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/faber.py --port 5555 >faber.log &```
 
-```python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/acme.py --port 6666 >acme.log &```
+```python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/acme.py --port 6666 >acme.log &```
 
-```python3 /usr/local/lib/python3.5/dist-packages/sovrin_client/test/agent/thrift.py --port 7777 >thrift.log &```
+```python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/thrift.py --port 7777 >thrift.log &```
 
 For those not familiar with Linux - the trailing "&" runs the command in the background.
 
@@ -106,6 +106,6 @@ If you want to monitor one of the logs while executing the rest of the tutorial,
 
 To stream the end of the (in the case) Faber College agent log. Ctrl-C to exit out of that.
 
-That completes the process for starting the Agents. Leave this command line running while you complete the rest of the tutorial - the story of Alice, her transcripts, job, and banking - in the terminal window in which you ran the script to start the Indy Client. You should be at a "sovrin" prompt.
+That completes the process for starting the Agents. Leave this command line running while you complete the rest of the tutorial - the story of Alice, her transcripts, job, and banking - in the terminal window in which you ran the script to start the Indy Client. You should be at a "indy" prompt.
 
-Note that when the indyclient container stops, the agents will stop automatically. That will happen when you "exit" from the sovrin command line in the other terminal window.
+Note that when the indyclient container stops, the agents will stop automatically. That will happen when you "exit" from the indy command line in the other terminal window.
