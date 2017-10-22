@@ -16,7 +16,6 @@ USER indy
 RUN mkdir -p /home/indy
 RUN mkdir -p /home/indy/.indy
 RUN chown indy:indy /home/indy -R
-RUN /usr/bin/bootstrap.sh $nodename $nport $cport
 RUN init_indy_node $nodename $nport $cport
 EXPOSE $nport $cport
 RUN if [ ! -z "$ips" ] && [ ! -z "$nodenum" ] && [ ! -z "$nodecnt" ]; then generate_indy_pool_transactions --nodes $nodecnt --clients $clicnt --nodeNum $nodenum --ips "$ips"; fi
