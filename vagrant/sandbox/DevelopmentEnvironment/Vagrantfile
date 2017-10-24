@@ -261,7 +261,12 @@ service sshd restart
 echo "Installing Required Packages"
 apt-get update
 apt-get install -y software-properties-common python-software-properties
+# The following two lines are required to install a sovrin cli
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68DB5E88
+add-apt-repository "deb https://repo.sovrin.org/deb xenial stable"
 apt-get update
+
+# NOTE: Packages required by sovrin cli: debsig*, apt-transport-https, sovrin
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
     curl \
     dialog \
@@ -275,9 +280,12 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     screen \
     tmux \
     vim \
-    wget
+    wget \
+    debsigs \
+    debsig-verify \
+    apt-transport-https \
+    sovrin
 
-#--------------------------------------------------------
 echo "Install docker ..."
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
@@ -334,8 +342,9 @@ if [ "$RUN_TESTS" == "Y" ]; then
   # Only run indy-sdk tests if the source is present
   if [ -d "/src/indy-sdk" ]; then
     cd /src/indy-sdk
-    docker build -f ci/indy-pool.dockerfile -t indy_pool .
-    docker run -itd --name indy_pool -p 9701-9708:9701-9708 indy_pool
+    /home/vagrant/indypool.py start
+    #docker build -f ci/indy-pool.dockerfile -t indy_pool .
+    #docker run -itd --name indy_pool -p 9701-9708:9701-9708 indy_pool
     cd /src/indy-sdk/libindy
     su -c "RUST_TEST_THREADS=1 /home/vagrant/.cargo/bin/cargo test" vagrant
   fi
@@ -369,11 +378,17 @@ if [ -d "/src/indy-sdk" ]; then
   fi
 fi
 
+# Removed, because Python 3.5 works and 3.6 from ppa:jonathonf has a known issue
+# on Ubuntu 16.04: https://bugs.python.org/issue29307
 #--------------------------------------------------------
-echo "Install Python 3.6 ..."
-add-apt-repository ppa:jonathonf/python-3.6
-apt-get update
-apt-get install -y python3.6
+#echo "Install Python 3.6 ..."
+#add-apt-repository ppa:jonathonf/python-3.6
+#apt-get update
+#apt-get install -y python3.6
+
+#--------------------------------------------------------
+echo "Setup default .vimrc ..."
+echo ":set colorcolumn=80" >> /home/vagrant/.vimrc
 
 apt-get update
 #DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
