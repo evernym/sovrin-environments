@@ -1,5 +1,8 @@
 # Setting Up a Test Indy Network in VMs
 
+When you're finished working through this document, you will be able to proceed through to the [*Getting
+Started Guide*](https://github.com/hyperledger/indy-node/blob/stable/getting-started.md) or if you would like, you may continue setting up an actual Developer Environment connected to a sandbox by following these [instructions](https://github.com/evernym/sovrin-environments/blob/stable/vagrant/sandbox/DevelopmentEnvironment/Vagrantfile).
+
 This document will guide you in configuring a private network of Indy
 Validator nodes for testing and learning about Indy.  Additional servers
 acting as Indy Agents can also be provisioned on an ad-hoc basis, using this
