@@ -4,7 +4,7 @@
 2. Use the `oc_configure_builds.sh` and `oc_configure_deployments.sh` scripts to configure and deploy the 'Alice' example network in your OpenShift project.
 3. Wait for the builds and deployments to complete.
 4. Open a terminal to the client node.
-5. Configure the agent nodes following the instructions here; [Starting the Sovrin Agent Scripts](https://github.com/evernym/sovrin-environments/blob/master/docker/StartSovrinAgents.md).
+5. Configure the agent nodes following the instructions here; [Starting the Sovrin Agent Scripts](https://github.com/evernym/sovrin-environments/blob/master/docker/StartSovrinAgents.md). *Ensure that you use the IP addresses assigned by openshift, not the default IP addresses in the instructions.*
 6. Open a terminal to the client node and walk through the [Alice Gets a Transcript](https://github.com/hyperledger/indy-node/blob/master/getting-started.md#alice-gets-a-transcript) example.
 
 
