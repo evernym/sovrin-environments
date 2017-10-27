@@ -154,7 +154,8 @@
 development_branch            = `git rev-parse --abbrev-ref HEAD`
 development_run_build         = 'N'
 development_run_tests         = 'N'
-development_deposit_artifacts = 'N'
+development_run_bundle        = 'N'
+development_run_deposit       = 'N'
 development_run_cleanup       = 'N'
 
 #-------------------------------------------------------------------------------
@@ -310,7 +311,6 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
   end
 
   # Only run tests if a build will be performed.
-  puts development_run_build
   if development_run_build == "Y"
     puts "Run tests? (y/N)"
     print prompt
@@ -332,6 +332,54 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
       end
     end
   end
+
+  # Only run bundle if tests will be run.
+  if development_run_tests == "Y"
+    puts "Bundle Artifacts? (y/N)"
+    print prompt
+
+    loop do
+      user_input = $stdin.gets.chomp
+      case user_input
+      when "Y", "y"
+        puts "Artifacts will be bundled if all tests pass during VM provisioning ..."
+        development_run_bundle = 'Y'
+        break
+      when "N", "n", ""
+        puts "Artifacts will NOT be bundled during VM provisioning ..."
+        development_run_bundle = 'N'
+        break
+      else
+        puts "Please enter Y, y, N, or n"
+        print prompt
+      end
+    end
+  end
+
+  # Only run deposit if bundling.
+  if development_run_bundle == "Y"
+    puts "Deposit Artifacts? (y/N)"
+    print prompt
+
+    loop do
+      user_input = $stdin.gets.chomp
+      case user_input
+      when "Y", "y"
+        puts "Artifacts will be deposited if bundling succeeds during VM provisioning ..."
+        development_run_deposit = 'Y'
+        break
+      when "N", "n", ""
+        puts "Artifacts will NOT be deposited during VM provisioning ..."
+        development_run_deposit = 'N'
+        break
+      else
+        puts "Please enter Y, y, N, or n"
+        print prompt
+      end
+    end
+  end
+
+  # TODO: Ask the user if they want their .vimrc shared with the VM
 end
 
 #-------------------------------------------------------------------------------
@@ -343,7 +391,9 @@ USER='ec2-user'
 BRANCH=$1
 RUN_BUILD=$2
 RUN_TESTS=$3
-RUN_CLEANUP=$4
+RUN_BUNDLE=$4
+RUN_DEPOSIT=$5
+RUN_CLEANUP=$6
 echo "Setting up development environment for branch $BRANCH"
 echo "Run build? $RUN_BUILD"
 echo "Run tests? $RUN_TESTS"
@@ -554,8 +604,28 @@ if [ "$RUN_TESTS" == "Y" ]; then
 fi
 
 #--------------------------------------------------------
+# TODO: Decide if auto-bundling is desirable
+if [ "$RUN_BUNDLE" == "Y" ]; then
+  echo 'Bundling artifacts...'
+  # Only bundle indy-sdk artifacts if the source is present
+  if [ -d "/src/indy-sdk" ]; then
+    echo "Bundling indy-sdk artifacts..."
+  fi
+fi
+
+#--------------------------------------------------------
+# TODO: Decide if auto-deploying is desirable
+if [ "$RUN_DEPLOY" == "Y" ]; then
+  echo 'Deploying artifacts...'
+  # Only deploy indy-sdk artifacts if the source is present
+  if [ -d "/src/indy-sdk" ]; then
+    echo "Deploying indy-sdk artifacts..."
+  fi
+fi
+
+#--------------------------------------------------------
 if [ "$RUN_CLEANUP" == "Y" ]; then
-  echo 'Cleaning Up...'
+  echo 'Cleaning up...'
   rm -rf /src/libsodium-1.0.12
   rm -rf /src/Python-3.5.4
 fi
@@ -713,6 +783,8 @@ Vagrant.configure("2") do |config|
         development_branch,
         development_run_build,
         development_run_tests,
+        development_run_bundle,
+        development_run_deposit,
         development_run_cleanup
       ]
     end

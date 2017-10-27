@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-# Ideally, we would use a virtualenv instead hardcoding python3.
+# Ideally, we would use a virtualenv instead of hardcoding python3.
+# python3 is hardcoded, because the python Docker SDK is being installed in a
+# python >= 3.5.2 site-packages using pip3/pip3.5.
 
 from __future__ import print_function
 from docker.errors import BuildError, APIError, ImageNotFound, ContainerError, NotFound

@@ -36,13 +36,18 @@ sudo docker exec -i indy_pool \
   sh -c "cat /home/indy/.indy/pool_transactions_sandbox_genesis" \
   > $DIR/pool_transactions_sandbox_genesis
 
-# Generate a DID/verkey pair for use by DID2Ledger.py using the sovrin cli
-# sovrin> new key
-echo "Generating DID/verkey pair using sovrin cli ..."
-sovrin "new key" "exit" 2>/dev/null > $DIR/DID.verkey.pair
-DID=$(cat $DIR/DID.verkey.pair | grep "DID for key is" | awk -F" " '{print $5}')
-verkey=$(cat $DIR/DID.verkey.pair | grep "Verification key is" | \
-  awk -F" " '{print $4}')
+# Generate a DID/verkey pair for use by DID2Ledger.py using newKey.py which
+# was derived from sovrin_client/cli/cli.py
+echo "Generating DID/verkey pair using sovrin $DIR/newKey.py..."
+$DIR/newKey.py 2>/dev/null > $DIR/DID.verkey.pair
+
+if [ $? -ne 0 ]; then
+  echo "Failed to generate DID/verkey pair"
+  exit 1
+fi
+DID=$(cat $DIR/DID.verkey.pair | grep "New DID is" | awk -F" " '{print $4}')
+verkey=$(cat $DIR/DID.verkey.pair | grep "New verification key is" | \
+  awk -F" " '{print $5}')
 echo "Generated DID=$DID verkey=$verkey"
 
 # Add the DID/verkey pair as a Trust Anchor
