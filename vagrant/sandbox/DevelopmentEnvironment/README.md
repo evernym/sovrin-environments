@@ -1,1 +1,6 @@
-This is a Vagrant project. Please read the "README" at the top of the Vagrantfile.
+Each Vagrant provisioner has it's own directory. See the README in your chosen provisioner.
+
+# AWS - EC2 Amazon Linux AMI, t2.small (1 vCPU, 2 GiB RAM) with 16 GiB EBS disk
+Suitable for AWS Lambda development
+
+# Virtualbox - Ubuntu 16.04, 2 CPUs, 4 GiB RAM

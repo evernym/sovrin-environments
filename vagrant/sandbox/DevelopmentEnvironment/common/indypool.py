@@ -1,4 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+
+# Ideally, we would use a virtualenv instead hardcoding python3.
+
 from __future__ import print_function
 from docker.errors import BuildError, APIError, ImageNotFound, ContainerError, NotFound
 import sys, docker, argparse

@@ -294,7 +294,7 @@ sudo apt-get install -y docker-ce
 
 #--------------------------------------------------------
 echo "Install docker SDK for Python ..."
-pip install docker
+pip3 install docker
 
 #--------------------------------------------------------
 # The following steps were derived from:
@@ -342,7 +342,7 @@ if [ "$RUN_TESTS" == "Y" ]; then
   # Only run indy-sdk tests if the source is present
   if [ -d "/src/indy-sdk" ]; then
     cd /src/indy-sdk
-    /home/vagrant/indypool.py start
+    sudo /vagrant-common/indypool.py start
     #docker build -f ci/indy-pool.dockerfile -t indy_pool .
     #docker run -itd --name indy_pool -p 9701-9708:9701-9708 indy_pool
     cd /src/indy-sdk/libindy
@@ -361,7 +361,7 @@ fi
 echo "Post-Build/Test setup..."
 if [ -d "/src/indy-sdk" ]; then
   echo "Making sure indy_pool is running ..."
-  sudo /vagrant/indypool.py start
+  sudo /vagrant-common/indypool.py start
 
   echo "Setting up vagrant user's .bashrc to use indy-sdk Python bindings ..."
   # Only add indy-sdk python wrappers to the PTHONPATH if indy-sdk source is present
@@ -428,6 +428,10 @@ Vagrant.configure("2") do |config|
       print "Setup synced folder: development.vm.synced_folder '#{value}', '/src/#{key}'\n"
       development.vm.synced_folder "#{value}", "/src/#{key}"
     end
+
+    # Include all DevelopmentEnvironment common scripts/tools. These tools will
+    # be referenced with an absolute path in the guest VM.
+    development.vm.synced_folder Dir.pwd + "/../common", "/vagrant-common"
   end
 
 end
