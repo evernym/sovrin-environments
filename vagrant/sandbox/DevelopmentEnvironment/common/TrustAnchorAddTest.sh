@@ -1,4 +1,8 @@
-#!/bin/bash -e
+#!/bin/bash
+
+# NOTE: 'sovrin "new key" "exit"' fails with a stack trace on "exit" in
+#       plenum.cli.cli.Exit. Don't use a -e on the #! above for this reason
+#       only.
 
 # Get this bash script's directory location
 SOURCE="${BASH_SOURCE[0]}"
