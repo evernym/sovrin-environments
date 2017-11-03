@@ -175,7 +175,7 @@ development_repos.each_pair { |key, value|
           $stderr.puts stderr
           exit 1
         end
-        filtered_development_repos[key] = value
+        filtered_development_repos[key] = Dir.pwd + "/#{key}"
         break
       else
         puts "Please select either 1, 2, or 3"

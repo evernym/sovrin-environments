@@ -12,8 +12,11 @@
 #    1.1. Source code should reside in your desktop environment and be available
 #         in the AWS VM as an rsync-ed folder. This allows the developer the
 #         option of using an IDE in their own graphical desktop environment with
-#         their own license. You will need to get familiar with rsync to resync
-#         folders during the code-build-test cycle.
+#         their own license. `vagrant rsync` performs a one time rsync from your
+#         desktop out to the AWS vm(s). `vagrant rsync-auto` starts a process(es)
+#         that monitor changes on your desktop that auto-rcyncs files for you.
+#         You will have to run `vagrant rsync-auto` in it's own terminal or in
+#         the background.
 #    1.2. If you have not already cloned source, this Vagrant file assumes that
 #         you have already forked the project and will prompt you for a username
 #         and clone from "https://github.com/<username>/<project>.git" where
@@ -21,10 +24,29 @@
 #  2. Install build tools/dependencies.
 #  3. (Optional) Build source code on 'vagrant up'. Defaults to (N)o.
 #  4. (Optional) Run unit tests on 'vagrant up'. Defaults to (N)o.
-#  5. (Optional) Deposit artifacts in an S3 bucket when build and test pass on
-#                'vagrant up'. Defaults to (N)o. Must answer Y to both build and
-#                test for this to be an option. TODO: decide how to configure
-#                the S3 bucket or other deposit location.
+#  5. (Optional) Deposit artifacts when the build and tests pass on 'vagrant up'.
+#                Defaults to (N)o. Must answer Y to both build and test for this
+#                to be an option.
+#                TODO: decide were bits should be deposited.
+#  6. (Optional) TODO: Complexity goes WAY UP for the continuous deployment step.
+#                      Refine this step to minimize complexity where possible.
+#
+#                Deploy artifacts when the build and tests pass on 'vagrant up'.
+#                Defaults to (N)o. Must answer Y to both build and test for this
+#                to be an option.
+#
+#                "Deploy" means something different based on codebase and branch.
+#
+#                Each codebase should prompt for additional information if the
+#                codebase wasn't skipped.
+#
+#                For example, the provisioning script in this Vagrant project
+#                uses the 'aws' command line interface (CLI) to deploy/update
+#                Lambdas.
+#
+#                See the "Install and configure the 'aws' command line interface
+#                (CLI)" under "Prerequisites" below.
+#
 #
 # Prerequisites:
 #
@@ -119,9 +141,39 @@
 #       key pair (keypair_name). Therefore, add all private keys to the
 #       override.ssh.private_key_path array.
 #
-#  5. Install Git
+#  5. Install and configure the 'aws' command line interface (CLI)
+#
+#     To deploy an AWS Lambda using the aws cli, you must setup an 'adminuser'
+#     profile using the aws CLI. Requiring a specific profile name allows the
+#     provisioning script to automate things. No other reason for the name.
+#
+#     1. You must create an IAM user:
+#     http://docs.aws.amazon.com/lambda/latest/dg/setting-up.html
+#
+#     2. The IAM user must be given an Execution Role (IAM Role):
+#     http://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-create-iam-role.html
+#
+#     3. Get the access key ID and secret access key for the IAM user with the
+#        aforementioned execution role:
+#     http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+#
+#     4. From your workstation, run...
+#        'aws configure --profile adminuser'
+#        ... and enter an AWS Access Key ID, and an AWS Secret Access Key.
+#
+#        The 'aws configure' command creates properties files used by the aws CLI
+#        located in ~/.aws. If this directory exists on your workstation when
+#        running 'vagrant up', it will be rcync-ed to the AWS instance(s).
+#
+#  6. Install Git
+#  7. Set the 'branch' for each of the development_repos below.
+#     TODO: Display all branches, designate which branch the repo is on, and
+#           allow the user to select a different branch. The following git
+#           command should be helpful.
+#           git branch --list --format "%(refname:short) %(HEAD)" | sort -u
 #
 # How to use:
+#
 # Run 'vagrant up' and answer any questions this Vagrantfile or the Vagrant VM
 # instance (i.e. network bridge) needs to complete the process. If you run into
 # problems (i.e. shared folders, etc.), try 'vagrant reload --provision'. Doing
@@ -132,31 +184,39 @@
 #  1. All files and folders in the Vagrant project folder show up as shared
 #     resources in /vagrant on all Vagrant VM(s)/guests instantiated by this
 #     Vagrantfile. This is a design descision made by the Vagrant folks for the
-#     Virtualbox provider. To be consistent with that in the AWS provider, the
-#     contents the Vagrant project folder will be shared (rcync-ed) to /vagrant
-#     inside guest VMs.
-#  2. Source code will be cloned into this Vagrant project folder using the git
-#     project name and then shared in /src/<git project name> in the Vagrant
-#     guest VM(s). The .gitignore file in this Vagrant project folder ignores
-#     these folders.
+#     Virtualbox provider. This project uses the vagrant-aws provider, but to be
+#     consistent with that in the vagrant-aws provider, the contents the Vagrant
+#     project folder will be shared (rcync-ed) to /vagrant inside guest VMs.
+#  2. Source code will be cloned into this Vagrant project folder (the folder
+#     where this Vagrantfile resides) using the git project name and then shared
+#     in /vagrant/<git project name> in the Vagrant guest VM(s) (via rsync). The
+#     .gitignore file in this Vagrant project folder ignores these folders.
 #  3. If you have your own source code clones, a symbolic link is
 #     created in this Vagrant project folder. Doing so simplifies some discovery
 #     logic in this Vagrantfile (ruby script). A side-effect of symlinking in
 #     this Vagrant project folder is that the symlink is broken inside the
 #     AWS VM. Please do not remove or try to fix broken symlinks in /vagrant in
 #     the AWS VM(s). And be assured that the source code associated with the
-#     symlinks on your Vagrant host are available in /src/<git project name> in
-#     your Vagrant VM(s).
+#     symlinks on your Vagrant host are available in /vagrant/<git project name> in
+#     your Vagrant guest/VM(s).
+#  4. The vagrant-aws plugin for Vagrant has minimal support for synced folders.
+#     Upon vagrant up, vagrant reload, and vagrant provision, the AWS provider
+#     will use rsync (if available) to uni-directionally sync the folder to the
+#     remote machine over SSH. Any code changes you make in the Vagrant guest/VM
+#     will either need to be committed/pushed from the Vagrant guest/VM or you
+#     will need to create a patch to apply to the cloned repos on your
+#     workstation (Vagrant host).
 
 #-------------------------------------------------------------------------------
 # Variable defaults
 
-development_branch            = `git rev-parse --abbrev-ref HEAD`
-development_run_build         = 'N'
-development_run_tests         = 'N'
-development_run_bundle        = 'N'
-development_run_deposit       = 'N'
-development_run_cleanup       = 'N'
+development_branch      = `git rev-parse --abbrev-ref HEAD`
+development_run_build   = 'N'
+development_run_tests   = 'N'
+development_run_bundle  = 'N'
+development_run_deposit = 'N'
+development_run_deploy  = 'N'
+development_run_cleanup = 'N'
 
 #-------------------------------------------------------------------------------
 # Define development repos and setup default shared folder path.
@@ -168,11 +228,28 @@ development_run_cleanup       = 'N'
 # test their changes.
 
 # If you do not want to develop one or more of the following repos, you can
-# either remove a repo from the following associative array or can "Skip" the
-# repo when prompted.
-development_repos      = {
-  "sovrin" => "/vagrant/sovrin",
-  "indy-sdk" => "/vagrant/indy-sdk"
+# "Skip" the repo when prompted.
+#
+# TODO: Decide how to chain dependendencies. For example, AWS Lambda code deps
+#       indy-sdk. Perhaps this is where a providing both .deb and .rpm will help
+#       if a dependency isn't being cloned and built from source, then a bundled
+#       .deb or .rpm will be installed to provide the dependency?
+development_repos = {
+  #"sovrin" => {
+  #  "path" => "/vagrant/sovrin",
+  #  "url" => "https://github.com/<USERNAME>/sovrin.git",
+  #  "branch" => "master"
+  #},
+  "indy-sdk" => {
+    "path" => "/vagrant/indy-sdk",
+    "url" => "https://github.com/<USERNAME>/indy-sdk.git",
+    "branch" => "rc"
+  },
+  "sovrin-self-serve" => {
+    "path" => "/vagrant/sovrin-self-serve",
+    "url" => "https://gitlab.corp.evernym.com/<USERNAME>/sovrin-self-serve.git",
+    "branch" => "master"
+  }
 }
 
 # - Pseudocode -
@@ -181,7 +258,7 @@ development_repos      = {
 #     If 'repo' detected
 #       Use the default directory path when defining synced folder
 #     Else
-#       Prompt the user for one of two options:
+#       Prompt the user for one of three options:
 #         Option 1: Skip - I will not be developing 'repo'
 #           Go to next repo
 #         Option 2: Enter path of 'repo' git clone on Vagrant host 
@@ -207,8 +284,9 @@ development_repos.each_pair { |key, value|
   #puts "Check if directory #{directory} exists ..."
   if File.directory?("#{directory}")
     #puts "Directory #{directory} exists. Will rsync #{directory} to "\
-    #  "/src/#{key}"
-    filtered_development_repos["#{key}"] = "#{directory}"
+    #  "/vagrant/#{key}"
+    value["path"] = "#{directory}"
+    filtered_development_repos["#{key}"] = value
   else
     prompt = "> "
     puts "Unable to detect a clone of repo '#{key}'. What would you like to do?"
@@ -217,6 +295,7 @@ development_repos.each_pair { |key, value|
     puts "\t3. I have forked '#{key}'. Clone it for me."
     print prompt
 
+    do_checkout = false
     loop do
       user_input = $stdin.gets.chomp
       case user_input
@@ -254,30 +333,48 @@ development_repos.each_pair { |key, value|
           $stderr.puts stderr
           exit 1
         end
-        filtered_development_repos[key] = absolute_path
-        break
+        value['path'] = absolute_path
+        filtered_development_repos[key] = value
+        do_checkout = true
       when "3"
-        if username == ""
-          puts "Enter your github username."
-          print prompt 
-          username = $stdin.gets.chomp
-        end
-        url = "https://github.com/#{username}/#{key}.git"
+        url = value['url']
+        puts "Enter your github username for url #{url}."
+        print prompt 
+        username = $stdin.gets.chomp
+        url = url.sub("<USERNAME>", username) 
+        value['url'] = url
+        branch = value['branch']
         puts "Cloning repo '#{url}' on your Vagrant host."
-        puts "The default project branch will be checked out. Please be sure you "\
-          "are on the branch you want."
         require 'open3'
-        stdout, stderr, status = Open3.capture3("git clone #{url}")
+        stdout, stderr, status = Open3.capture3("git clone -b #{branch} #{url}")
         if status.exitstatus != 0
           $stderr.puts "Failed to clone #{url}"
           $stderr.puts stderr
           exit 1
         end
+        value['path'] = Dir.pwd + "/#{key}"
         filtered_development_repos[key] = value
-        break
+        do_checkout = true
       else
+        do_checkout = false
         puts "Please select either 1, 2, or 3"
         print prompt
+      end
+
+      if do_checkout
+        case user_input
+        when "2", "3"
+          branch = value['branch']
+          puts "Setting '#{key}' branch to '#{branch}' ..."
+          require 'open3'
+          stdout, stderr, status = Open3.capture3("cd #{key} && git checkout #{branch}")
+          if status.exitstatus != 0
+            $stderr.puts "Failed checkout branch #{branch}"
+            $stderr.puts stderr
+            exit 1
+          end
+          break
+        end
       end
     end
   end
@@ -357,6 +454,7 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
   end
 
   # Only run deposit if bundling.
+  # TODO: decide where and how (version, latest, etc.) to deposit artifacts.
   if development_run_bundle == "Y"
     puts "Deposit Artifacts? (y/N)"
     print prompt
@@ -379,6 +477,31 @@ if ARGV.include?("up") || ARGV.include?("provision") || ARGV.include?("--provisi
     end
   end
 
+  # Only run deploy if bundling.
+  # TODO: Decide if deploy is contingent on the bundled artifacts being deposited
+  #       somewhere other than on the deployment server(s)
+  if development_run_bundle == "Y"
+    puts "Deploy Artifacts? (y/N)"
+    print prompt
+
+    loop do
+      user_input = $stdin.gets.chomp
+      case user_input
+      when "Y", "y"
+        puts "Artifacts will be deployed if bundling succeeds during VM provisioning ..."
+        development_run_deploy = 'Y'
+        break
+      when "N", "n", ""
+        puts "Artifacts will NOT be deployed during VM provisioning ..."
+        development_run_deploy = 'N'
+        break
+      else
+        puts "Please enter Y, y, N, or n"
+        print prompt
+      end
+    end
+  end
+
   # TODO: Ask the user if they want their .vimrc shared with the VM
 end
 
@@ -387,16 +510,27 @@ end
 $script = <<SCRIPT
 #!/bin/bash -e
 
+PYTHON_MAJOR_VERSION=3
+PYTHON_MINOR_VERSION=6
+PYTHON_PATCH_VERSION=2
+PYTHON_VERSION=${PYTHON_MAJOR_VERSION}.${PYTHON_MINOR_VERSION}.${PYTHON_PATCH_VERSION}
+PYTHON_PIP_VERSION=${PYTHON_MAJOR_VERSION}.${PYTHON_MINOR_VERSION}
+LIBSODIUM_VERSION=1.0.12
+
 USER='ec2-user'
 BRANCH=$1
 RUN_BUILD=$2
 RUN_TESTS=$3
 RUN_BUNDLE=$4
 RUN_DEPOSIT=$5
-RUN_CLEANUP=$6
+RUN_DEPLOY=$6
+RUN_CLEANUP=$7
 echo "Setting up development environment for branch $BRANCH"
 echo "Run build? $RUN_BUILD"
 echo "Run tests? $RUN_TESTS"
+echo "Run bundle? $RUN_BUNDLE"
+echo "Run deposit? $RUN_DEPOSIT"
+echo "Run deploy? $RUN_DEPLOY"
 echo "Run cleanup? $RUN_CLEANUP"
 
 #--------------------------------------------------------
@@ -408,13 +542,28 @@ perl -p -i -e 's/(PasswordAuthentication\s+)no/$1yes/' /etc/ssh/sshd_config
 service sshd restart
 
 #--------------------------------------------------------
-echo "Installing Required Packages"
-yum update -y
+cat << EOF
+Lambda executors in the us-west-2 region are Amazon Linux VMs based on AMI ID
+ami-aa5ebdd2 (2017.03 release).
 
-# TODO: When/If we need a full-blown development environment on AWS Linux
-#   1. Figure out how to install Sovrin CLI or build it from source.
-#   2. Figure out how to install docker-ce. Current missing rpm deps...
-#     https://docs.docker.com/engine/installation/linux/docker-ce/centos/#set-up-the-repository
+The lastest Amazon Linux AMI in region us-west-2 for use in EC2 is based on the
+2017.09 release (AMI ID ami-e689729e).
+
+We MUST build native dependencies (shared libraries) using the AMI version used
+by the Lambda executors in the target region. Otherwise native libs may not load.
+
+Configure yum to NOT use the lastest Amazon Linux release version. Doing so, for
+example, ensures that the openssl-devel version installed
+(openssl-devel-1.0.1k-15.99.amzn1.x86_64) will correspond to the version of
+openssl (openssl-1.0.1k-15.99.amzn1.x86_64) installed on the Lambda executors.
+EOF
+
+sed -i -- 's/^releasever=latest/#releasever=latest/' /etc/yum.conf
+
+#--------------------------------------------------------
+echo "Installing Required Packages"
+
+yum update -y
 
 #--------------------------------------------------------
 # Install Rust and rustup
@@ -439,7 +588,11 @@ su -c "./rust.install.sh -y" $USER
 # are intentially kept separate to make it clear what code requires what
 # dependencies.
 yum clean all
-yum upgrade -y
+
+# TODO: Uncomment yum upgrade once Amazon starts using the latest Amazon
+#       Linux AMI for Lambda execution?
+#yum upgrade -y
+#
 yum groupinstall -y "Development Tools"
 # Required for libindy
 yum install -y \
@@ -456,44 +609,13 @@ yum install -y \
     dialog \
     figlet
 
-# Sovrin client requires Python 3.5.2 or later.
-# IMPORTANT - python35-devel installs Python 3.5.1. The plenum code has a
-# problem with functions in Unions.
-#
-# https://github.com/python/typing/issues/229
-#
-# $ python3.5 --version
-# Python 3.5.1
-#
-# >>> from plenum.server.router import Router
-# Traceback (most recent call last):
-#   File "<stdin>", line 1, in <module>
-#   File "/usr/local/lib/python3.5/site-packages/plenum/server/router.py", line 6, in <module>
-#     Route = Tuple[Union[type, NamedTuple], Callable]
-#   File "/usr/lib64/python3.5/typing.py", line 537, in __getitem__
-#     dict(self.__dict__), parameters, _root=True)
-#   File "/usr/lib64/python3.5/typing.py", line 467, in __new__
-#     params.append(_type_check(p, msg))
-#   File "/usr/lib64/python3.5/typing.py", line 299, in _type_check
-#     raise TypeError(msg + " Got %.100r." % (arg,))
-# TypeError: Union[arg, ...]: each arg must be a type. Got <function NamedTuple at 0x7f7631008378>.
-#
-# Removed python35-pip and python35-devel from yum install above.
-#
-# Required for Sovrin client
-# yum install -y \
-#    curl \
-#    dialog \
-#    figlet #\
-#    #python35-pip \
-#    #python35-devel
-
-# Install Python 3.5.2 from source
-# IMPORTANT: The Sovrin client expects to find python3.5 in /usr/bin. Set the
+# Install Python from source
+# IMPORTANT: The Sovrin client expects to find python<major>.<minor> in /usr/bin. Set the
 #            prefix to /usr.
+mkdir /src
 cd /src
-curl https://www.python.org/ftp/python/3.5.4/Python-3.5.4.tgz | tar -xz
-cd Python-3.5.4
+curl https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz | tar -xz
+cd Python-${PYTHON_VERSION}
 ./configure --prefix=/usr
 make
 make install
@@ -511,10 +633,10 @@ yum install -y \
 
 #--------------------------------------------------------
 # Build and install modern version of libsodium from sources:
-echo "Build and install libsodium 1.0.12..."
+echo "Build and install libsodium ${LIBSODIUM_VERSION}..."
 cd /src
-curl https://download.libsodium.org/libsodium/releases/libsodium-1.0.12.tar.gz | tar -xz
-cd /src/libsodium-1.0.12
+curl https://download.libsodium.org/libsodium/releases/libsodium-${LIBSODIUM_VERSION}.tar.gz | tar -xz
+cd /src/libsodium-${LIBSODIUM_VERSION}
 ./configure
 make
 make install
@@ -532,11 +654,11 @@ do
     echo "Adding '${exp}' to $user_bash_profile"
     echo "$exp" >> "$user_bash_profile"
     echo "Executing '${exp}'"
-    $exp
   else
     echo "$exp already found in $user_bash_profile"
   fi
 done
+source $user_bash_profile
 
 #--------------------------------------------------------
 # Sovrin Client - Prerequsites
@@ -547,24 +669,24 @@ sed -i -- 's#if \\[ -f /etc/redhat-release \\]#if \\[ -f /etc/redhat-release \\]
 
 # Comment taken from ./setup-charm.sh
 #
-# Ensure that you are using pip3.5 for installation.
-# Use link to refer pip3.5 using pip command
+# Ensure that you are using pip<major>.<minor> for installation.
+# Use link to refer pip<major>.<minor> using pip command
 #
 # Ugg!
 #
-# We installed Python 3.5 from source (3.5.2 or later). The default prefix
-# installation location is /usr/local.
+# We installed Python from source. The prefix was set to /usr during
+# installation.
 #
 # TODO: Figure out how to activate a Python virtualenv on 'vagrant up' (non
 #       interactive shell)
-ln -sf /usr/bin/pip3.5 /usr/bin/pip
+ln -sf /usr/bin/pip${PYTHON_PIP_VERSION} /usr/bin/pip
 ./setup-charm.sh
 
 #--------------------------------------------------------
-# Setup a Python virtual environment with Python 3.5 or 3.6
+# Setup a Python virtual environment with Python 3.6
 #cd /home/$USER
 #echo "Setup and activate a Python virtual environment..."
-#virtualenv -p python3.5 sovrin-client
+#virtualenv -p python${PYTHON_MAJOR_VERSION}.${PYTHON_MINOR_VERSION} sovrin-client
 #source ./sovrin-client/bin/activate
 
 #--------------------------------------------------------
@@ -583,8 +705,8 @@ service docker start
 # Build
 if [ "$RUN_BUILD" == "Y" ]; then
   # Only build indy-sdk if the source is present.
-  if [ -d "/src/indy-sdk" ]; then
-    cd /src/indy-sdk/libindy
+  if [ -d "/vagrant/indy-sdk" ]; then
+    cd /vagrant/indy-sdk/libindy
     su -c "/home/$USER/.cargo/bin/cargo build" $USER
   fi
 fi
@@ -594,11 +716,11 @@ fi
 if [ "$RUN_TESTS" == "Y" ]; then
   echo "Running tests..."
   # Only run indy-sdk tests if the source is present
-  if [ -d "/src/indy-sdk" ]; then
+  if [ -d "/vagrant/indy-sdk" ]; then
     echo "Running indy-sdk tests..."
-    cd /src/indy-sdk
-    /vagrant/common/indypool.py start
-    cd /src/indy-sdk/libindy
+    cd /vagrant/indy-sdk
+    sudo /vagrant/common/indypool.py start
+    cd /vagrant/indy-sdk/libindy
     su -c "RUST_TEST_THREADS=1 /home/$USER/.cargo/bin/cargo test" $USER
   fi
 fi
@@ -608,9 +730,33 @@ fi
 if [ "$RUN_BUNDLE" == "Y" ]; then
   echo 'Bundling artifacts...'
   # Only bundle indy-sdk artifacts if the source is present
-  if [ -d "/src/indy-sdk" ]; then
+  if [ -d "/vagrant/indy-sdk" ]; then
     echo "Bundling indy-sdk artifacts..."
+    # TODO: build .deb, .rpm... packages?
   fi
+
+  # TODO: Follow these instructions:
+  #       http://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-deployment-pkg.html#with-s3-example-deployment-pkg-python
+  #if [ -d "/vagrant/<AWS Lambda repo ... TBD>" ]; then
+  #  ...
+  #fi
+fi
+
+#--------------------------------------------------------
+# TODO: Decide if auto-depositing is desirable
+if [ "$RUN_DEPOSIT" == "Y" ]; then
+  echo 'Depositing artifacts...'
+  # Only deposit indy-sdk artifacts if the source is present
+  if [ -d "/vagrant/indy-sdk" ]; then
+    echo "Depositing indy-sdk artifacts..."
+    # TODO: Decide what this means. The meaning likely changes based on git
+    #       branch.
+  fi
+
+  # TODO: Decide what repo will host AWS lambda code
+  #if [ -d "/vagrant/<AWS Lambda repo ... TBD>" ]; then
+  #  ...
+  #fi
 fi
 
 #--------------------------------------------------------
@@ -618,23 +764,48 @@ fi
 if [ "$RUN_DEPLOY" == "Y" ]; then
   echo 'Deploying artifacts...'
   # Only deploy indy-sdk artifacts if the source is present
-  if [ -d "/src/indy-sdk" ]; then
+  if [ -d "/vagrant/indy-sdk" ]; then
     echo "Deploying indy-sdk artifacts..."
+    # TODO: Decide what this means. The meaning likely changes based on git
+    #       branch.
   fi
+
+  # TODO: Decide what repo will host AWS lambda code
+  #if [ -d "/vagrant/<AWS Lambda repo ... TBD>" ]; then
+  #  # For AWS Lambda code:
+  #  #       1. Create an adminuser aws profile
+  #  #       - Prompt for "AWS Access Key ID", "AWS Secret Access Key", "Default
+  #  #         region name" (i.e. us-west-2), and "Default output format" (text,
+  #  #         json,...)
+  #  #
+  #  #         Then in provisioning script run:
+  #  #
+  #  #         $ aws configure --profile adminuser
+  #  #         AWS Access Key ID [None]: <AWS Access Key ID>
+  #  #         AWS Secret Access Key [None]: <AWS Secret Access Key"
+  #  #         Default region name [None]: <Default region name>
+  #  #         Default output format [None]: <Default output format>
+  #  #
+  #  #       2. Prompt for Execution Role ARN
+  #  #
+  #  #       3. From the provisioning script call deployLambda.sh script with ARN
+  #  #          and profile.
+  #fi
 fi
 
 #--------------------------------------------------------
 if [ "$RUN_CLEANUP" == "Y" ]; then
   echo 'Cleaning up...'
-  rm -rf /src/libsodium-1.0.12
-  rm -rf /src/Python-3.5.4
+  rm -rf /src/libsodium-${LIBSODIUM_VERSION}
+  rm -rf /src/Python-${PYTHON_VERSION}
 fi
 
 #--------------------------------------------------------
 echo "Post-Build/Test setup..."
-if [ -d "/src/indy-sdk" ]; then
+# Only run post-build/test setup if source is present.
+if [ -d "/vagrant/indy-sdk" ]; then
   echo "Making sure indy_pool is running ..."
-  /vagrant/common/indypool.py start
+  sudo /vagrant/common/indypool.py start
 
   echo "Setting up vagrant user's .bash_profile to use indy-sdk Python bindings ..."
   # Only add indy-sdk python wrappers to the PTHONPATH if indy-sdk source is
@@ -642,8 +813,8 @@ if [ -d "/src/indy-sdk" ]; then
 
   # Add exports to $USER's .bash_profile and current env
   declare -a exports=(
-    'export PYTHONPATH=$PYTHONPATH:/src/indy-sdk/wrappers/python'
-    'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/src/indy-sdk/libindy/target/debug'
+    'export PYTHONPATH=$PYTHONPATH:/vagrant/indy-sdk/wrappers/python'
+    'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/vagrant/indy-sdk/libindy/target/debug'
   )
   for exp in "${exports[@]}"
   do
@@ -656,6 +827,7 @@ if [ -d "/src/indy-sdk" ]; then
       echo "$exp already found in $user_bash_profile"
     fi
   done
+  source $user_bash_profile
 fi
 
 #--------------------------------------------------------
@@ -675,7 +847,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :aws do |aws, override|
     # ----- Authentication and Authorization -----
     # Option 1: AWS Profile
-    aws.aws_profile = "vagrantDevAWS"
+    aws.aws_profile = "adminuser"
     #aws.aws_profile = "<PROFILE>"
 
     # Option 2: Access Key
@@ -749,7 +921,14 @@ Vagrant.configure("2") do |config|
     aws.region_config "us-west-2" do |region|
       # Amazon Linux AMI (HVM), SSD Volume Type
       # US West Oregon - as of Oct 25, 2017
-      region.ami = "ami-e689729e"
+      # region.ami = "ami-e689729e"
+      #
+      # Use the "Public Amazon Linux AMI version" instead of the latest for US
+      # West Oregon. OpenSSL 1.0.1k is the latest version of OpenSSL on the Public
+      # Amazon Linux AMI version. The Latest US West Oregon Amazon Linux AMI
+      # (HVM) comes with OpenSSL 1.0.2. libindy.so fails to load if linked agains
+      # OpenSSL 1.0.2 instead of OpenSSL 1.0.1k
+      region.ami = "ami-aa5ebdd2"
       region.keypair_name = "corin"
     end
 
@@ -785,15 +964,20 @@ Vagrant.configure("2") do |config|
         development_run_tests,
         development_run_bundle,
         development_run_deposit,
+        development_run_deploy,
         development_run_cleanup
       ]
     end
 
     # ----- Setup rcync-ed directories -----
-    filtered_development_repos.each do |key, value|
-      #print "Setup rsync-ed folder: development.vm.synced_folder '#{value}', '/src/#{key}', type: 'rsync'\n"
-      development.vm.synced_folder "#{value}", "/src/#{key}", type: "rsync"
-    end
+
+    # NOTE: Rsyncing repos individually is redundant if the Vagrant project
+    #       directory is rcync-ed to /vagrant on the Vagrant guest (below).
+    #filtered_development_repos.each do |key, value|
+    #  path = value['path']
+    #  #print "Setup rsync-ed folder: development.vm.synced_folder '#{value}', '/vagrant/#{key}', type: 'rsync'\n"
+    #  development.vm.synced_folder "#{path}", "/vagrant/#{key}", type: "rsync"
+    #end
 
     # Include all files and folders in the Vagrant project root. This provides a
     # consistent behavior with the other providers (i.e. Virtualbox).
@@ -802,5 +986,12 @@ Vagrant.configure("2") do |config|
     # Include all DevelopmentEnvironment common scripts/tools. These tools will
     # be referenced with an absolute path in the guest VM.
     development.vm.synced_folder Dir.pwd + "/../common", "/vagrant/common", type: "rsync"
+
+    # Include the .aws config directory if it exists. It is required if the user
+    # wants to auto-deploy Lambdas.
+    awsConfigDir = File.expand_path('~') + "/.aws"
+    if Dir.exist?(awsConfigDir)
+      development.vm.synced_folder awsConfigDir, "/home/ec2-user/.aws", type: "rsync"
+    end
   end
 end

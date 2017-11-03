@@ -203,6 +203,10 @@ def startIndyPool(**kwargs):
     # In shell using docker cli:
     # cd /src/indy-sdk
     # sudo docker build -f ci/indy-pool.dockerfile -t indy_pool .
+    #
+    # NOTE: https://jira.hyperledger.org/browse/IS-406 prevents indy_pool from
+    #       starting on the `rc` branch. Apply the patch in the Jira issue to
+    #       overcome this problem.
 
     image = getImage(path="/src/indy-sdk", dockerfile="ci/indy-pool.dockerfile",
       tag="indy_pool")
