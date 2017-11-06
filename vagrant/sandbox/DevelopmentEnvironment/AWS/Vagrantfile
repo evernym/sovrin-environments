@@ -165,8 +165,20 @@
 #        located in ~/.aws. If this directory exists on your workstation when
 #        running 'vagrant up', it will be rcync-ed to the AWS instance(s).
 #
-#  6. Install Git
-#  7. Set the 'branch' for each of the development_repos below.
+#  6. Permissions are managed using IAM Roles (i.e. Execution Role). You must
+#     obtain an ARN for a role with permissions to create default KMS keys
+#     (kms:Encrypt) and AWSLambdaBasicExecutionRole.
+#
+#  7. Install Git
+#
+#  8. Create as many pool_transaction_<ledger>_genesis files as you would like to
+#     develop/test against. Create them in the Vagrant project root (the directory
+#     where this Vagrantfile resides). You MUST use the naming convention
+#     "pool_transactions_<ledger>_genesis". Note that <ledger> = "Sandbox" is
+#     reserved for use by tests. On 'vagrant up' or 'vagrant reload', Vagrant
+#     will rsync them to /vagrant on the AWS vm(s).
+#
+#  9. Set the 'branch' for each of the development_repos below.
 #     TODO: Display all branches, designate which branch the repo is on, and
 #           allow the user to select a different branch. The following git
 #           command should be helpful.
@@ -251,6 +263,11 @@ development_repos = {
     "branch" => "master"
   }
 }
+
+# Collect all the user input we need
+#
+# TODO: Check for a properties file before prompting for anything. Only propmpt
+#       for what is not accounted for in the properties file.
 
 # - Pseudocode -
 # For each 'repo' in development_repos
@@ -847,7 +864,9 @@ Vagrant.configure("2") do |config|
   config.vm.provider :aws do |aws, override|
     # ----- Authentication and Authorization -----
     # Option 1: AWS Profile
+    # TODO: remove the following line before commit
     aws.aws_profile = "adminuser"
+    # TODO: uncomment the following line before commit
     #aws.aws_profile = "<PROFILE>"
 
     # Option 2: Access Key
@@ -860,7 +879,9 @@ Vagrant.configure("2") do |config|
     #aws.region = "<REGION>"
 
     # ----- Security Groups -----
+    # TODO: remove the following line before commit
     aws.security_groups = ["default", "Temp Dev"]
+    # TODO: uncomment the following line before commit
     #aws.security_groups = ["default", "<SECURITY GROUP>"]
 
     # ----- SSH -----

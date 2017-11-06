@@ -198,17 +198,17 @@ def startIndyPool(**kwargs):
 
     # Build and run indy_pool if it is not already running
     # Build the indy_pool image from the dockerfile in:
-    #   /src/indy-sdk/ci/indy-pool.dockerfile
+    #   /vagrant/indy-sdk/ci/indy-pool.dockerfile
     # 
     # In shell using docker cli:
-    # cd /src/indy-sdk
+    # cd /vagrant/indy-sdk
     # sudo docker build -f ci/indy-pool.dockerfile -t indy_pool .
     #
     # NOTE: https://jira.hyperledger.org/browse/IS-406 prevents indy_pool from
     #       starting on the `rc` branch. Apply the patch in the Jira issue to
     #       overcome this problem.
 
-    image = getImage(path="/src/indy-sdk", dockerfile="ci/indy-pool.dockerfile",
+    image = getImage(path="/vagrant/indy-sdk", dockerfile="ci/indy-pool.dockerfile",
       tag="indy_pool")
 
     # Run a container using the image
