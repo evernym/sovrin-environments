@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------
 # README
 #
-# This Vagrantfile is designed to instantiate an Evernym Development Environment
+# This Vagrantfile is designed to instantiate an Sovrin Development Environment
 # using AWS as the vagrant provider and automates the following:
 #
 #  1. Clone all the required source code from github, or use clones you have
@@ -27,7 +27,8 @@
 #  5. (Optional) Deposit artifacts when the build and tests pass on 'vagrant up'.
 #                Defaults to (N)o. Must answer Y to both build and test for this
 #                to be an option.
-#                TODO: decide were bits should be deposited.
+#                TODO: decide were bits should be deposited. Currently, only
+#                      stubbed out
 #  6. (Optional) TODO: Complexity goes WAY UP for the continuous deployment step.
 #                      Refine this step to minimize complexity where possible.
 #
@@ -167,7 +168,8 @@
 #
 #  6. Permissions are managed using IAM Roles (i.e. Execution Role). You must
 #     obtain an ARN for a role with permissions to create default KMS keys
-#     (kms:Encrypt) and AWSLambdaBasicExecutionRole.
+#     (kms:Encrypt) and AWSLambdaBasicExecutionRole. You will be prompted for the
+#     ARN when deploying Lambdas.
 #
 #  7. Install Git
 #
@@ -176,7 +178,9 @@
 #     where this Vagrantfile resides). You MUST use the naming convention
 #     "pool_transactions_<ledger>_genesis". Note that <ledger> = "Sandbox" is
 #     reserved for use by tests. On 'vagrant up' or 'vagrant reload', Vagrant
-#     will rsync them to /vagrant on the AWS vm(s).
+#     will rsync them to /vagrant on the AWS vm(s). You will be prompted for the
+#     genesis file when bundling Lambdas. Rememver that they will be rsync-ed to
+#     /vargrant in the AWS Amazon Linux EC2 instance.
 #
 #  9. Set the 'branch' for each of the development_repos below.
 #     TODO: Display all branches, designate which branch the repo is on, and
@@ -217,7 +221,8 @@
 #     remote machine over SSH. Any code changes you make in the Vagrant guest/VM
 #     will either need to be committed/pushed from the Vagrant guest/VM or you
 #     will need to create a patch to apply to the cloned repos on your
-#     workstation (Vagrant host).
+#     workstation (Vagrant host). Rsync-ing from the AWS instance back to your
+#     workstation is possible but is left for you to figure out. 
 
 #-------------------------------------------------------------------------------
 # Variable defaults
@@ -266,8 +271,8 @@ development_repos = {
 
 # Collect all the user input we need
 #
-# TODO: Check for a properties file before prompting for anything. Only propmpt
-#       for what is not accounted for in the properties file.
+# TODO: Check for a properties file before prompting for input. Only propmpt for
+#       what is not accounted for in the properties file.
 
 # - Pseudocode -
 # For each 'repo' in development_repos
@@ -864,10 +869,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :aws do |aws, override|
     # ----- Authentication and Authorization -----
     # Option 1: AWS Profile
-    # TODO: remove the following line before commit
-    aws.aws_profile = "adminuser"
-    # TODO: uncomment the following line before commit
-    #aws.aws_profile = "<PROFILE>"
+    aws.aws_profile = "<PROFILE>"
 
     # Option 2: Access Key
     #aws.access_key_id = "<YOUR KEY>"
@@ -879,10 +881,7 @@ Vagrant.configure("2") do |config|
     #aws.region = "<REGION>"
 
     # ----- Security Groups -----
-    # TODO: remove the following line before commit
-    aws.security_groups = ["default", "Temp Dev"]
-    # TODO: uncomment the following line before commit
-    #aws.security_groups = ["default", "<SECURITY GROUP>"]
+    aws.security_groups = ["default", "<SECURITY GROUP>"]
 
     # ----- SSH -----
     # We are using an SSH keypair where the public key exists in
