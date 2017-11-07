@@ -223,6 +223,16 @@
 #     will need to create a patch to apply to the cloned repos on your
 #     workstation (Vagrant host). Rsync-ing from the AWS instance back to your
 #     workstation is possible but is left for you to figure out. 
+#
+# Troubleshooting:
+#
+# If you get an "undefined method" stacktrace in vagrant-aws/config.rb rooted in
+# 'read_aws_files'...
+#
+# `read_aws_files': undefined method `[]' for nil:NilClass (NoMethodError)
+#
+# ... the Vagrant AWS plugin is likely not configured properly. Did you replace
+# all the <...> tags in the config.vm.provider block?
 
 #-------------------------------------------------------------------------------
 # Variable defaults
@@ -946,10 +956,10 @@ Vagrant.configure("2") do |config|
       # Use the "Public Amazon Linux AMI version" instead of the latest for US
       # West Oregon. OpenSSL 1.0.1k is the latest version of OpenSSL on the Public
       # Amazon Linux AMI version. The Latest US West Oregon Amazon Linux AMI
-      # (HVM) comes with OpenSSL 1.0.2. libindy.so fails to load if linked agains
+      # (HVM) comes with OpenSSL 1.0.2. libindy.so fails to load if linked against
       # OpenSSL 1.0.2 instead of OpenSSL 1.0.1k
       region.ami = "ami-aa5ebdd2"
-      region.keypair_name = "corin"
+      region.keypair_name = "<KEY PAIR NAME>"
     end
 
     # ----- Instance Type -----
