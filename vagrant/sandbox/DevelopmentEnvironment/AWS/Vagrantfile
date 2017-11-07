@@ -879,7 +879,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :aws do |aws, override|
     # ----- Authentication and Authorization -----
     # Option 1: AWS Profile
-    aws.aws_profile = "<PROFILE>"
+    aws.aws_profile = "adminuser"
 
     # Option 2: Access Key
     #aws.access_key_id = "<YOUR KEY>"
@@ -891,7 +891,7 @@ Vagrant.configure("2") do |config|
     #aws.region = "<REGION>"
 
     # ----- Security Groups -----
-    aws.security_groups = ["default", "<SECURITY GROUP>"]
+    aws.security_groups = ["default", "Temp Dev"]
 
     # ----- SSH -----
     # We are using an SSH keypair where the public key exists in
@@ -959,7 +959,7 @@ Vagrant.configure("2") do |config|
       # (HVM) comes with OpenSSL 1.0.2. libindy.so fails to load if linked against
       # OpenSSL 1.0.2 instead of OpenSSL 1.0.1k
       region.ami = "ami-aa5ebdd2"
-      region.keypair_name = "<KEY PAIR NAME>"
+      region.keypair_name = "corin"
     end
 
     # ----- Instance Type -----
