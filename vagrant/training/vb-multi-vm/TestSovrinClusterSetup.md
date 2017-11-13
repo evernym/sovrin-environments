@@ -60,6 +60,7 @@ directory containing the scripts.
 ```sh
 $ git clone https://github.com/evernym/sovrin-environments.git
 $ cd sovrin-environments/vagrant/training/vb-multi-vm
+$ git checkout stable
 ```
 
 At this point, you have all the artifacts necessary to create a Sovrin cluster

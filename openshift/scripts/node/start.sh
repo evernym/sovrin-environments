@@ -13,8 +13,8 @@ echo
 # sleep 10
 
 echo "Starting sovrin-node service ..."
-echo "/usr/bin/env python3 -O /usr/local/bin/start_sovrin_node ${NODE_NAME} ${NODE_PORT} ${CLIENT_PORT}"
+echo "/usr/bin/env python3 -O /usr/local/bin/start_indy_node ${NODE_NAME} ${NODE_PORT} ${CLIENT_PORT}"
 echo
-exec /usr/bin/env python3 -O /usr/local/bin/start_sovrin_node ${NODE_NAME} ${NODE_PORT} ${CLIENT_PORT}
+exec /usr/bin/env python3 -O /usr/local/bin/start_indy_node ${NODE_NAME} ${NODE_PORT} ${CLIENT_PORT}
 
 # echo "Sovrin node started."
