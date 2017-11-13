@@ -35,7 +35,8 @@ apt-get install -y software-properties-common python-software-properties
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68DB5E88
 add-apt-repository "deb https://repo.sovrin.org/deb xenial stable"
 apt-get update
-#DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+# For a specific version:
+#DEBIAN_FRONTEND=noninteractive apt-get install -y debsigs debsig-verify apt-transport-https dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen indy-plenum=1.0.21 indy-anoncreds=1.0.8 indy-node=1.0.28 sovrin=1.0.3 tmux vim wget
 DEBIAN_FRONTEND=noninteractive apt-get install -y debsigs debsig-verify apt-transport-https dialog figlet python-pip python3-pip python3.5-dev libsodium18 unzip make screen sovrin tmux vim wget
 
 #--------------------------------------------------------
