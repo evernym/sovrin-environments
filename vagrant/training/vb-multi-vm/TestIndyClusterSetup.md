@@ -157,18 +157,18 @@ we have configured here.
 ```sh
 $ vagrant ssh cli01
 vagrant@cli01:~$ indy
-indy> connect test
+indy> connect sandbox
 ```
 
 The next task is to register the Agents that we will be using with Indy.  We
 must do this before starting the Agent processes in the other nodes, since
 these processes expect to be registered in Indy before starting. In order to
 do the registration, we must be able to authenticate to Indy as a Steward.
-In our test cluster, there is a pre-configured user called `Steward1` with a
+In our sandbox cluster, there is a pre-configured user called `Steward1` with a
 known key that we are able to use.  In the CLI, type:
 
 ```
-indy@test> new key with seed 000000000000000000000000Steward1
+indy@sandbox> new key with seed 000000000000000000000000Steward1
 ```
 
 Now that the CLI client can authenticate as the `Steward1` user, we can put
@@ -178,9 +178,9 @@ Getting Started Guide, first, as the Steward, add each of the three agent's
 Trust Anchor to the ledger.:
 
 ```
-indy@test> send NYM dest=ULtgFQJe6bjiFbs7ke3NJD role=TRUST_ANCHOR verkey=~5kh3FB4H3NKq7tUDqeqHc1
-indy@test> send NYM dest=CzkavE58zgX7rUMrzSinLr role=TRUST_ANCHOR verkey=~WjXEvZ9xj4Tz9sLtzf7HVP
-indy@test> send NYM dest=H2aKRiDeq8aLZSydQMDbtf role=TRUST_ANCHOR verkey=~3sphzTb2itL2mwSeJ1Ji28
+indy@sandbox> send NYM dest=ULtgFQJe6bjiFbs7ke3NJD role=TRUST_ANCHOR verkey=~5kh3FB4H3NKq7tUDqeqHc1
+indy@sandbox> send NYM dest=CzkavE58zgX7rUMrzSinLr role=TRUST_ANCHOR verkey=~WjXEvZ9xj4Tz9sLtzf7HVP
+indy@sandbox> send NYM dest=H2aKRiDeq8aLZSydQMDbtf role=TRUST_ANCHOR verkey=~3sphzTb2itL2mwSeJ1Ji28
 ```
 
 In the first of the above commands, `~5kh3FB4H3NKq7tUDqeqHc1` is the
@@ -196,12 +196,12 @@ his information on the ledger, we must assume the proper identity before
 posting each transaction.
 
 ```
-indy@test> new key with seed Faber000000000000000000000000000
-indy@test> send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.20.30.101:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
-indy@test> new key with seed Acme0000000000000000000000000000
-indy@test> send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint": {"ha": "10.20.30.102:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
-indy@test> new key with seed Thrift00000000000000000000000000
-indy@test> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.20.30.103:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
+indy@sandbox> new key with seed Faber000000000000000000000000000
+indy@sandbox> send ATTRIB dest=ULtgFQJe6bjiFbs7ke3NJD raw={"endpoint": {"ha": "10.20.30.101:5555", "pubkey": "5hmMA64DDQz5NzGJNVtRzNwpkZxktNQds21q3Wxxa62z"}}
+indy@sandbox> new key with seed Acme0000000000000000000000000000
+indy@sandbox> send ATTRIB dest=CzkavE58zgX7rUMrzSinLr raw={"endpoint": {"ha": "10.20.30.102:6666", "pubkey": "C5eqjU7NMVMGGfGfx2ubvX5H9X346bQt5qeziVAo3naQ"}}
+indy@sandbox> new key with seed Thrift00000000000000000000000000
+indy@sandbox> send ATTRIB dest=H2aKRiDeq8aLZSydQMDbtf raw={"endpoint": {"ha": "10.20.30.103:7777", "pubkey": "AGBjYvyM3SFnoiDGAEzkSLHvqyzVkXeMZfKDvdpEsC2x"}}
 ```
 
 ### Starting the Agent Processes
