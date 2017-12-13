@@ -6,7 +6,7 @@ ff02::2 ip6-allrouters
 10.20.30.101	agent01.evernym.lab agent01
 10.20.30.102	agent02.evernym.lab agent02
 10.20.30.103	agent03.evernym.lab agent03
-10.20.30.104	agent04.evernym.lab agent04
+10.20.30.104	cli01.evernym.lab cli01
 10.20.30.201	validator01.evernym.lab validator01 Node1.evernym.lab Node1
 10.20.30.202	validator02.evernym.lab validator02 Node2.evernym.lab Node2
 10.20.30.203	validator03.evernym.lab validator03 Node3.evernym.lab Node3
