@@ -183,7 +183,7 @@ def startIndyPool(**kwargs):
     #       If the test harness (mocks) are hardcoding 9701-9708, then an
     #       indy_dev_pool on different ports will not work.
 
-    print("Starting...")
+    print("Starting indy_pool ...")
 
     # Check if indy_pool is running
     if containerIsRunning("indy_pool"):
@@ -208,8 +208,17 @@ def startIndyPool(**kwargs):
     #       starting on the `rc` branch. Apply the patch in the Jira issue to
     #       overcome this problem.
 
-    image = getImage(path="/vagrant/indy-sdk", dockerfile="ci/indy-pool.dockerfile",
-      tag="indy_pool")
+    try:
+      # indy-sdk won't be in /vagrant if the indy-sdk is cloned to a directory outside
+      # the Vagrant project. Regardless of where indy-sdk is cloned, it will be found
+      # in /src/indy-sdk in the Vagrant VM.
+      image = getImage(path="/src/indy-sdk", dockerfile="ci/indy-pool.dockerfile",
+        tag="indy_pool")
+    except TypeError as exc:
+      image = getImage(path="/vagrant/indy-sdk", dockerfile="ci/indy-pool.dockerfile",
+        tag="indy_pool")
+    except:
+      print("Failed to find indy-pool.dockerfile in /vagrant/indy-sdk or /src/indy-sdk")
 
     # Run a container using the image
     #
