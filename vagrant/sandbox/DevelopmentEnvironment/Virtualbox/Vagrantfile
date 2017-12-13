@@ -27,6 +27,11 @@
 #  2. Install Vagrant
 #       - See Note under Install Virtualbox above
 #  3. Install Git
+#  4. Set the 'branch' for each of the development_repos below.
+#     TODO: Display all branches, designate which branch the repo is on, and
+#           allow the user to select a different branch. The following git
+#           command should be helpful.
+#           git branch --list --format "%(refname:short) %(HEAD)" | sort -u
 #
 # How to use:
 # Run 'vagrant up' and answer any questions this Vagrantfile or the Vagrant VM
@@ -70,11 +75,28 @@ development_run_cleanup = 'N'
 # Define development repos and setup default Shared Folder path.
 #
 # If you do not want to develop one or more of the following repos, you can
-# either remove a repo from the following associative array or can "Skip" the
-# repo when prompted.
-development_repos      = {
-  "sovrin" => "/vagrant/sovrin",
-  "indy-sdk" => "/vagrant/indy-sdk"
+# "Skip" the repo when prompted.
+#
+# TODO: Decide how to chain dependendencies. For example, AWS Lambda code deps
+#       indy-sdk. Perhaps this is where a providing both .deb and .rpm will help
+#       if a dependency isn't being cloned and built from source, then a bundled
+#       .deb or .rpm will be installed to provide the dependency?
+development_repos = {
+  "indy-sdk" => {
+    "path" => "/vagrant/indy-sdk",
+    "url" => "https://github.com/<USERNAME>/indy-sdk.git",
+    "branch" => "master"
+  },
+  #"sovrin" => {
+  #  "path" => "/vagrant/sovrin",
+  #  "url" => "https://github.com/<USERNAME>/sovrin.git",
+  #  "branch" => "master"
+  #},
+  #"sovrin-self-serve" => {
+  #  "path" => "/vagrant/sovrin-self-serve",
+  #  "url" => "https://gitlab.corp.evernym.com/<USERNAME>/sovrin-self-serve.git",
+  #  "branch" => "master"
+  #},
 }
 
 # - Pseudocode -
@@ -83,21 +105,19 @@ development_repos      = {
 #     If 'repo' detected
 #       Use the default directory path when defining synced folder
 #     Else
-#       Prompt the user for one of two options:
+#       Prompt the user for one of three options:
 #         Option 1: Skip - I will not be developing 'repo'
 #           Go to next repo
 #         Option 2: Enter path of 'repo' git clone on Vagrant host 
 #           Update the <path> for 'repo' => <path> in the development_repos
 #           associative array
 #         Option 3: Clone 'repo' for me. Note that this option requires that you
-#                   to have a fork of the 'repo' codebase on github. The clone
-#                   will be created in the root of this Vagrant project.
-#                   - This option prompts the user for their github userid and
-#                     builds the 'repo' URL.
-#                   - It is important to note that the project default branch is
-#                     the active branch after the clone is complete. It is up to
-#                     the developer to change the branch if the project's default
-#                     branch is not the branch they want.
+#                   to have a fork of the 'repo' codebase on github/gitlab. The
+#                   clone will be created in the root of this Vagrant project.
+#                   - This option displays the repo URL and prompts the user for
+#                     their github userid and builds the 'repo' URL.
+#                   - The active branch will be the branch defined in the
+#                     development_repos hash above.
 #           Clone the repo
 #             If failed to clone (404, etc.)
 #               Exit with a verbose error message
@@ -110,7 +130,8 @@ development_repos.each_pair { |key, value|
   if File.directory?("#{directory}")
     puts "Directory #{directory} exists. Will mount #{directory} as "\
       "/src/#{key}"
-    filtered_development_repos["#{key}"] = "#{directory}"
+    value["path"] = "#{directory}"
+    filtered_development_repos["#{key}"] = value
   else
     prompt = "> "
     puts "Unable to detect a clone of repo '#{key}'. What would you like to do?"
@@ -156,30 +177,46 @@ development_repos.each_pair { |key, value|
           $stderr.puts stderr
           exit 1
         end
-        filtered_development_repos[key] = absolute_path
+        value['path'] = absolute_path
+        filtered_development_repos[key] = value
         break
       when "3"
-        if username == ""
-          puts "Enter your github username."
-          print prompt 
-          username = $stdin.gets.chomp
-        end
-        url = "https://github.com/#{username}/#{key}.git"
-        puts "Cloning repo '#{url}' on your Vagrant host."
-        puts "The default project branch will be checked out. Please be sure you "\
-          "are on the branch you want."
+        url = value['url']
+        puts "Enter your github username for url #{url}."
+        print prompt
+        username = $stdin.gets.chomp
+        url = url.sub("<USERNAME>", username)
+        value['url'] = url
+        branch = value['branch']
         require 'open3'
-        stdout, stderr, status = Open3.capture3("git clone #{url}")
+        stdout, stderr, status = Open3.capture3("git clone -b #{branch} #{url}")
         if status.exitstatus != 0
           $stderr.puts "Failed to clone #{url}"
           $stderr.puts stderr
           exit 1
         end
-        filtered_development_repos[key] = Dir.pwd + "/#{key}"
+        value['path'] = Dir.pwd + "/#{key}"
+        filtered_development_repos[key] = value
         break
       else
         puts "Please select either 1, 2, or 3"
         print prompt
+      end
+
+      if do_checkout
+        case user_input
+        when "2", "3"
+          branch = value['branch']
+          puts "Setting '#{key}' branch to '#{branch}' ..."
+          require 'open3'
+          stdout, stderr, status = Open3.capture3("cd #{key} && git checkout #{branch}")
+          if status.exitstatus != 0
+            $stderr.puts "Failed checkout branch #{branch}"
+            $stderr.puts stderr
+            exit 1
+          end
+          break
+        end
       end
     end
   end
@@ -259,11 +296,13 @@ service sshd restart
 
 #--------------------------------------------------------
 echo "Installing Required Packages"
+# Refresh package lists from existing repos
 apt-get update
 apt-get install -y software-properties-common python-software-properties
 # The following two lines are required to install a sovrin cli
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68DB5E88
 add-apt-repository "deb https://repo.sovrin.org/deb xenial stable"
+# Download the package lists from added repos
 apt-get update
 
 # NOTE: Packages required by sovrin cli: debsig*, apt-transport-https, sovrin
@@ -425,8 +464,9 @@ Vagrant.configure("2") do |config|
       ]
     end
     filtered_development_repos.each do |key, value|
-      print "Setup synced folder: development.vm.synced_folder '#{value}', '/src/#{key}'\n"
-      development.vm.synced_folder "#{value}", "/src/#{key}"
+      path = value['path']
+      #print "Setup rsync-ed folder: development.vm.synced_folder '#{value}', '/vagrant/#{key}', type: 'rsync'\n"
+      development.vm.synced_folder "#{path}", "/vagrant/#{key}"
     end
 
     # Include all DevelopmentEnvironment common scripts/tools. These tools will
