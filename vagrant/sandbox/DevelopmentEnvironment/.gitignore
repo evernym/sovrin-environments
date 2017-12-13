@@ -1,4 +1,10 @@
 sovrin
 indy-sdk
 sovrin-self-serve
+!*/scriptlets/sovrin
+!*/scriptlets/indy-sdk
+!*/scriptlets/sovrin-self-serve
 pool_transactions_*_genesis
+bootstrap
+*.swp
+.vagrant/
