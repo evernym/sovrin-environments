@@ -79,10 +79,7 @@ configuration file for that purpose.
 The script assumes that a 10.20.30.00/24 virtual network can be created in your
 PC without conflicting with your external network configuration.  The addresses
 of the VMs that will be provisioned will be taken from this network's address
-range.  The Vagrantfile script also assumes that a bridged network connection
-can be made over the 'en0: Wi-Fi (AirPort)' network adapter, which is correct
-if you are running in a Mac, and you use Wi-Fi instead of a wired ethernet
-connection.  It assumes that you are in the US:Mountain timezone.  All of these
+range. It assumes that you are in the US:Mountain timezone.  These
 settings, and more, can be changed in the Vagrantfile using a text editor.  You
 may be able to run this script as-is, or you may want to:
 
