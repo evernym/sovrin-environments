@@ -1,7 +1,7 @@
 # Setting Up a Test Indy Network in VMs
 
 This document will guide you in configuring a private network of Indy
-Validator nodes for testing and learning about Indy.  Additional servers
+validator nodes for testing and learning about Indy.  Additional servers
 acting as Indy agents can also be provisioned on an ad-hoc basis, using this
 framework.  Using this guide, VirtualBox VMs will be used as the basis for
 creating a four-Validator network appropriate for completing the [*Getting
