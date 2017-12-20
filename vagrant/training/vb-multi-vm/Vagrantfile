@@ -16,9 +16,9 @@ timezone         = '/usr/share/zoneinfo/America/Denver'         # modify this fo
 
 Vagrant.configure("2") do |config|
 
-  config.vm.define "agent01", autostart: true do |agent|
+  config.vm.define "agent01", autostart: false do |agent|
     agent.vm.box = agent_box
-    agent.vm.host_name = "agent01.evernym.lab"
+    agent.vm.host_name = "agent01"
     agent.vm.network 'private_network', ip: "10.20.30.101"
     agent.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     agent.ssh.insert_key = false
@@ -32,9 +32,9 @@ Vagrant.configure("2") do |config|
     agent.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
   end
 
-  config.vm.define "agent02", autostart: true do |agent|
+  config.vm.define "agent02", autostart: false do |agent|
     agent.vm.box = agent_box
-    agent.vm.host_name = "agent02.evernym.lab"
+    agent.vm.host_name = "agent02"
     agent.vm.network 'private_network', ip: "10.20.30.102"
     agent.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     agent.ssh.insert_key = false
@@ -48,9 +48,9 @@ Vagrant.configure("2") do |config|
     agent.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
   end
 
-  config.vm.define "agent03", autostart: true do |agent|
+  config.vm.define "agent03", autostart: false do |agent|
     agent.vm.box = agent_box
-    agent.vm.host_name = "agent03.evernym.lab"
+    agent.vm.host_name = "agent03"
     agent.vm.network 'private_network', ip: "10.20.30.103"
     agent.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     agent.ssh.insert_key = false
@@ -64,9 +64,41 @@ Vagrant.configure("2") do |config|
     agent.vm.provision "sovrin", type: "shell", path: "scripts/agent.sh", args: [timezone]
   end
 
+  config.vm.define "libindy01", autostart: false do |libindy|
+    libindy.vm.box = agent_box
+    libindy.vm.host_name = "libindy01"
+    libindy.vm.network 'private_network', ip: "10.20.30.105"
+    libindy.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
+    libindy.ssh.insert_key = false
+    libindy.vm.provider "virtualbox" do |vb|
+      vb.name   = "libindy01"
+      vb.gui    = false
+      vb.memory = agent_memory
+      vb.cpus   = agent_cpus
+      vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    end
+    libindy.vm.provision "sovrin", type: "shell", path: "scripts/lib_indy.sh", args: [timezone]
+  end
+
+  config.vm.define "libindy02", autostart: false do |libindy|
+    libindy.vm.box = agent_box
+    libindy.vm.host_name = "libindy02"
+    libindy.vm.network 'private_network', ip: "10.20.30.106"
+    libindy.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
+    libindy.ssh.insert_key = false
+    libindy.vm.provider "virtualbox" do |vb|
+      vb.name   = "libindy02"
+      vb.gui    = false
+      vb.memory = agent_memory
+      vb.cpus   = agent_cpus
+      vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    end
+    libindy.vm.provision "sovrin", type: "shell", path: "scripts/lib_indy.sh", args: [timezone]
+  end
+
   config.vm.define "cli01", autostart: true do |cli|
     cli.vm.box = agent_box
-    cli.vm.host_name = "cli01.evernym.lab"
+    cli.vm.host_name = "cli01"
     cli.vm.network 'private_network', ip: "10.20.30.104"
     cli.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     cli.ssh.insert_key = false
@@ -82,7 +114,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "validator01" do |validator|
     validator.vm.box = validator_box
-    validator.vm.host_name = "validator01.evernym.lab"
+    validator.vm.host_name = "validator01"
     validator.vm.network 'private_network', ip: "10.20.30.201"
     validator.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     validator.ssh.insert_key = false
@@ -98,7 +130,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "validator02" do |validator|
     validator.vm.box = validator_box
-    validator.vm.host_name = "validator02.evernym.lab"
+    validator.vm.host_name = "validator02"
     validator.vm.network 'private_network', ip: "10.20.30.202"
     validator.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     validator.ssh.insert_key = false
@@ -115,7 +147,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "validator03" do |validator|
     validator.vm.box = validator_box
-    validator.vm.host_name = "validator03.evernym.lab"
+    validator.vm.host_name = "validator03"
     validator.vm.network 'private_network', ip: "10.20.30.203"
     validator.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     validator.ssh.insert_key = false
@@ -131,7 +163,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "validator04" do |validator|
     validator.vm.box = validator_box
-    validator.vm.host_name = "validator04.evernym.lab"
+    validator.vm.host_name = "validator04"
     validator.vm.network 'private_network', ip: "10.20.30.204"
     validator.ssh.private_key_path = '~/.vagrant.d/insecure_private_key'
     validator.ssh.insert_key = false

@@ -1,21 +1,18 @@
 #!/bin/bash
 
 display_usage() {
-	echo -e "Usage:\t$0 <NODENAME> <NODEPORT> <CLIENTPORT> <TIMEZONE>"
-	echo -e "EXAMPLE: $0 Node1 9701 9702 /usr/share/zoneinfo/America/Denver"
+	echo "Usage:\t$0 <TIMEZONE> "
+	echo "EXAMPLE: $0 /usr/share/zoneinfo/America/Denver"
 }
 
 # if less than one argument is supplied, display usage
-if [  $# -ne 4 ]
+if [  $# -ne 1 ]
 then
     display_usage
     exit 1
 fi
 
-HOSTNAME=$1
-NODEPORT=$2
-CLIENTPORT=$3
-TIMEZONE=$4
+TIMEZONE=$1
 
 
 #--------------------------------------------------------
@@ -34,19 +31,17 @@ apt-get update
 apt-get install -y software-properties-common python-software-properties
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68DB5E88
 add-apt-repository "deb https://repo.sovrin.org/deb xenial stable"
+add-apt-repository "deb https://repo.sovrin.org/sdk/deb xenial stable"
+add-apt-repository ppa:jonathonf/python-3.6
 apt-get update
-#DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
-DEBIAN_FRONTEND=noninteractive apt-get install -y unzip make screen sovrin tmux vim wget
+apt-get install python3.6 -y
+DEBIAN_FRONTEND=noninteractive apt-get install -y tmux vim wget dialog figlet unzip make screen python3-pip libindy
 
-#--------------------------------------------------------
-[[ $HOSTNAME =~ [^0-9]*([0-9]*) ]]
-NODENUM=${BASH_REMATCH[1]}
-echo "Setting Up Indy Node Number $NODENUM"
-su - indy -c "init_indy_node $HOSTNAME $NODEPORT $CLIENTPORT"  # set up /home/indy/.indy/indy.env
-su - indy -c "generate_indy_pool_transactions --nodes 4 --clients 4 --nodeNum $NODENUM --ips '10.20.30.201,10.20.30.202,10.20.30.203,10.20.30.204'"
-systemctl start indy-node
-systemctl enable indy-node
-systemctl status indy-node.service
+#-------------------------------------------------------
+echo "Setting up the python wrapper"
+pip3 install python3-indy
+pip3 install --upgrade python3-indy
+ln -s /usr/local/lib/python3.5/dist-packages/indy /usr/local/lib/python3.6/dist-packages/indy
 
 #--------------------------------------------------------
 echo 'Cleaning Up'
