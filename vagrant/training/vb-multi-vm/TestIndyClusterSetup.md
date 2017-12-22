@@ -31,6 +31,7 @@ on OSX, Linux and Windows PCs.
 * [Download VirtualBox](https://www.virtualbox.org/wiki/Downloads) and install
   it using the normal procedures for your OS.
 
+
 ### Install Vagrant
 
 Vagrant is a (FREE!) scriptable orchestrator for provisioning VMs with
@@ -56,6 +57,8 @@ your "box" as an VM image, similar to an AWS AMI or a VMware OVA.
 >   * `cd bento/ubuntu`
 >   * `packer build ubuntu-16.04-i386.json` # adjust for your environment
 >   * `vagrant box add ../builds/ubuntu-16.04-i386.virtualbox.box --name bento/ubuntu1604`
+
+*It was recently discovered that the instructions for Vagrant **do not work on Ubuntu** due to an known vagrant issue found [here.](https://github.com/hashicorp/vagrant/issues/7155)* Check the issue for the latest information.
 
 ## Download Vagrant script and bash scripts
 
@@ -215,24 +218,24 @@ the "Faber College" agent process.
 
 ````sh
 $ vagrant ssh agent01
-vagrant@agent01:~$ python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/faber.py  --port 5555
-```
+vagrant@agent01:~$ python /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/faber.py  --port 5555 --network <network_name>
+````
 
 You will see logging output to the screen.  In another term window (or tab),
 ssh into agent02 and bring up the "Acme Corp" agent process:
 
 ````sh
 $ vagrant ssh agent02
-vagrant@agent02:~$ python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/acme.py  --port 6666
-```
+vagrant@agent02:~$ python /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/acme.py  --port 6666 --network <network_name>
+````
 
 In another term window (or tab), ssh into agent03 and bring up the "Thrift
 Bank" agent process:
 
 ```sh
 $ vagrant ssh agent03
-vagrant@agent03:~$ python3 /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/thrift.py  --port 7777
-````
+vagrant@agent03:~$ python /usr/local/lib/python3.5/dist-packages/indy_client/test/agent/thrift.py  --port 7777 --network <network_name>
+```
 
 Congratulations!  Your Indy four-Validator cluster, along with Agent nodes as
 desired, is complete.  Now, in the CLI client on `cli01`, type quit to exit the
