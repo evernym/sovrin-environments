@@ -11,3 +11,4 @@ signer = DidSigner(identifier=None, seed=cseed, alias=None)
                                                                                 
 print("New DID is {}".format(signer.identifier))                                
 print("New verification key is {}".format(signer.verkey))
+print("New full verification key is {}".format(signer.full_verkey))

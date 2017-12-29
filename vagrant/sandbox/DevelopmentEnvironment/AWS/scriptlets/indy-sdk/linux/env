@@ -1,5 +1,5 @@
 echo "Making sure indy_pool is running ..."
-sudo /vagrant/common/indypool.py start
+sudo /vagrant-common/indypool.py start
 
 echo "Setting up vagrant user's .bashrc to use indy-sdk Python bindings ..."
 # Only add indy-sdk python wrappers to the PTHONPATH if indy-sdk source is present

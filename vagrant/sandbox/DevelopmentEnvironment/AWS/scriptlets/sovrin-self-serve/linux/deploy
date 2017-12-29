@@ -17,7 +17,6 @@
 #
 #       3. From the provisioning script call deploy.sh script with ARN
 #          and profile.
-
 echo "Deploying sovrin-self-serve artifacts..."
 cd /src/sovrin-self-serve/
 echo "Deploying lambda/nym ..."

@@ -141,6 +141,13 @@ require 'set'
 #        located in ~/.aws. If this directory exists on your workstation when
 #        running 'vagrant up', it will be rcync-ed to the AWS instance(s).
 #
+#     5. Open your ~/.aws/config and ~/.aws/credentials files and copy the
+#        `adminuser` entries in each file and give the copy the name of `default`.
+#        Now you have both a `default` profile and a `adminuser` profile. The name
+#        `default` is a reserved name. Components like boto3 (AWS DynamoDB client)
+#        read the `default` profile to get config (region) and credentials (access
+#        id and key) and is required to test changes that depend on DynamoDB.
+#
 #  6. Permissions are managed using IAM Roles (i.e. Execution Role). You must
 #     obtain an ARN for a role with permissions to create default KMS keys
 #     (kms:Encrypt) and AWSLambdaBasicExecutionRole. You will be prompted for the
@@ -693,20 +700,19 @@ Vagrant.configure("2") do |config|
     #   region.keypair_name = "<KEY PAIR NAME>"
     # end
 
-    # Example:
-    # aws.region_config "us-west-2" do |region|
-    #  # Amazon Linux AMI (HVM), SSD Volume Type
-    #  # US West Oregon - as of Oct 25, 2017
-    #  # region.ami = "ami-e689729e"
-    #  #
-    #  # Use the "Public Amazon Linux AMI version" instead of the latest for US
-    #  # West Oregon. OpenSSL 1.0.1k is the latest version of OpenSSL on the Public
-    #  # Amazon Linux AMI version. The Latest US West Oregon Amazon Linux AMI
-    #  # (HVM) comes with OpenSSL 1.0.2. libindy.so fails to load if linked against
-    #  # OpenSSL 1.0.2 instead of OpenSSL 1.0.1k
-    #  region.ami = "ami-aa5ebdd2"
-    #  region.keypair_name = "mykeypairname"
-    # end
+    aws.region_config "us-west-2" do |region|
+      # Amazon Linux AMI (HVM), SSD Volume Type
+      # US West Oregon - as of Oct 25, 2017
+      # region.ami = "ami-e689729e"
+      #
+      # Use the "Public Amazon Linux AMI version" instead of the latest for US
+      # West Oregon. OpenSSL 1.0.1k is the latest version of OpenSSL on the Public
+      # Amazon Linux AMI version. The Latest US West Oregon Amazon Linux AMI
+      # (HVM) comes with OpenSSL 1.0.2. libindy.so fails to load if linked against
+      # OpenSSL 1.0.2 instead of OpenSSL 1.0.1k
+      region.ami = "ami-aa5ebdd2"
+      region.keypair_name = "<KEY PAIR NAME>"
+    end
 
     # ----- Instance Type -----
     # 1 vCPU .5 GiB - THIS IS TOO SMALL TO BUILD! DON'T USE IT
@@ -744,7 +750,7 @@ Vagrant.configure("2") do |config|
 
     # Include all DevelopmentEnvironment common scripts/tools. These tools will
     # be referenced with an absolute path in the guest VM.
-    development.vm.synced_folder Dir.pwd + "/../common", "/vagrant/common", type: "rsync"
+    development.vm.synced_folder Dir.pwd + "/../common", "/vagrant-common", type: "rsync"
 
     # Include the .aws config directory if it exists. It is required if the user
     # wants to auto-deploy Lambdas.
@@ -758,14 +764,28 @@ Vagrant.configure("2") do |config|
       path = properties["development.repos.#{property_friendly_key}.path"]
       path = File.expand_path(path)
 
+      rsync_auto = properties["development.repos.#{property_friendly_key}.rsync.auto"] || "Y"
+      if rsync_auto == 'Y'
+        rsync_auto = true
+      else
+        rsync_auto = false
+      end
+
       shared_folder_key = "development.repos.#{property_friendly_key}.sharedfolder.type"
       if properties.key?(shared_folder_key)
         shared_folder_type = properties[shared_folder_key]
-        #puts "Shared folder #{path} will be shared as /src/#{key} using #{shared_folder_type}"
-        development.vm.synced_folder "#{path}", "/src/#{key}", type: "#{shared_folder_type}"
+        if shared_folder_type == 'rsync'
+          #puts "Shared folder #{path} will be shared as /src/#{key} using rsync and rsync__auto set to #{rsync_auto}"
+          development.vm.synced_folder "#{path}", "/src/#{key}", type: "rsync",
+            rsync__auto: rsync_auto
+        else
+          #puts "Shared folder #{path} will be shared as /src/#{key} using #{shared_folder_type}"
+          development.vm.synced_folder "#{path}", "/src/#{key}", type: "#{shared_folder_type}"
+        end
       else
-        #puts "Shared folder #{path} will be shared as /src/#{key} using rsync"
-        development.vm.synced_folder "#{path}", "/src/#{key}", type: "rsync"
+        #puts "Shared folder #{path} will be shared as /src/#{key} using rsync and rsync__auto set to #{rsync_auto}"
+        development.vm.synced_folder "#{path}", "/src/#{key}", type: "rsync",
+          rsync__auto: rsync_auto
       end
 
       repo_private_ssh_key_path = "development.repos.#{property_friendly_key}.git.private.key"
