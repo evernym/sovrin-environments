@@ -27,4 +27,4 @@ service docker start
 
 #--------------------------------------------------------
 echo "Making sure indy_pool is running ..."
-sudo /vagrant/common/indypool.py start
+sudo /vagrant-common/indypool.py start

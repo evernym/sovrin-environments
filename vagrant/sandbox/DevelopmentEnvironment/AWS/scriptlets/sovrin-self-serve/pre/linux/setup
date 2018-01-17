@@ -1,0 +1,4 @@
+#--------------------------------------------------------
+# Install aioboto3 for use with DynamoDB
+echo "Install aioboto3 ..."
+pip3 install aioboto3

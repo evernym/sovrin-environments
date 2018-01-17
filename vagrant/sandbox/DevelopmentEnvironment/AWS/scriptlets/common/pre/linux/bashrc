@@ -1,4 +1,4 @@
-package_manager=""
+package_manager="yum"
 scriptlets_directory="/vagrant/scriptlets"
 current_repo=""
 repo_scriptlet_path=""

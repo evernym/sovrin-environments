@@ -1,6 +1,6 @@
 echo "Running indy-sdk tests..."
 cd /src/indy-sdk
-sudo /vagrant/common/indypool.py start
+sudo /vagrant-common/indypool.py start
 #docker build -f ci/indy-pool.dockerfile -t indy_pool .
 #docker run -itd --name indy_pool -p 9701-9708:9701-9708 indy_pool
 cd /src/indy-sdk/libindy

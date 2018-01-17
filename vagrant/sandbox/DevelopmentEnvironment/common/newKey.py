@@ -1,4 +1,4 @@
-#!/usr/bin/python3                                                              
+#!/usr/bin/python3
 # Generate a DID/verkey pair in the same way the Sovin CLI does
 
 from libnacl import randombytes                                                 
@@ -11,3 +11,4 @@ signer = DidSigner(identifier=None, seed=cseed, alias=None)
                                                                                 
 print("New DID is {}".format(signer.identifier))                                
 print("New verification key is {}".format(signer.verkey))
+print("New full verification key is {}".format(signer.full_verkey))
