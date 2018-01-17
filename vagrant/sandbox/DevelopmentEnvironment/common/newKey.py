@@ -1,4 +1,4 @@
-#!/usr/bin/python3                                                              
+#!/usr/bin/python3
 # Generate a DID/verkey pair in the same way the Sovin CLI does
 
 from libnacl import randombytes                                                 
